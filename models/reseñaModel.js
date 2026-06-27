@@ -7,24 +7,24 @@ const Reseña = sequelize.define(
     id: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
-      primaryKey: true,
+      primaryKey: true
     },
     valoracion: {
       type: DataTypes.INTEGER,
       allowNull: false,
       validate: {
         max: 5,
-        min: 0,
+        min: 0
       },
     },
     descripcion: {
       type: DataTypes.TEXT,
-      allowNull: false,
+      allowNull: false
     },
   },
   {
     tableName: "reseñas",
-    timestamps: false,
+    timestamps: false
   },
 );
 

@@ -7,36 +7,36 @@ const Mascota = sequelize.define(
     id: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
-      primaryKey: true,
+      primaryKey: true
     },
     nombre: {
       type: DataTypes.STRING(100),
-      allowNull: false,
+      allowNull: false
     },
     edad: {
       type: DataTypes.INTEGER,
-      allowNull: false,
+      allowNull: false
     },
     animal: {
       type: DataTypes.BOOLEAN,
-      allowNull: false,
+      allowNull: false
     },
     raza: {
       type: DataTypes.STRING(100),
-      allowNull: false,
+      allowNull: false
     },
     antecedentes: {
       type: DataTypes.TEXT,
-      allowNull: true,
+      allowNull: true
     },
     tratamientosHechos: {
       type: DataTypes.TEXT,
-      allowNull: true,
+      allowNull: true
     },
   },
   {
     tableName: "mascotas",
-    timestamps: false,
+    timestamps: false
   },
 );
 

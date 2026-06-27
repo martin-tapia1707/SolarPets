@@ -1,7 +1,7 @@
 const { sequelize } = require('../config/database.js');
 const { DataTypes } = require('sequelize');
 
-const Empleado = sequelize.define('producto', {
+const Empleado = sequelize.define('Empleado', {
 
     dni: {
         type: DataTypes.STRING(11),
