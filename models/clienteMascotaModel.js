@@ -1,8 +1,8 @@
 const { sequelize } = require("../config/database.js");
 const { DataTypes } = require("sequelize");
 
-const Mascota = sequelize.define(
-  "Mascota",
+const ClienteMascota = sequelize.define(
+  "ClienteMascota",
   {
     id: {
       type: DataTypes.INTEGER,
@@ -13,31 +13,27 @@ const Mascota = sequelize.define(
       type: DataTypes.STRING(100),
       allowNull: false,
     },
-    edad: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-    },
     animal: {
       type: DataTypes.BOOLEAN,
       allowNull: false,
     },
-    raza: {
-      type: DataTypes.STRING(100),
+    fechaDeNacimiento: {
+      type: DataTypes.DATE,
       allowNull: false,
     },
-    antecedentes: {
+    historialMedico: {
       type: DataTypes.TEXT,
       allowNull: true,
     },
-    tratamientosHechos: {
+    estado: {
       type: DataTypes.TEXT,
       allowNull: true,
     },
   },
   {
-    tableName: "mascotas",
+    tableName: "clientesMascotas",
     timestamps: false,
   },
 );
 
-module.exports = { Mascota };
+module.exports = { ClienteMascota };
