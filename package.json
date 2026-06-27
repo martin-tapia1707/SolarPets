@@ -1,0 +1,27 @@
+{
+  "name": "solarpets",
+  "version": "1.0.0",
+  "description": "Un repositorio dedicado a Proyecto Informático II",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node --watch index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/martin-tapia1707/SolarPets.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/martin-tapia1707/SolarPets/issues"
+  },
+  "homepage": "https://github.com/martin-tapia1707/SolarPets#readme",
+  "dependencies": {
+    "express": "^5.2.1",
+    "mysql2": "^3.22.5",
+    "sequelize": "^6.37.8"
+  }
+}
