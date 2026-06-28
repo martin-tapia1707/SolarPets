@@ -18,12 +18,18 @@ const { sequelize } = require("./config/database.js");
 //Seccion de relaciones
 require("./models/index.js");
 
+const clienteRoutes = require('./routes/clienteRoutes.js');
+
+
+
 
 const server = express();
 server.use(express.json());
 server.get("/", (req, res) => {
   res.status(200).json({ message: "El server funciona correctamente" });
 });
+
+server.use("/clientes", clienteRoutes);
 
 const PORT = 3000;
 server.listen(PORT, async () => {
