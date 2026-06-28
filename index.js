@@ -19,6 +19,7 @@ const { sequelize } = require("./config/database.js");
 require("./models/index.js");
 
 const clienteRoutes = require('./routes/clienteRoutes.js');
+const categoriaRoutes = require('./routes/categoriaRoutes.js');
 
 
 
@@ -30,12 +31,13 @@ server.get("/", (req, res) => {
 });
 
 server.use("/clientes", clienteRoutes);
+server.use("/categoria", categoriaRoutes);
 
 const PORT = 3000;
 server.listen(PORT, async () => {
   try {
     await sequelize.authenticate();
-    await sequelize.sync({ force: true });
+    await sequelize.sync({force: true}); 
     console.log("Conexión exitosa a la Base de Datos");
     console.log(`El servidor está ON en el puerto ${PORT}`);
   } catch (error) {
