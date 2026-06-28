@@ -1,17 +1,22 @@
 const express = require("express");
 const { sequelize } = require("./config/database.js");
 
-require("./models/categoriaModel.js");
-require("./models/clienteMascotaModel.js");
-require("./models/clienteModel.js");
-require("./models/empleadoModel.js");
-require("./models/mascotaModel.js");
-require("./models/pedidoModel.js");
-require("./models/productoModel.js");
-require("./models/proveedorModel.js");
-require("./models/reseñaModel.js");
-require("./models/rolModel.js");
-require("./models/subCategoriaModel.js");
+// Sección de modelos de tablas
+// require("./models/categoriaModel.js");
+// require("./models/clienteMascotaModel.js");
+// require("./models/clienteModel.js");
+// require("./models/empleadoModel.js");
+// require("./models/mascotaModel.js");
+// require("./models/pedidoModel.js");
+// require("./models/productoModel.js");
+// require("./models/proveedorModel.js");
+// require("./models/reseñaModel.js");
+// require("./models/rolModel.js");
+// require("./models/subCategoriaModel.js");
+
+
+//Seccion de relaciones
+require("./models/index.js");
 
 
 const server = express();
