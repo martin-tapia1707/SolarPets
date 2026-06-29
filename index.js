@@ -20,8 +20,7 @@ require("./models/index.js");
 
 const clienteRoutes = require('./routes/clienteRoutes.js');
 const categoriaRoutes = require('./routes/categoriaRoutes.js');
-
-
+const rolRoutes = require('./routes/rolRoutes.js');
 
 
 const server = express();
@@ -32,6 +31,7 @@ server.get("/", (req, res) => {
 
 server.use("/clientes", clienteRoutes);
 server.use("/categoria", categoriaRoutes);
+server.use("/roles", rolRoutes);
 
 const PORT = 3000;
 server.listen(PORT, async () => {
