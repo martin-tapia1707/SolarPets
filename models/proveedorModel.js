@@ -12,7 +12,7 @@ const Proveedor = sequelize.define('Proveedor', {
         allowNull: false
     },
     telefono: {
-        type: DataTypes.STRING(15),
+        type: DataTypes.STRING(30),
         allowNull: false
     },
     direccion: {
@@ -21,7 +21,7 @@ const Proveedor = sequelize.define('Proveedor', {
     }
 },
     {
-        tableName: 'proveedores',
+        tableName: 'proveedor',
         timestamps: false
     }
 );

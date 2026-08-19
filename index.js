@@ -21,6 +21,8 @@ require("./models/index.js");
 const clienteRoutes = require('./routes/clienteRoutes.js');
 const categoriaRoutes = require('./routes/categoriaRoutes.js');
 const rolRoutes = require('./routes/rolRoutes.js');
+const productoRoutes = require('./routes/productoRoutes.js');
+const proveedorRoutes = require('./routes/proveedorRoutes.js');
 
 
 const server = express();
@@ -32,6 +34,8 @@ server.get("/", (req, res) => {
 server.use("/clientes", clienteRoutes);
 server.use("/categoria", categoriaRoutes);
 server.use("/roles", rolRoutes);
+server.use("/producto", productoRoutes);
+server.use("/proveedor", proveedorRoutes);
 
 const PORT = 3000;
 server.listen(PORT, async () => {
