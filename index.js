@@ -23,6 +23,10 @@ const categoriaRoutes = require('./routes/categoriaRoutes.js');
 const rolRoutes = require('./routes/rolRoutes.js');
 const productoRoutes = require('./routes/productoRoutes.js');
 const proveedorRoutes = require('./routes/proveedorRoutes.js');
+const reseñaRoutes = require('./routes/reseñaRoutes.js');
+const mascotaRoutes = require('./routes/mascotaRoutes.js');
+const pedidoRoutes = require('./routes/pedidoRoutes.js');
+const subcategoriaRoutes = require('./routes/subcategoriaRoutes.js');
 
 
 const server = express();
@@ -36,6 +40,10 @@ server.use("/categoria", categoriaRoutes);
 server.use("/roles", rolRoutes);
 server.use("/producto", productoRoutes);
 server.use("/proveedor", proveedorRoutes);
+server.use("/resena", reseñaRoutes);
+server.use("/mascota", mascotaRoutes);
+server.use("/pedido", pedidoRoutes);
+server.use("/subcategoria", subcategoriaRoutes);
 
 const PORT = 3000;
 server.listen(PORT, async () => {

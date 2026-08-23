@@ -1,3 +1,4 @@
+const { sequelize } = require("../config/database.js");
 const { Rol } = require('../models/rolModel.js');
 
 // Seleccionar TODO: mostrarRoles
@@ -77,16 +78,19 @@ const actualizarRol = async(req, res) => {
             return res.status(400).json({ message: "Faltan parametros" });
         }
 
-        const cambiarRol = await Rol.update(
-            { nombre, descripcion },
-            { 
-                where: { id } 
-            }
-        );
+        const cambiarRol = await Rol.findByPk(id);
+
+        if(!cambiarRol) {
+            return res.status(404).json({ message: "Rol no encontrado" })
+        }
 
         if(!id) {
             return res.status(404).json({ message: "Rol no encontrado" })
         }
+
+        cambiarRol.nombre = nombre;
+        cambiarRol.descripcion = descripcion;
+        await cambiarRol.save();
 
         const yaModificado = await Rol.findByPk(id);
 
