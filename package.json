@@ -21,7 +21,7 @@
   "homepage": "https://github.com/martin-tapia1707/SolarPets#readme",
   "dependencies": {
     "express": "^5.2.1",
-    "mysql2": "^3.22.5",
+    "mysql2": "^3.24.3",
     "sequelize": "^6.37.8"
   }
 }
