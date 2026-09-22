@@ -1,38 +1,29 @@
 const { sequelize } = require('../config/database.js');
 const { DataTypes } = require('sequelize');
 
-const Cliente = sequelize.define('Cliente', {
+const Usuario = sequelize.define('Usuario', { // esto representa al cliente, despues borrar, se utiliza de referencia.
 
     id: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
         primaryKey: true
     },
-    email: {
-        type: DataTypes.STRING(50),
-        allowNull: false,
-        unique: true
-    },
-    nombre: {
+    name: {
         type: DataTypes.STRING(25),
         allowNull: false
     },
-    apellido: {
+    lastName: {
         type: DataTypes.STRING(25),
-        allowNull: false
-    },
-    telefono: {
-        type: DataTypes.STRING(15),
         allowNull: false
     },
     password: {
-        type: DataTypes.STRING(60),
+        type: DataTypes.STRING(15),
         allowNull: false
     }
 
 }, {
-    tableName: 'clientes',
+    tableName: 'usuario',
     timestamps: false
 });
 
-module.exports = { Cliente };
+module.exports = { Usuario };

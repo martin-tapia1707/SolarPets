@@ -1,4 +1,6 @@
-const { Cliente } = require('../models/index.js')
+const { Cliente } = require('../models/clienteModel.js')
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
 const mostrarCliente = async(req, res) =>{
     
@@ -41,12 +43,12 @@ const registrarCliente = async(req, res) => {
 
     try{
 
-        const { nombre, apellido, telefono } = req.body;
-        if(!nombre || !apellido || !telefono) {
+        const { nombre, apellido, email, telefono, password } = req.body;
+        if(!nombre || !apellido || !email || !telefono || !password) {
             return res.status(400).json({ message: "Falta rellenar parametros" })
         }
 
-        const nuevoCliente = await Cliente.create({ nombre, apellido, telefono })
+        const nuevoCliente = await Cliente.create({ nombre, apellido, email, telefono, password })
 
         res.status(200).json({ message: "Cliente creado", cliente: nuevoCliente })
 
@@ -60,7 +62,7 @@ const modificarCliente = async(req, res) => {
     try{
 
         const id = Number(req.params.id);
-        const { nombre, apellido, telefono } = req.body;
+        const { nombre, apellido, email, telefono } = req.body;
 
         const clienteModif = await Cliente.findByPk(id);
 
@@ -74,6 +76,7 @@ const modificarCliente = async(req, res) => {
 
         clienteModif.nombre = nombre;
         clienteModif.apellido = apellido;
+        clienteModif.email = email;
         clienteModif.telefono = telefono;
         await clienteModif.save();
 
@@ -106,4 +109,70 @@ const eliminarCliente = async(req, res) => {
 
 }
 
-module.exports = { mostrarCliente, clientePorId, registrarCliente, modificarCliente, eliminarCliente };
+const Register = async(req, res) => {
+    try{
+
+        const { email, nombre, apellido, telefono, password } = req.body;
+
+        if(!email || !nombre || !apellido || !telefono || !password) {
+            return res.status(400).json({ message: "Todos los campos son requeridos" });
+        }
+
+        const hashedPassword = await bcrypt.hash(password, 12);
+
+        const usuarioRegistrado = await Cliente.create({
+            email,
+            nombre,
+            apellido,
+            telefono,
+            password: hashedPassword
+        })
+
+        res.status(201).json({ message: "Usuario registrado exitosamente"})
+
+    } catch(error) {
+        res.status(500).json({
+            message: "Error en el servidor",
+            error: error.message
+        })
+    }
+}
+
+const Login = async(req, res) => {
+    
+    try{
+
+        const { email, password } = req.body;
+
+        const clienteLogin = await Cliente.findOne
+        ({
+            where: 
+                    {
+                        email
+                    }
+        });
+
+        if(!clienteLogin) {
+            return res.status(404).json({ message: "El mail ingresado no existe" })
+        }
+
+        const matchPassword = await bcrypt.compare(password, clienteLogin.password); // la variable matchPassword piensenla como, coincide? si o no?
+
+        if(!matchPassword) {
+            return res.status(400).json({ message: "Contraseña incorrecta" })
+        }
+
+        res.status(200).json
+        ({ 
+            message: "Inicio de sesion correcto. ¡Bienvenido " + clienteLogin.nombre + "!"
+        })
+
+    } catch(error) {
+        res.status(500).json({
+            message: "Error en el servidor",
+            error: error.message
+        })
+    }
+}
+
+module.exports = { mostrarCliente, clientePorId, registrarCliente, modificarCliente, eliminarCliente, Register, Login };
