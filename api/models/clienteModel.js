@@ -28,6 +28,10 @@ const Cliente = sequelize.define('Cliente', {
     password: {
         type: DataTypes.STRING(60),
         allowNull: false
+    },
+    idRol: {
+        type: DataTypes.INTEGER,
+        allowNull: false
     }
 
 }, {

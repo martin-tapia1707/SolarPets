@@ -49,7 +49,7 @@ const PORT = 3000;
 server.listen(PORT, async () => {
   try {
     await sequelize.authenticate();
-    await sequelize.sync({force: true}); 
+    await sequelize.sync({force: false}); // force: true para actualizar la BD, aunque se borran datos 
     console.log("Conexión exitosa a la Base de Datos");
     console.log(`El servidor está ON en el puerto ${PORT}`);
   } catch (error) {

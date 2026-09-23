@@ -1,6 +1,9 @@
 const { Cliente } = require('../models/clienteModel.js')
+const { Rol } = require('../models/rolModel.js')
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+
+    const JWT_SECRET = "1234";
 
 const mostrarCliente = async(req, res) =>{
     
@@ -43,12 +46,12 @@ const registrarCliente = async(req, res) => {
 
     try{
 
-        const { nombre, apellido, email, telefono, password } = req.body;
+        const { nombre, apellido, email, telefono, password, idRol } = req.body;
         if(!nombre || !apellido || !email || !telefono || !password) {
             return res.status(400).json({ message: "Falta rellenar parametros" })
         }
 
-        const nuevoCliente = await Cliente.create({ nombre, apellido, email, telefono, password })
+        const nuevoCliente = await Cliente.create({ nombre, apellido, email, telefono, password, idRol })
 
         res.status(200).json({ message: "Cliente creado", cliente: nuevoCliente })
 
@@ -109,10 +112,10 @@ const eliminarCliente = async(req, res) => {
 
 }
 
-const Register = async(req, res) => {
+const Register = async(req, res) => { // despues pedir opinion si eliminar el endpoint registrarCliente y dejar este
     try{
 
-        const { email, nombre, apellido, telefono, password } = req.body;
+        const { email, nombre, apellido, telefono, password, idRol } = req.body;
 
         if(!email || !nombre || !apellido || !telefono || !password) {
             return res.status(400).json({ message: "Todos los campos son requeridos" });
@@ -125,11 +128,12 @@ const Register = async(req, res) => {
             nombre,
             apellido,
             telefono,
-            password: hashedPassword
+            password: hashedPassword,
+            idRol
         })
 
         res.status(201).json({ message: "Usuario registrado exitosamente"})
-
+        
     } catch(error) {
         res.status(500).json({
             message: "Error en el servidor",
@@ -149,6 +153,10 @@ const Login = async(req, res) => {
             where: 
                     {
                         email
+                    },
+            include: 
+                    {
+                        model: Rol
                     }
         });
 
@@ -162,9 +170,25 @@ const Login = async(req, res) => {
             return res.status(400).json({ message: "Contraseña incorrecta" })
         }
 
+        // CREAR EL TOKEN
+
+        //Payload es toda la información que el token va a recibir
+        const payload = {
+            id: clienteLogin.id,
+            role: clienteLogin.Rol.nombre
+        };
+
+        // Creo el token con jwt.sign, le paso el payload, la firma digital
+        const token = jwt.sign( 
+            payload, 
+            JWT_SECRET 
+            );
+            // No le puse tiempo de expiración, luego lo coloco chicos.
+        
+
         res.status(200).json
         ({ 
-            message: "Inicio de sesion correcto. ¡Bienvenido " + clienteLogin.nombre + "!"
+            message: "Inicio de sesion correcto. ¡Bienvenido " + clienteLogin.nombre + "!", token
         })
 
     } catch(error) {

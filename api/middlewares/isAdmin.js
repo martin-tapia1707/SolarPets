@@ -3,7 +3,7 @@ const Cliente = require('../models/clienteModel.js');
 
 const isAdmin = (req, res, next) => {
 
-    if(req.cliente.tipo === 'admin') {
+    if(req.user.role === 'Administrador') {
         return next()
 
     } else {

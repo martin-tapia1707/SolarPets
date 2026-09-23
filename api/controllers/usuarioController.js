@@ -3,7 +3,9 @@
     const bcrypt = require("bcrypt");
     const jwt = require("jsonwebtoken");
 
-    const JWT_SECRET = "1234"; // ESTE CONTROLADOR ES INSERVIBLE, SE PASARA TODO A CLIENTES PERO IGUAL LO SUBO
+    const JWT_SECRET = "1234"; // firma digital.
+    
+    // ESTE CONTROLADOR ES INSERVIBLE, SE PASARA TODO A CLIENTES PERO IGUAL LO SUBO
 
     // ============================================================
     // REGISTER
