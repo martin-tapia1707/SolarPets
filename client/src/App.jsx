@@ -1,22 +1,27 @@
-import { Link, Route, Routes, useNavigate } from 'react-router-dom';
-import Buscar from './components/Buscarusuario';
+import { Link, Route, Routes } from 'react-router-dom';
+
 import Login from './components/Login';
+import Profile from './components/Profile';
 import Register from './components/Register';
-import UserList from './components/UserList';
-import { useState } from 'react';
-
-// import './App.css'
-
-
-// importaciones
+import Mainsite from './components/Mainsite';
 
 function App() {
-// variables
 
   return (
 
-    // aca va lo de html
-    asd
+  <>
+  <Link to="/login">Iniciar Sesión</Link>
+
+  <Routes>
+
+    <Route path="/" element={<Mainsite />} />
+    <Route path="/login" element={<Login />} />
+    <Route path="/register" element={<Register />} />
+    <Route path="/profile" element={<Profile />} />    
+
+  </Routes>
+  </>
+
   )
 }
 
