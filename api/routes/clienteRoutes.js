@@ -17,6 +17,6 @@ routes.post('/', auth, registrarCliente); // - martin
 routes.put('/:id', auth, modificarCliente);
 routes.delete('/:id', auth, eliminarCliente); // LES PONGO EL AUTH TEMPORALMENTE PARA PRACTICAR, DESPUES LOS SACO SI SON INNECESARIOS
 routes.post('/register', Register);
-routes.post('login', Login);
+routes.post('/login', Login);
 
 module.exports = routes;

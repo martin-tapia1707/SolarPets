@@ -1,5 +1,6 @@
 const express = require("express");
 const { sequelize } = require("./config/database.js");
+const cors = require("cors");
 
 // Sección de modelos de tablas
 // require("./models/categoriaModel.js");
@@ -30,6 +31,7 @@ const subcategoriaRoutes = require('./routes/subcategoriaRoutes.js');
 
 
 const server = express();
+server.use(cors());
 server.use(express.json());
 server.get("/", (req, res) => {
   res.status(200).json({ message: "El server funciona correctamente" });
@@ -49,7 +51,7 @@ const PORT = 3000;
 server.listen(PORT, async () => {
   try {
     await sequelize.authenticate();
-    await sequelize.sync({force: false}); // force: true para actualizar la BD, aunque se borran datos 
+    await sequelize.sync({force: true}); // force: true para actualizar la BD, aunque se borran datos 
     console.log("Conexión exitosa a la Base de Datos");
     console.log(`El servidor está ON en el puerto ${PORT}`);
   } catch (error) {
