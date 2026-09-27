@@ -42,24 +42,6 @@ const clientePorId = async(req, res) =>{
 
 }
 
-const registrarCliente = async(req, res) => {
-
-    try{
-
-        const { nombre, apellido, email, telefono, password, idRol } = req.body;
-        if(!nombre || !apellido || !email || !telefono || !password) {
-            return res.status(400).json({ message: "Falta rellenar parametros" })
-        }
-
-        const nuevoCliente = await Cliente.create({ nombre, apellido, email, telefono, password, idRol })
-
-        res.status(200).json({ message: "Cliente creado", cliente: nuevoCliente })
-
-    } catch(error) {
-        res.status(500).json({ error: error.message })
-    }
-}
-
 const modificarCliente = async(req, res) => {
     
     try{
@@ -112,7 +94,7 @@ const eliminarCliente = async(req, res) => {
 
 }
 
-const Register = async(req, res) => { // despues pedir opinion si eliminar el endpoint registrarCliente y dejar este
+const Register = async(req, res) => {
     try{
 
         const { email, nombre, apellido, telefono, password, idRol } = req.body;
@@ -129,7 +111,7 @@ const Register = async(req, res) => { // despues pedir opinion si eliminar el en
             apellido,
             telefono,
             password: hashedPassword,
-            idRol
+            idRol: 3
         })
 
         res.status(201).json({ message: "Usuario registrado exitosamente"})
@@ -199,4 +181,4 @@ const Login = async(req, res) => {
     }
 }
 
-module.exports = { mostrarCliente, clientePorId, registrarCliente, modificarCliente, eliminarCliente, Register, Login };
+module.exports = { mostrarCliente, clientePorId, modificarCliente, eliminarCliente, Register, Login };

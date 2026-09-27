@@ -10,7 +10,17 @@ function App() {
   return (
 
   <>
+  <div>
   <Link to="/login">Iniciar Sesión</Link>
+  </div>
+
+  <div>
+  <Link to="/register">Registrarse</Link>
+  </div>
+
+  <div>
+    <Link to="/profile">Ir a tu Perfil</Link>
+  </div>
 
   <Routes>
 

@@ -30,8 +30,8 @@ function Login() {
     
       <h2>Login</h2>
 
-      <input type="email" value={email} onChange={(event) => setEmail(event.target.value)}/>
-      <input type="password" value={password} onChange={(event) => setPassword(event.target.value)}/>
+      <input type="email" placeholder="Email"  value={email} onChange={(event) => setEmail(event.target.value)}/>
+      <input type="password" placeholder="Contraseña" value={password} onChange={(event) => setPassword(event.target.value)}/>
 
       <button onClick={userLogin}>Iniciar sesión</button>
 
