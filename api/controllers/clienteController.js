@@ -181,4 +181,23 @@ const Login = async(req, res) => {
     }
 }
 
-module.exports = { mostrarCliente, clientePorId, modificarCliente, eliminarCliente, Register, Login };
+const Perfil = async(req, res) => {
+    try {
+
+        const perfilCliente = await Cliente.findByPk(req.user.id);
+
+        if(!perfilCliente) {
+            return res.status(404).json({ message: "Not found" })
+        }
+
+        res.status(200).json({ perfilCliente })
+    } catch(error) {
+
+        res.status(500).json({
+            message: "Error en el servidor",
+            error: error.message
+        })
+    }
+}
+
+module.exports = { mostrarCliente, clientePorId, modificarCliente, eliminarCliente, Register, Login, Perfil };

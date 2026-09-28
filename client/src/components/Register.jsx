@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import axios from "axios";
 
 import './Register.css'
@@ -37,9 +36,6 @@ function Register() {
             alert("Hubo un error al registrar el usuario");
         }
 }
-
-    const navigate = useNavigate();
-    navigate("/register");
 
 return (
 

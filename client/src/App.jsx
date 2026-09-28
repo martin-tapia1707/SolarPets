@@ -16,6 +16,8 @@ function App() {
     navigate(`/productos/${texto.toLowerCase()}`);
   }
 
+  const token = localStorage.getItem('token');
+
   return (
 
   <>
@@ -25,19 +27,24 @@ function App() {
 
   <Routes>
 
+
     <Route path="/" element={
       <div>
-        <div>
-        <Link to="/login">Iniciar Sesión</Link>
-        </div>
-
-        <div>
-        <Link to="/register">Registrarse</Link>
-        </div>
-
-        <div>
-          <Link to="/profile">Ir a tu Perfil</Link>
-        </div>
+        {token ? 
+        ( <div>
+            <Link to="/profile">Ir a tu Perfil</Link>
+          </div> ) : ( 
+              <>
+                <div>
+                <Link to="/login">Iniciar Sesión</Link>
+                </div>
+        
+                <div>
+                <Link to="/register">Registrarse</Link>
+                </div> 
+              </>
+        )}
+        
         <Mainsite />
 
         <br/><br/>

@@ -1,5 +1,7 @@
 const jwt = require('jsonwebtoken');
-const Cliente = require('../models/clienteModel.js');
+const { Cliente } = require('../models/clienteModel.js');
+
+const JWT_SECRET = "1234"; 
 
 const auth = (req, res, next) => {
 
