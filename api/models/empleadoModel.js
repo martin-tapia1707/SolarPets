@@ -3,6 +3,7 @@ const { DataTypes } = require('sequelize');
 
 const Empleado = sequelize.define('Empleado', {
 
+
     dni: {
         type: DataTypes.STRING(11),
         primaryKey: true,
@@ -42,7 +43,7 @@ const Empleado = sequelize.define('Empleado', {
     },
     fechaBaja: {
         type: DataTypes.DATE,
-        allowNull: false
+        allowNull: true
     },
     especialidad: {
         type: DataTypes.STRING(50),

@@ -1,5 +1,4 @@
 const { Categoria } = require("./categoriaModel.js");
-const { ClienteMascota } = require("./clienteMascotaModel.js");
 const { Cliente } = require("./clienteModel.js");
 const { Empleado } = require("./EmpleadoModel.js");
 const { Mascota } = require("./mascotaModel.js");
@@ -19,9 +18,6 @@ Mascota.belongsTo(Cliente, { foreignKey: 'idMascota'});
 Cliente.belongsToMany(Empleado, { through: 'clienteEmpleado' });
 Empleado.belongsToMany(Cliente, { through: 'clienteEmpleado' });
 
-//-------RELACION CLIENTE-CLIENTEMASCOTA--------
-Cliente.belongsToMany(ClienteMascota, { through: 'mascotaCliente' });
-ClienteMascota.belongsToMany(Cliente, { through: 'mascotaCliente' });
 
 //-------RELACION CLIENTE-ROL--------
 Rol.hasMany(Cliente, { foreignKey: 'idRol' });
@@ -47,9 +43,6 @@ Categoria.belongsToMany(Producto, { through: 'productoCategoria' });
 Producto.belongsToMany(Proveedor, { through: 'productoProveedor' });
 Proveedor.belongsToMany(Producto, { through: 'productoProveedor' });
 
-//-------RELACION EMPLEADO-CLIENTEMASCOTA--------
-Empleado.belongsToMany(ClienteMascota, { through: 'mascotaClienteEmpleado' });
-ClienteMascota.belongsToMany(Empleado, { through: 'mascotaClienteEmpleado' });
 
 //-------RELACION CLIENTE-PRODUCTO--------
 Producto.belongsToMany(Cliente, { through: 'productoCliente' });
@@ -67,7 +60,6 @@ module.exports = {
     Cliente,
     Mascota,
     Empleado,
-    ClienteMascota,
     Rol,
     Categoria,
     SubCategoria,

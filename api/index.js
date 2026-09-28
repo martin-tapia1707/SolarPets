@@ -4,7 +4,6 @@ const cors = require("cors");
 
 // Sección de modelos de tablas
 // require("./models/categoriaModel.js");
-// require("./models/clienteMascotaModel.js");
 // require("./models/clienteModel.js");
 // require("./models/empleadoModel.js");
 // require("./models/mascotaModel.js");
@@ -28,6 +27,7 @@ const reseñaRoutes = require('./routes/reseñaRoutes.js');
 const mascotaRoutes = require('./routes/mascotaRoutes.js');
 const pedidoRoutes = require('./routes/pedidoRoutes.js');
 const subcategoriaRoutes = require('./routes/subcategoriaRoutes.js');
+const empleadoRoutes = require('./routes/empleadoRoutes.js');
 
 
 const server = express();
@@ -46,6 +46,7 @@ server.use("/resena", reseñaRoutes);
 server.use("/mascota", mascotaRoutes);
 server.use("/pedido", pedidoRoutes);
 server.use("/subcategoria", subcategoriaRoutes);
+server.use("/empleado", empleadoRoutes);
 
 const PORT = 3000;
 server.listen(PORT, async () => {
