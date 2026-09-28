@@ -1,5 +1,5 @@
 const { Router } = require('express');
-const { mostrarProductos, productoId, agregarProducto, actualizarProducto, eliminarProducto } = require('../controllers/productoController.js');
+const { mostrarProductos, productoId, agregarProducto, actualizarProducto, eliminarProducto, productoBusqueda } = require('../controllers/productoController.js');
 
 // MIDDLEWARES
 
@@ -10,6 +10,8 @@ const routes = Router() ;
 
 routes.get ('/admin/productos', auth, isAdmin, mostrarProductos); // routes.get('/', auth, mostrarProductos);
 routes.get ('/:id', productoId); // RUTA ORIGINAL, LA CAMBIO PARA TESTEAR MIDDLEWARE
+routes.get ('/productos/:texto', productoBusqueda);
+
 routes.post ('/', agregarProducto);
 routes.put( '/:id', actualizarProducto);
 routes.delete ('/:id', eliminarProducto);

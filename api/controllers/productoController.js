@@ -1,3 +1,4 @@
+const { where, Op } = require('sequelize');
 const { sequelize } = require('../config/database.js');
 const { Producto} = require('../models/index.js');
 
@@ -79,5 +80,21 @@ const eliminarProducto = async(req, res)=>{
     }
 }
 
+const productoBusqueda = async(req,res)=>{
+    try {
+        const { texto } = req.params;
+        const productosBus = await Producto.findAll({
+            where: {
+                descripcion: {
+                    [Op.like]:  `%${texto}%`
+            }}});
+        if(productosBus.length == 0){
+            return res.status(404).json({message: "Productos no existente"});
+        }
+        return res.status(200).json(productosBus);
+    } catch (error) {
+        res.status(500).json(error.mensaje);
+    }
+}
 
-module.exports = {mostrarProductos, productoId, agregarProducto, actualizarProducto, eliminarProducto}
+module.exports = {mostrarProductos, productoId, agregarProducto, actualizarProducto, eliminarProducto, productoBusqueda}

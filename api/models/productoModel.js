@@ -21,6 +21,14 @@ const Producto = sequelize.define('Producto', {
         validate: {
             min: 0
         }
+    },
+    imagen: {
+        type: DataTypes.TEXT,
+        allowNull: false
+    },
+    descripcion: {
+        type: DataTypes.TEXT,
+        allowNull: false
     }
 },
     {
