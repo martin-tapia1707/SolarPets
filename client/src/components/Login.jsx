@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import axios from "axios";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import './Login.css'
 import logo from '../../logo.png'
@@ -19,7 +19,6 @@ function Login() {
 
       console.log(response.data.token); // referencia para saber si devuelve el token bien
       localStorage.setItem("token", response.data.token);
-
     }
 
   return (

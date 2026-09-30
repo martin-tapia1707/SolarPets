@@ -1,14 +1,14 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios'
-import { useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import './Profile.css'
 
 function Profile() {
 
-    
+    const navigate = useNavigate();
     const [user, setUser] = useState(null);
-    
+
     const obtenerPerfil = async () => {
         try {
             const token = localStorage.getItem('token');
@@ -32,19 +32,46 @@ function Profile() {
         }
         
     }
+
+    const cerrarSesion = () => {
+        localStorage.removeItem('token');
+        navigate('/login');
+    }
     
     useEffect(() => {
          obtenerPerfil();
     }, []);
 
     return (
-        <>
-            <h1>Mi perfil perfilado</h1>
+        <div className="profile-page">
+        <div className="profile-card">
 
-            {user && (
-                <li>{user.email} - {user.nombre} - {user.apellido} - {user.telefono} - {user.rol}</li>
-            )}
-        </>
+            <div className="profile-top">
+
+                <div className="profile-avatar">
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <circle cx="12" cy="8" r="4"/>
+                        <path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8z"/>
+                    </svg>
+                </div>
+
+                <div className="profile-info">
+                    <p className="profile-name">{user ? user.nombre + " " + user.apellido : "Cargando..."}</p>
+                    <p className="profile-mail">{user && user.email}</p>
+                    {/* El rol lo vas a agregar manualmente: */}
+                    <p className="profile-role">Rol de usuario</p>
+                </div>
+
+            </div>
+
+            <div className="profile-actions">
+                <button onClick={cerrarSesion}>Cerrar sesion</button>
+                <button>Edit</button>
+                <button>Turnos</button>
+            </div>
+
+        </div>
+        </div>
     );
 }
 
