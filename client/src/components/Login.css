@@ -1,0 +1,170 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@800&display=swap');
+
+/* ---------- Colores ---------- */
+.login-page {
+  --sp-bg: #fff3e8;
+  --sp-blue: #34588f;
+  --sp-blue-dark: #2a4877;
+  --sp-green: #4a8a2c;
+  --sp-border: #cfcfcf;
+  --sp-placeholder: #a3a3a3;
+  --sp-text: #2b2b2b;
+}
+
+/* ---------- Fondo de la página ---------- */
+.login-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px 16px;
+  background: var(--sp-bg);
+  font-family: 'Poppins', system-ui, sans-serif;
+  box-sizing: border-box;
+}
+
+.login-page *,
+.login-page *::before,
+.login-page *::after {
+  box-sizing: border-box;
+}
+
+/* ---------- Tarjeta blanca ---------- */
+.login-card {
+  width: 100%;
+  max-width: 452px;
+  padding: 18px 16px 24px;
+  background: #fff;
+  border-radius: 4px;
+  box-shadow: 0 18px 28px rgba(0, 0, 0, 0.28), 0 2px 6px rgba(0, 0, 0, 0.12);
+}
+
+/* ---------- Logo + nombre, en fila ---------- */
+.login-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  margin-bottom: 8px;
+}
+
+.login-header img {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1.5px solid var(--sp-green);
+  object-fit: cover;
+}
+
+.login-wordmark {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  line-height: 1;
+}
+
+.login-wordmark strong {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 2rem;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  color: var(--sp-blue);
+}
+
+.login-wordmark span {
+  margin-top: 3px;
+  font-size: 0.42rem;
+  font-weight: 500;
+  letter-spacing: 1.6px;
+  color: #6b7a99;
+}
+
+/* ---------- Título (<h2>) ---------- */
+.login-card h2 {
+  margin: 0 0 12px;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--sp-blue);
+}
+
+/* ---------- Inputs ---------- */
+.login-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.login-fields input {
+  width: 100%;
+  height: 34px;
+  padding: 0 14px;
+  border: 1px solid var(--sp-border);
+  border-radius: 999px;
+  background: #fff;
+  font-family: inherit;
+  font-size: 0.8rem;
+  color: var(--sp-text);
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.login-fields input::placeholder {
+  color: var(--sp-placeholder);
+  font-weight: 300;
+}
+
+.login-fields input:focus {
+  border-color: var(--sp-green);
+  box-shadow: 0 0 0 3px rgba(74, 138, 44, 0.18);
+}
+
+/* ---------- Links de ayuda ---------- */
+.login-links {
+  margin: 0 0 12px 14px;
+  font-size: 0.8rem;
+  color: var(--sp-text);
+}
+
+.login-links p {
+  margin: 0 0 2px;
+}
+
+.login-links a {
+  color: var(--sp-blue);
+  text-decoration: underline;
+}
+
+.login-links a:hover {
+  color: var(--sp-blue-dark);
+}
+
+/* ---------- Botón ---------- */
+.login-card button {
+  width: 100%;
+  height: 38px;
+  border: none;
+  border-radius: 999px;
+  background: var(--sp-blue);
+  color: #fff;
+  font-family: inherit;
+  font-size: 1.15rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 5px 0 rgba(0, 0, 0, 0.12);
+  transition: background 0.2s ease, transform 0.1s ease, box-shadow 0.1s ease;
+}
+
+.login-card button:hover {
+  background: var(--sp-blue-dark);
+}
+
+.login-card button:active {
+  transform: translateY(3px);
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.12);
+}
+
+.login-card button:focus-visible {
+  outline: 3px solid var(--sp-green);
+  outline-offset: 2px;
+}

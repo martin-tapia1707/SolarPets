@@ -1,7 +1,10 @@
 import { useState } from 'react';
 import axios from "axios";
+import { Link } from 'react-router-dom';
 
 import './Register.css'
+import Login from './Login';
+import logo from '../../logo.png'
 
 function Register() {
 
@@ -39,21 +42,35 @@ function Register() {
 
 return (
 
-    <>
-    
-    <h2>Register</h2>
+    <div className="register-page">
+    <div className="register-card">
 
-    <div>
-    <input type="email" placeholder="Email" value={email} onChange={(event) => setEmail(event.target.value)}/>
-    <input type="nombre" placeholder="Nombre" value={nombre} onChange={(event) => setNombre(event.target.value)}/>
-    <input type="apellido" placeholder="Apellido" value={apellido} onChange={(event) => setApellido(event.target.value)}/>
-    <input type="telefono" placeholder="Telefono" value={telefono} onChange={(event) => setTelefono(event.target.value)}/>
-    <input type="password" placeholder="Contraseña" value={password} onChange={(event) => setPassword(event.target.value)}/>
+    <div className="register-header">
+        <img src={logo} alt="Solar Pets"/>
+        <div className="register-wordmark">
+            <strong>Solar Pets</strong>
+            <span>PERROS Y GATOS</span>
+        </div>
     </div>
 
-    <button onClick={userRegister}>Registrarse</button>
+    <h2>Creación de cuenta</h2>
 
-    </>
+    <div className="register-fields">
+    <input type="email" placeholder="Correo electrónico.." value={email} onChange={(event) => setEmail(event.target.value)}/>
+    <input type="text" placeholder="Nombre(s)" value={nombre} onChange={(event) => setNombre(event.target.value)}/>
+    <input type="text" placeholder="Apellido(s)" value={apellido} onChange={(event) => setApellido(event.target.value)}/>
+    <input type="text" placeholder="Teléfono" value={telefono} onChange={(event) => setTelefono(event.target.value)}/>
+    <input type="password" placeholder="Contraseña" value={password} onChange={(event) => setPassword(event.target.value)}/>
+    </div>
+                <div>
+                <p>¿Ya tenés una cuenta? </p><Link to="/login">Proba iniciando sesión</Link>
+                </div>
+
+    <button onClick={userRegister}>Crear cuenta</button>
+
+
+    </div>
+    </div>
 
     )
 }
