@@ -45,11 +45,9 @@ const clientePorId = async(req, res) =>{
 const modificarCliente = async(req, res) => {
     
     try{
-
-        const id = Number(req.params.id);
         const { nombre, apellido, email, telefono } = req.body;
 
-        const clienteModif = await Cliente.findByPk(id);
+        const clienteModif = await Cliente.findByPk(req.user.id);
 
         if(!clienteModif) {
             return res.status(404).json({ message: "Cliente no encontrado" })
@@ -76,9 +74,7 @@ const eliminarCliente = async(req, res) => {
 
     try{
 
-        const id = Number(req.params.id);
-
-        const eliminarCliente = await Cliente.findByPk(id);
+        const eliminarCliente = await Cliente.findByPk(req.user.id);
 
         if(!eliminarCliente) {
             return res.status(404).json({ message: "No se encontro al cliente" })

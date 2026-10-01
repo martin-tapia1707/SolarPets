@@ -5,7 +5,6 @@ const { mostrarCliente, clientePorId, modificarCliente, eliminarCliente, Registe
 // MIDDLEWARES
 
 const { auth } = require('../middlewares/auth.js');
-const { isAdmin } = require('../middlewares/isAdmin.js');
 
 // RUTAS
 
@@ -14,7 +13,7 @@ routes.get ('/', auth, mostrarCliente);
 routes.get('/perfil', auth, Perfil);
 routes.get ('/:id', auth, clientePorId);
 routes.put('/:id', modificarCliente);
-routes.delete('/:id', eliminarCliente); // LES PONGO EL AUTH TEMPORALMENTE PARA PRACTICAR, DESPUES LOS SACO SI SON INNECESARIOS
+routes.delete('/:id', auth, eliminarCliente);
 routes.post('/register', Register);
 routes.post('/login', Login);
 

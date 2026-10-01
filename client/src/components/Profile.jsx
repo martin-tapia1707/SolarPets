@@ -37,6 +37,28 @@ function Profile() {
         localStorage.removeItem('token');
         navigate('/login');
     }
+
+    const eliminarCliente = async () => {
+        try {
+            const token = localStorage.getItem('token');
+
+            const response = await axios.delete(
+                'http://localhost:3000/clientes/' + user.id,
+                {
+                    headers: {
+                        authorization: "Bearer " + token
+                    }
+                }
+            );
+
+            localStorage.removeItem('token');
+            navigate('/login');
+
+        } catch (error) {
+            console.error(error);
+            alert("Error al eliminar al usuario");
+        }
+    }
     
     useEffect(() => {
          obtenerPerfil();
@@ -58,16 +80,17 @@ function Profile() {
                 <div className="profile-info">
                     <p className="profile-name">{user ? user.nombre + " " + user.apellido : "Cargando..."}</p>
                     <p className="profile-mail">{user && user.email}</p>
-                    {/* El rol lo vas a agregar manualmente: */}
-                    <p className="profile-role">Rol de usuario</p>
+                    <p className="profile-role">Rol</p>
+                    <p className="profile-desc">Descripción del Rol</p>
                 </div>
 
             </div>
 
             <div className="profile-actions">
+                <button>Solicitar turno</button>
+                <button>Ver mis turnos pendientes</button>
+                <button onClick={eliminarCliente}>Eliminar mi cuenta</button>
                 <button onClick={cerrarSesion}>Cerrar sesion</button>
-                <button>Edit</button>
-                <button>Turnos</button>
             </div>
 
         </div>
