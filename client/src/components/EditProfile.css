@@ -1,0 +1,86 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap");
+
+.perfil-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: #fff4ea;
+  font-family: "Poppins", sans-serif;
+}
+
+.perfil-card {
+  width: 100%;
+  max-width: 515px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 32px 28px 30px;
+  background: #ffffff;
+  border-radius: 6px;
+  box-shadow: 8px 12px 0 rgba(0, 0, 0, 0.28), 0 0 18px rgba(0, 0, 0, 0.08);
+}
+
+.perfil-title {
+  margin: 0 0 22px;
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #4a6aa0;
+}
+
+.perfil-input {
+  width: calc(100% - 20px);
+  align-self: center;
+  box-sizing: border-box;
+  padding: 7px 12px;
+  font-family: inherit;
+  font-size: 0.85rem;
+  font-weight: 300;
+  color: #333;
+  background: #fff;
+  border: 1px solid #cfcfcf;
+  border-radius: 999px;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.perfil-input::placeholder {
+  color: #aaa;
+}
+
+.perfil-input:focus {
+  border-color: #345893;
+  box-shadow: 0 0 0 3px rgba(52, 88, 147, 0.18);
+}
+
+.perfil-btn {
+  margin-top: 14px;
+  width: 100%;
+  padding: 7px 0;
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #fff;
+  background: #345893;
+  border: none;
+  border-radius: 999px;
+  cursor: pointer;
+  box-shadow: 0 4px 0 #d3d8e0;
+  transition: background 0.2s, transform 0.1s, box-shadow 0.1s;
+}
+
+.perfil-btn:hover {
+  background: #2b4a7e;
+}
+
+.perfil-btn:active {
+  transform: translateY(2px);
+  box-shadow: 0 2px 0 #d3d8e0;
+}
+
+.perfil-btn:focus-visible {
+  outline: 3px solid rgba(52, 88, 147, 0.4);
+  outline-offset: 2px;
+}

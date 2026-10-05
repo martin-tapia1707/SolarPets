@@ -5,6 +5,7 @@ import Profile from './components/Profile';
 import Register from './components/Register';
 import Mainsite from './components/Mainsite';
 import ObtenerProducto from './components/Producto.jsx';
+import EditProfile from './components/EditProfile.jsx'
 import Buscador from './components/Buscador.jsx';
 import { useState } from 'react';
 
@@ -58,6 +59,7 @@ function App() {
     <Route path="/profile" element={<Profile />} />    
     <Route path='/producto/:id' element={<ObtenerProducto />}/>
     <Route path="/productos/:texto" element={<Buscador />}/>
+    <Route path="/edit-profile" element={ <EditProfile/> }/>
 
 
     

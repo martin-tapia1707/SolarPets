@@ -1,4 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Bebas+Neue&display=swap');
+@import url('https://cdn-uicons.flaticon.com/2.6.0/uicons-bold-rounded/css/uicons-bold-rounded.css');
+@import url('https://cdn-uicons.flaticon.com/2.6.0/uicons-solid-rounded/css/uicons-solid-rounded.css');
 
 /* ---------- Colores ---------- */
 .profile-page {
@@ -67,16 +69,13 @@
   overflow: hidden;
 }
 
-.profile-avatar svg {
-  width: 44%;
-  height: 44%;
-  fill: #b5b5b5;
-}
-
-.profile-avatar img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+.profile-avatar i {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3.4rem;
+  line-height: 1;
+  color: #b5b5b5;
 }
 
 /* ---------- Datos del usuario ---------- */
@@ -107,19 +106,29 @@
 }
 
 .profile-actions button {
+  display: flex;              
+  align-items: center;        
+  justify-content: center;    
+  gap: 10px;                  
   width: 100%;
   height: 38px;
   border: none;
   border-radius: 999px;
   background: var(--sp-blue);
   color: #fff;
-  font-family: 'Bebas Neue', 'Poppins', sans-serif;
+  font-family: 'Poppins', system-ui, sans-serif;
   font-size: 1.25rem;
   letter-spacing: 0.5px;
-  text-transform: uppercase;
+  /* text-transform: uppercase; */
   cursor: pointer;
   box-shadow: 0 5px 0 rgba(0, 0, 0, 0.12);
   transition: background 0.2s ease, transform 0.1s ease, box-shadow 0.1s ease;
+}
+
+.profile-actions button i {
+  display: flex;
+  font-size: 1.1em;
+  line-height: 1;
 }
 
 .profile-actions button:hover {

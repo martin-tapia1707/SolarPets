@@ -64,6 +64,10 @@ function Profile() {
          obtenerPerfil();
     }, []);
 
+    const editarPerfil = () => {
+    navigate('/edit-profile');
+    };
+
     return (
         <div className="profile-page">
         <div className="profile-card">
@@ -71,10 +75,7 @@ function Profile() {
             <div className="profile-top">
 
                 <div className="profile-avatar">
-                    <svg viewBox="0 0 24 24" aria-hidden="true">
-                        <circle cx="12" cy="8" r="4"/>
-                        <path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8z"/>
-                    </svg>
+                    <i className="fi fi-sr-user"></i>
                 </div>
 
                 <div className="profile-info">
@@ -87,8 +88,9 @@ function Profile() {
             </div>
 
             <div className="profile-actions">
+                <button onClick={editarPerfil}>Editar Perfil <i className="fi fi-br-edit"></i></button>  
                 <button>Solicitar turno</button>
-                <button>Ver mis turnos pendientes</button>
+                <button>Ver mis Turnos Pendientes</button>
                 <button onClick={eliminarCliente}>Eliminar mi cuenta</button>
                 <button onClick={cerrarSesion}>Cerrar sesion</button>
             </div>

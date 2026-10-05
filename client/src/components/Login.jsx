@@ -19,6 +19,7 @@ function Login() {
 
       console.log(response.data.token); // referencia para saber si devuelve el token bien
       localStorage.setItem("token", response.data.token);
+      alert("Inicio de sesión correctamente")
     }
 
   return (
@@ -42,7 +43,6 @@ function Login() {
       </div>
 
       <div className="login-links">
-        <p><a href="#">¿Has olvidado tu correo electrónico?</a></p>
         <p>¿No recuerdas tu contraseña? <a href="#">Recupera tu contraseña</a></p>
         <p>¿No tenés una cuenta aún? <Link to="/register">Registrate</Link></p>
       </div>
