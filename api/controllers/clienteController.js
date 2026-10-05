@@ -42,6 +42,19 @@ const clientePorId = async(req, res) =>{
 
 }
 
+const buscarRol = async(req, res)=>{
+    try{
+        const{idRol} = req.params;
+        const encontrarCliente = await Cliente.findAll({where:{ idRol: idRol}});
+        if(encontrarCliente.length === 0){
+            res.status(404).json({message: `No se encontró Clientes con el rol asignado de ${idRol}`});
+        }
+        res.status(200).json({message: `Lista de Clientes (Rol : ${idRol})`, cliente : encontrarCliente});
+    }catch(error){
+        res.status(500).json({error: error.message});
+    }
+}
+
 const modificarCliente = async(req, res) => {
     
     try{
@@ -196,4 +209,4 @@ const Perfil = async(req, res) => {
     }
 }
 
-module.exports = { mostrarCliente, clientePorId, modificarCliente, eliminarCliente, Register, Login, Perfil };
+module.exports = { mostrarCliente, clientePorId, buscarRol, modificarCliente, eliminarCliente, Register, Login, Perfil };

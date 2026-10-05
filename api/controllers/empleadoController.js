@@ -28,6 +28,32 @@ const buscarEmpleadoDni = async(req, res) =>{
     }
 }
 
+const buscarTurno = async(req, res)=>{
+    try{
+        const {turno} = req.params;
+        const encontrarEmpleado = await Empleado.findAll({where:{turno : turno}});
+        if(encontrarEmpleado.length === 0){
+            res.status(404).json({message:`No se encontró empleados asignados del turno ${turno}`});
+        }
+        res.status(200).json({message: `Lista de Empleados (Turno ${turno})`, empleado : encontrarEmpleado});
+    }catch(error){
+        res.status(500).json({error: error.message});
+    }
+}
+
+const buscarEspecialidad = async(req, res)=>{
+    try{
+        const{especialidad} = req.params;
+        const encontrarEmpleado = await Empleado.findAll({where:{ especialidad: especialidad}});
+        if(encontrarEmpleado.length === 0){
+            res.status(404).json({message: `No se encontró empleados con la especialidad de ${especialidad}`});
+        }
+        res.status(200).json({message: `Lista de Empleados (Especialidad : ${especialidad})`, empleado : encontrarEmpleado});
+    }catch(error){
+        res.status(500).json({error: error.message});
+    }
+}
+
 const registrarEmpleado = async(req, res) =>{
     try{
         const {dni, nombre, apellido, establecimiento, salario, telefono, turno, localidad, fechaAlta, fechaBaja, especialidad} = req.body;
@@ -89,9 +115,13 @@ const eliminarEmpleado = async(req, res) => {
     }
 }
 
+
+
 module.exports = {
     buscarTodosEmpleados,
     buscarEmpleadoDni,
+    buscarTurno,
+    buscarEspecialidad,
     registrarEmpleado,
     modificarEmpleado,
     eliminarEmpleado
