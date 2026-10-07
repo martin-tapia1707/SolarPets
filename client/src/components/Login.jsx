@@ -7,6 +7,7 @@ import logo from '../../logo.png'
 
 function Login() {
 
+    const navigate = useNavigate();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
@@ -17,6 +18,7 @@ function Login() {
         password
       });
 
+      navigate('/profile');
       console.log(response.data.token); // referencia para saber si devuelve el token bien
       localStorage.setItem("token", response.data.token);
       alert("Inicio de sesión correctamente")

@@ -61,7 +61,7 @@ function Profile() {
     }
     
     useEffect(() => {
-         obtenerPerfil();
+        obtenerPerfil();
     }, []);
 
     const editarPerfil = () => {

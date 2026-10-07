@@ -8,6 +8,7 @@ import logo from '../../logo.png'
 
 function Register() {
 
+    const navigate = useNavigate();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [nombre, setNombre] = useState('');
@@ -34,6 +35,9 @@ function Register() {
                 setApellido("")
                 setTelefono("")
             }
+
+            navigate('/login');
+             // dps capaz hago que register asigne un token cosa que no tenga que registrarte y loguearte, simplemente registrarte
         } catch(error) {
             console.error(error); 
             alert("Hubo un error al registrar el usuario");
