@@ -20,8 +20,8 @@ function Profile() {
                     headers: 
                     {
                         authorization: "Bearer " + token
-                }
-            })
+                    }
+                })
             console.log(response.data);
             setUser(response.data.perfilCliente)
             
@@ -81,8 +81,7 @@ function Profile() {
                 <div className="profile-info">
                     <p className="profile-name">{user ? user.nombre + " " + user.apellido : "Cargando..."}</p>
                     <p className="profile-mail">{user && user.email}</p>
-                    <p className="profile-role">Rol</p>
-                    <p className="profile-desc">Descripción del Rol</p>
+                    <p className="profile-role">{user && user.Rol.nombre}</p>
                 </div>
 
             </div>

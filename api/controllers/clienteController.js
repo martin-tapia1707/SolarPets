@@ -193,10 +193,10 @@ const Login = async(req, res) => {
 const Perfil = async(req, res) => {
     try {
 
-        const perfilCliente = await Cliente.findByPk(req.user.id);
+        const perfilCliente = await Cliente.findByPk(req.user.id, { include: Rol});
 
         if(!perfilCliente) {
-            return res.status(404).json({ message: "Not found" })
+            return res.status(404).json({ message: "Not Found" });
         }
 
         res.status(200).json({ perfilCliente })
@@ -209,4 +209,44 @@ const Perfil = async(req, res) => {
     }
 }
 
-module.exports = { mostrarCliente, clientePorId, buscarRol, modificarCliente, eliminarCliente, Register, Login, Perfil };
+const EditProfile = async(req, res) => {
+    try {
+        const { nombre, apellido, telefono } = req.body;
+        const password = req.body.password;
+        const repeatPass = req.body.confirmar;
+        const perfilCliente = await Cliente.findByPk(req.user.id, { include: Rol });
+        
+        if(!perfilCliente) {
+            return res.status(404).json({ message: "Not Found" });
+        }
+
+        if(!password || !repeatPass) {
+            return res.status(400).json({ message: "falta poner la contraseña" })
+        }
+
+        const esCorrecta = await bcrypt.compare(password, perfilCliente.password);
+
+        if(!esCorrecta) {
+            return res.status(400).json({ message: "La contraseña no es correcta"})
+        }
+
+        if(password !== repeatPass) {
+            return res.status(400).json({ message: "Las contraseñas no coinciden"})
+        }
+
+        perfilCliente.nombre = nombre;
+        perfilCliente.apellido = apellido;
+        perfilCliente.telefono = telefono;
+        await perfilCliente.save();
+
+        res.status(200).json({ perfilCliente })
+
+    } catch(error) {
+        res.status(500).json({
+            message: "Error en el servidor",
+            error: error.message
+        })
+    }
+}
+
+module.exports = { mostrarCliente, clientePorId, buscarRol, modificarCliente, eliminarCliente, Register, Login, Perfil, EditProfile };

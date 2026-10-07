@@ -66,7 +66,7 @@ return (
                 <p>¿Ya tenés una cuenta? </p><Link to="/login">Proba iniciando sesión</Link>
                 </div>
 
-    <button onClick={userRegister}>Crear cuenta</button>
+    <button type="submit" onClick={userRegister}>Crear cuenta</button>
 
 
     </div>

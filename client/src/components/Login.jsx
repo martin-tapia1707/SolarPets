@@ -47,7 +47,7 @@ function Login() {
         <p>¿No tenés una cuenta aún? <Link to="/register">Registrate</Link></p>
       </div>
 
-      <button onClick={userLogin}>Iniciar sesión</button>
+      <button type="submit" onClick={userLogin}>Iniciar sesión</button>
 
     </div>
     </div>
