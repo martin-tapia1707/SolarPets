@@ -10,7 +10,7 @@ const routes = Router() ;
 
 routes.get ('/admin/productos', auth, isAdmin, mostrarProductos); // routes.get('/', auth, mostrarProductos);
 routes.get ('/:id', productoId); // RUTA ORIGINAL, LA CAMBIO PARA TESTEAR MIDDLEWARE
-routes.get ('/productos/:texto', productoBusqueda);
+routes.get ('/busqueda/:texto', productoBusqueda);
 
 routes.post ('/', agregarProducto);
 routes.put( '/:id', actualizarProducto);
