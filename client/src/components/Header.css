@@ -1,0 +1,342 @@
+@import url('https://fonts.googleapis.com/css2?family=Lora:wght@700&family=Quicksand:wght@400;500;600&display=swap');
+
+:root {
+  --hd-bg: #fdf6ec;
+  --hd-text: #4a4a4a;
+  --hd-brand: #36569a;
+  --hd-accent: #3bb273;
+  --hd-line: #ecdfcc;
+}
+
+* { box-sizing: border-box; }
+
+/* ===== Barra ===== */
+header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  height: 64px;
+  padding: 0 24px;
+  background: var(--hd-bg);
+  border-bottom: 1px solid var(--hd-line);
+  font-family: 'Quicksand', 'Poppins', 'Segoe UI', sans-serif;
+}
+
+/* ===== Hamburguesa ===== */
+.hamburger {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 6px;
+  width: 40px;
+  height: 40px;
+  padding: 6px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.hamburger span {
+  display: block;
+  height: 3px;
+  background: #111;
+  border-radius: 3px;
+}
+
+/* ===== Logo ===== */
+.center-logo {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  text-decoration: none;
+}
+
+.logo {
+  height: 48px;
+  width: 48px;
+  flex-shrink: 0;
+  display: block;
+}
+
+.brand {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  line-height: 1;
+}
+
+.brand-name {
+  font-family: 'Lora', Georgia, serif;
+  font-weight: 700;
+  font-size: 28px;
+  color: var(--hd-brand);
+  letter-spacing: -0.5px;
+}
+
+.brand-sub {
+  margin-top: 3px;
+  font-size: 7px;
+  letter-spacing: 2px;
+  color: #6b7f9e;
+}
+
+/* ===== Buscador ===== */
+.search {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.search-toggle {
+  display: flex;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  color: #111;
+}
+
+.search-icon {
+  width: 30px;
+  height: 30px;
+  color: #111;
+}
+
+.search-input {
+  width: 200px;
+  height: 36px;
+  padding: 0 16px;
+  border: none;
+  border-radius: 999px;
+  background: #fff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+  font-size: 15px;
+  color: var(--hd-text);
+  outline: none;
+}
+
+.search-input:focus-visible {
+  box-shadow: 0 0 0 2px var(--hd-accent);
+}
+
+/* ===== Enlaces derecha ===== */
+.right-links {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  margin-left: auto;
+}
+
+.Link {
+  text-decoration: none;
+  color: var(--hd-text);
+  font-size: 17px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  padding: 4px 2px;
+  transition: color 0.2s;
+}
+
+.Link:hover,
+.Link:focus-visible {
+  color: var(--hd-accent);
+}
+
+.admin-btn {
+  text-decoration: none;
+  color: #fff;
+  background: #565a66;
+  padding: 6px 14px;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: bold;
+  display: inline-block; /* el componente solo lo renderiza si el rol es ADMINISTRADOR */
+}
+
+/* ===== Botones Registrarse / Iniciar sesión ===== */
+.auth-buttons {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.auth-link {
+  display: block;
+  line-height: 0;
+  transition: transform 0.2s, filter 0.2s;
+}
+
+.auth-link img {
+  height: 38px;
+  width: auto;
+  display: block;
+}
+
+.auth-link:hover,
+.auth-link:focus-visible {
+  transform: translateY(-1px) scale(1.03);
+  filter: brightness(1.08);
+}
+
+/* ===== Perfil (solo con sesión iniciada) ===== */
+.ProfileLink {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+}
+
+.ProfileLink[hidden],
+.auth-buttons[hidden] {
+  display: none;
+}
+
+.avatar-fallback {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--hd-brand);
+  color: #fff;
+  font-weight: 600;
+  font-size: 18px;
+}
+
+.auth-loading {
+  visibility: hidden; /* reserva el espacio mientras se consulta la sesión */
+}
+
+.ImgProfile {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  object-fit: cover;
+  background: #fff;
+  border: 1px solid var(--hd-line);
+}
+
+/* ===== Menú lateral (hamburguesa) ===== */
+.drawer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 200;
+  width: 280px;
+  height: 100%;
+  padding: 24px;
+  background: var(--hd-bg);
+  box-shadow: 4px 0 16px rgba(0, 0, 0, 0.15);
+  transform: translateX(-100%);
+  transition: transform 0.25s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.drawer.active {
+  transform: translateX(0);
+}
+
+.drawer-close {
+  align-self: flex-end;
+  background: transparent;
+  border: none;
+  font-size: 28px;
+  cursor: pointer;
+  color: #111;
+}
+
+.drawer .Link {
+  display: block;
+  padding: 12px 8px;
+  text-align: left;
+  border-bottom: 1px solid var(--hd-line);
+}
+
+.drawer-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 150;
+  background: rgba(0, 0, 0, 0.4);
+  display: none;
+}
+
+.drawer-backdrop.active {
+  display: block;
+}
+
+/* ===== Modal de cerrar sesión ===== */
+.logout-modal {
+  display: none;
+  position: fixed;
+  z-index: 999;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  justify-content: center;
+  align-items: center;
+}
+
+.logout-modal.open {
+  display: flex;
+}
+
+.logout-content {
+  background: #2c3e50;
+  color: #fff;
+  padding: 30px;
+  border-radius: 15px;
+  text-align: center;
+  width: 350px;
+  max-width: 90%;
+  font-family: inherit;
+}
+
+.logout-buttons {
+  margin-top: 10px;
+  display: flex;
+  justify-content: space-around;
+}
+
+.logout-buttons button {
+  border: none;
+  padding: 10px 20px;
+  color: #fff;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.logout-buttons .confirm { background: #e74c3c; }
+.logout-buttons .confirm:hover { background: #c0392b; }
+.logout-buttons .cancel { background: #7f8c8d; }
+.logout-buttons .cancel:hover { background: #95a5a6; }
+
+/* ===== Responsive ===== */
+@media (max-width: 900px) {
+  .right-links .Link { display: none; }
+  .search-input { width: 160px; }
+}
+
+@media (max-width: 600px) {
+  header { padding: 0 12px; gap: 10px; }
+  .brand-name { font-size: 22px; }
+  .logo { height: 38px; width: 38px; }
+  .search-input {
+    display: none;
+    position: absolute;
+    top: 68px;
+    left: 12px;
+    right: 12px;
+    width: auto;
+  }
+  .search.open .search-input { display: block; }
+  .auth-link img { height: 32px; }
+  .right-links { gap: 10px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .drawer { transition: none; }
+}

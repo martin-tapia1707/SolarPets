@@ -2,6 +2,17 @@ const { where, Op } = require('sequelize');
 const { sequelize } = require('../config/database.js');
 const { Producto} = require('../models/index.js');
 
+const STOP_WORDS = [
+  "el", "la", "los", "las", "un", "una", "unos", "unas", "lo", "al", "del",
+  "a", "ante", "bajo", "cabe", "contra", "de", "desde", "durante", "en",
+  "entre", "hacia", "hasta", "mediante", "para", "por", "segun", "so",
+  "sobre", "tras", "via"];
+
+  const sinonimos = {
+    "alimento": ["alimento", "comida"],
+    "gato": ["gato", "felino", "gatos"]
+  }
+
 const mostrarProductos = async(req, res)=>{
     try {
         const productos = await Producto.findAll();
@@ -82,18 +93,21 @@ const eliminarProducto = async(req, res)=>{
 
 const productoBusqueda = async(req,res)=>{
     try {
-        const { texto } = req.params;
-        const productosBus = await Producto.findAll({
-            where: {
-                descripcion: {
-                    [Op.like]:  `%${texto}%`
-            }}});
-        if(productosBus.length == 0){
-            return res.status(404).json({message: "Productos no existente"});
-        }
+        const { _q } = req.query;
+        const palabras = _q.split(" ");
+        const palabrasFil = palabras.filter(palabras => !STOP_WORDS.includes(palabras));
+        console.log(palabrasFil);
+        // const productosBus = await Producto.findAll({
+        //     where: {
+        //         descripcion: {
+        //             [Op.like]:  `%${_q}%`
+        //     }}});
+        // if(productosBus.length == 0){
+        //     return res.status(404).json({message: "Productos no existente"});
+        // }
         return res.status(200).json(productosBus);
     } catch (error) {
-        res.status(500).json(error.mensaje);
+        return res.status(500).json(error.mensaje);
     }
 }
 

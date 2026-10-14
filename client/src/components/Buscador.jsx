@@ -1,17 +1,20 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { useParams, Link, useNavigate } from "react-router-dom";
+import { useSearchParams, useParams, Link, useNavigate } from "react-router-dom";
 import './Buscador.css';
 
 function Buscador() {
 
+    const [searchParams] = useSearchParams();
+    const query = searchParams.get('_q');
     const { texto } = useParams();
     const [productos, setProductos] = useState([]);
     const navigate = useNavigate();
 
     const mostrar = async () => {
         try {
-            const response = await axios.get(`http://localhost:3000/producto/busqueda/${texto}`);
+            console.log(query);
+            const response = await axios.get(`http://localhost:3000/producto/busqueda/query?_q=${query}`);
             setProductos(response.data);
         } catch (error) {
             if (error.status == "404") {

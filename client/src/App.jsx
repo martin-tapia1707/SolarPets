@@ -7,14 +7,17 @@ import Mainsite from './components/Mainsite';
 import ObtenerProducto from './components/Producto.jsx';
 import EditProfile from './components/EditProfile.jsx'
 import Buscador from './components/Buscador.jsx';
+import Header from './components/Header.jsx';
 import { useState } from 'react';
 
 function App() {
   const navigate = useNavigate();
   const [texto, setTexto] = useState("");
 
-  const buscar = ()=>{
-    navigate(`/productos/${texto.toLowerCase()}`);
+  const buscar = (e)=>{
+    e.preventDefault(); // Sino utilizo esto no muestra el query
+    setTexto(encodeURIComponent(texto.toLowerCase()));
+    navigate(`/productos/${texto}?_q=${texto}`);
   }
 
   const token = localStorage.getItem('token');
@@ -25,7 +28,7 @@ function App() {
 
 
   
-
+  <Header />
   <Routes>
 
 
@@ -53,7 +56,8 @@ function App() {
           <input type="text" placeholder='Buscar producto' onChange={(event) => setTexto(event.target.value)}/><button onClick={buscar}>Buscar</button>
         </div>
       </div>} />
-      
+
+    <Route path="/header" element={<Header/>}/>  
     <Route path="/login" element={<Login />} />
     <Route path="/register" element={<Register />} />
     <Route path="/profile" element={<Profile />} />    
