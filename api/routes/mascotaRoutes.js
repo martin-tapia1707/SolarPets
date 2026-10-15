@@ -1,9 +1,9 @@
 const { Router } = require('express');
-const { mostrarMascotas, mascotasPorId, publicarMascota, actualizarMascota, eliminarMascota } = require('../controllers/mascotaController.js');
+const { mostrarMascotasAdoptar, mascotasPorId, agregarMascota, actualizarMascota, eliminarMascota } = require('../controllers/mascotaController.js');
 const routes = Router();
-routes.get('/', mostrarMascotas);
+routes.get('/', mostrarMascotasAdoptar);
 routes.get('/:id', mascotasPorId);
-routes.post('/', publicarMascota);
+routes.post('/', agregarMascota);
 routes.put('/:id', actualizarMascota);
 routes.delete('/:id', eliminarMascota);
 

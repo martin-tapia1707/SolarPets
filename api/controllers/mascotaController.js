@@ -1,11 +1,11 @@
 const { sequelize } = require("../config/database.js");
 const { Mascota } = require("../models/mascotaModel.js");
 
-const mostrarMascotas = async (req, res) =>{
+const mostrarMascotasAdoptar = async (req, res) =>{
 
     try{
 
-        const MascotasEncontradas = await Mascota.findAll();
+        const MascotasEncontradas = await Mascota.findAll();        //especificar que son para adoptar
         if(!MascotasEncontradas) {
             return res.status(404).json({message: "No se encontraron mascotas aún.."})
         }
@@ -35,14 +35,14 @@ const mascotasPorId = async (req, res) =>{
     }
 }
 
-const publicarMascota = async (req, res) =>{
+const agregarMascota = async (req, res) =>{
 
     try{
 
-        const { nombre, edad, animal, raza, antecedentes, tratamientosHechos } = req.body;
-        const nuevaMascota = await Mascota.create({ nombre, edad, animal, raza, antecedentes, tratamientosHechos });
+        const { nombre, edad, animal, raza, antecedentes, historialMedico } = req.body;
+        const nuevaMascota = await Mascota.create({ nombre, edad, animal, raza, antecedentes, historialMedico });
 
-        if(!nombre || !raza || !edad || !animal || !antecedentes || !tratamientosHechos) {
+        if(!nombre || !raza || !edad || !animal || !antecedentes || !historialMedico) {
             return res.status(400).json({ message: "Faltan parametros" })
         }
 
@@ -57,9 +57,9 @@ const actualizarMascota = async (req, res) =>{
     try{
 
         const id = Number(req.params.id);
-        const { nombre, edad, animal, raza, antecedentes, tratamientosHechos } = req.body;
+        const { nombre, edad, animal, raza, antecedentes, historialMedico } = req.body;
 
-        if(!nombre || !edad || !animal || !raza || !antecedentes || !tratamientosHechos) {
+        if(!nombre || !edad || !animal || !raza || !antecedentes || !historialMedico) {
             return res.status(400).json({ message: "Faltan parametros" })
         }
 
@@ -74,7 +74,7 @@ const actualizarMascota = async (req, res) =>{
         mascota.edad = edad;
         mascota.animal = animal;
         mascota.antecedentes = antecedentes;
-        mascota.tratamientosHechos = tratamientosHechos;
+        mascota.historialMedico = historialMedico;
         await mascota.save();
 
         res.status(200).json({ message: "Mascota actualizada exitosamente", mascota: mascota })
@@ -102,9 +102,9 @@ const eliminarMascota = async (req, res) =>{
 }
 
 module.exports = { 
-    mostrarMascotas,
+    mostrarMascotasAdoptar,
     mascotasPorId,
-    publicarMascota,
+    agregarMascota,
     actualizarMascota,
     eliminarMascota 
 }
