@@ -97,14 +97,14 @@ const productoBusqueda = async(req,res)=>{
         const palabras = _q.split(" ");
         const palabrasFil = palabras.filter(palabras => !STOP_WORDS.includes(palabras));
         console.log(palabrasFil);
-        // const productosBus = await Producto.findAll({
-        //     where: {
-        //         descripcion: {
-        //             [Op.like]:  `%${_q}%`
-        //     }}});
-        // if(productosBus.length == 0){
-        //     return res.status(404).json({message: "Productos no existente"});
-        // }
+        const productosBus = await Producto.findAll({
+            where: {
+                descripcion: {
+                    [Op.like]:  `%${_q}%`
+            }}});
+        if(productosBus.length == 0){
+            return res.status(404).json({message: "Productos no existente"});
+        }
         return res.status(200).json(productosBus);
     } catch (error) {
         return res.status(500).json(error.mensaje);
