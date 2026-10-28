@@ -234,9 +234,18 @@ const EditProfile = async(req, res) => {
             return res.status(400).json({ message: "Las contraseñas no coinciden"})
         }
 
-        perfilCliente.nombre = nombre;
-        perfilCliente.apellido = apellido;
-        perfilCliente.telefono = telefono;
+        if (nombre) {
+            perfilCliente.nombre = nombre;
+        }
+
+        if (apellido) {
+            perfilCliente.apellido = apellido;
+        }
+
+        if (telefono) {
+            perfilCliente.telefono = telefono;
+        }
+
         await perfilCliente.save();
 
         res.status(200).json({ perfilCliente })
