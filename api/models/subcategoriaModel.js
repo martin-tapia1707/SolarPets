@@ -19,7 +19,7 @@ const SubCategoria = sequelize.define('SubCategoria', {
 
 }, {
     tableName: 'subCategorias',
-    timestamps: true
+    timestamps: false 
 });
 
 module.exports = { SubCategoria };

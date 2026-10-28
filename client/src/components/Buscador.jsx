@@ -4,10 +4,10 @@ import { useSearchParams, useParams, Link, useNavigate } from "react-router-dom"
 import './Buscador.css';
 
 function Buscador() {
-
+    // solucionar o mejor dicho hacer que no se muestre la parte de producto no encontrado cuando si hay resultados
+    
     const [searchParams] = useSearchParams();
     const query = searchParams.get('_q');
-    const { texto } = useParams();
     const [productos, setProductos] = useState([]);
     const navigate = useNavigate();
 
@@ -17,7 +17,7 @@ function Buscador() {
             const response = await axios.get(`http://localhost:3000/producto/busqueda/query?_q=${query}`);
             setProductos(response.data);
         } catch (error) {
-            if (error.status == "404") {
+            if (error.response?.status === 404) {
                 setProductos([]);
             }
         }
@@ -26,7 +26,7 @@ function Buscador() {
 
     useEffect(() => {
         mostrar();
-    }, []);
+    }, [query]);
 
     return (
         <>

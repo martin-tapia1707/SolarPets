@@ -36,8 +36,8 @@ Categoria.hasMany(SubCategoria, { foreignKey: 'idCategoria' });
 SubCategoria.belongsTo(Categoria, { foreignKey: 'idCategoria' });
 
 //-------RELACION CATEGORIA-PRODUCTO--------
-Producto.belongsToMany(Categoria, { through: 'productoCategoria' });
-Categoria.belongsToMany(Producto, { through: 'productoCategoria' });
+Producto.belongsToMany(Categoria, { through: 'productoCategoria', timestamps: false  });
+Categoria.belongsToMany(Producto, { through: 'productoCategoria', timestamps: false, foreignKey: 'categoriaId' });
 
 //-------RELACION PRODUCTO-PROVEEDORES--------
 Producto.belongsToMany(Proveedor, { through: 'productoProveedor' });

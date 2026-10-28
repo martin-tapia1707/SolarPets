@@ -1,4 +1,4 @@
-const { where, Op } = require('sequelize');
+const { where, Op, or } = require('sequelize');
 const { sequelize } = require('../config/database.js');
 const { Producto} = require('../models/index.js');
 
@@ -10,7 +10,8 @@ const STOP_WORDS = [
 
   const sinonimos = {
     "alimento": ["alimento", "comida"],
-    "gato": ["gato", "felino", "gatos"]
+    "gato": ["gato", "felino", "gatos"],
+    "perro": ["perro", "caninos", "perros", "canino"]
   }
 
 const mostrarProductos = async(req, res)=>{
@@ -95,13 +96,52 @@ const productoBusqueda = async(req,res)=>{
     try {
         const { _q } = req.query;
         const palabras = _q.split(" ");
-        const palabrasFil = palabras.filter(palabras => !STOP_WORDS.includes(palabras));
+        let palabrasFil = palabras.filter(palabras => !STOP_WORDS.includes(palabras));
         console.log(palabrasFil);
+        let palabrasConSinonimos = {};
+        for(const palabra in sinonimos){
+            for(let i = 0; i < sinonimos[palabra].length; i++){
+                for(let j = 0; j < palabrasFil.length; j++){
+                    if(sinonimos[palabra][i] == palabrasFil[j]){ 
+                        palabrasConSinonimos[palabra] = sinonimos[palabra];
+                        palabrasFil.splice(j, 1);
+                        break;
+                    }
+                }
+            }
+        }
+
+        let consulta = [];
+        if(Object.keys(palabrasConSinonimos).length > 0){
+            for(const palabra in palabrasConSinonimos){
+            const estructura = {[Op.or]:  palabrasConSinonimos[palabra].map(pal => ({
+                nombre: {
+                    [Op.like]: `%${pal}%` 
+                },
+            }))};
+            consulta.push(estructura);
+            }  
+        }
+        if(palabrasFil.length > 0){
+            for(const palabra in palabrasFil){
+            const estructura = {[Op.or]: {  
+                nombre: {
+                    [Op.like]: `%${palabrasFil[palabra]}%` 
+                },
+            }};
+            consulta.push(estructura);
+            } 
+        }
+        
+        
+        
+        
+        console.log(consulta);
+        
         const productosBus = await Producto.findAll({
             where: {
-                descripcion: {
-                    [Op.like]:  `%${_q}%`
-            }}});
+                [Op.and]: consulta
+            }});
         if(productosBus.length == 0){
             return res.status(404).json({message: "Productos no existente"});
         }

@@ -13,7 +13,7 @@ export default function useHeader() {
   useEffect(() => {
     const controller = new AbortController();
 
-    fetch(USER_DATA_URL, { signal: controller.signal })
+    fetch(USER_DATA_URL, { signal: controller.signal }) //  Supuestamente aca llama al usuario en php(cosa que no existe xd) y lo guarda en variables este bloque hace eso y no soy un iavoid
       .then((res) => {
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         return res.json();
@@ -36,9 +36,10 @@ export default function useHeader() {
     return () => controller.abort();
   }, []);
 
-  const [drawerAbierto, setDrawerAbierto] = useState(false);
+  const [drawerAbierto, setDrawerAbierto] = useState(false);  // para saber si la barra de sida esta abierta o now
 
-  const [buscadorAbierto, setBuscadorAbierto] = useState(false);
+  // aca el buscador 
+  const [buscadorAbierto, setBuscadorAbierto] = useState(false);  // esto seria por lo que entendi para saber si el buscador esta abierto o no pero no noto cambio supongo que seria para celulares.
   const [texto, setTexto] = useState("");
   const inputRef = useRef(null);
 
@@ -56,8 +57,12 @@ export default function useHeader() {
     if (buscadorAbierto) inputRef.current?.focus();
   }, [buscadorAbierto]);
 
+  // ni puta idea xdddddddddddddddddddddddddddddddddd
   const [modalAbierto, setModalAbierto] = useState(false);
 
+  // ni puta idea x2 xdddddddddddddddddddddddddddddddddd
+
+  // Algo de cerrar la sesion aunque como aun no funcione el inicio de sesion asi que ni modo
   const pedirLogout = () => {
     setDrawerAbierto(false);
     setModalAbierto(true);
@@ -81,6 +86,8 @@ export default function useHeader() {
     return () => document.removeEventListener("keydown", onKeyDown);
   }, []);
 
+
+  // sepa la bola
   useEffect(() => {
     if (!drawerAbierto && !modalAbierto) return;
     const previo = document.body.style.overflow;
