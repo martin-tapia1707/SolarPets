@@ -276,8 +276,7 @@ const EditProfile = async(req, res) => {
 const recuperar = async(req, res) => {
     try {
         const { email } = req.body;
-        console.log(req.body);
-
+        
          const payload = {
             correo: email
         };
@@ -315,8 +314,13 @@ const recuperar = async(req, res) => {
 
 const restablecerCon = async(req,res) =>{
     try {
-        console.log(req.query);
-        return res.status(200);
+        const { email, password } = req.user;
+        const client = await Cliente.findOne({where: {
+            email: email
+        }});
+        client.password = await bcrypt.hash(password, 12);
+        await client.save();
+        return res.status(200).json({mensaje: "joya"});
     } catch (error) {
         console.log(error);
         return res.status(500).json({mensaje: "un error papu2"});
