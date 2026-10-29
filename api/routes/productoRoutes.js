@@ -4,11 +4,10 @@ const { mostrarProductos, productoId, agregarProducto, actualizarProducto, elimi
 // MIDDLEWARES
 
 const { auth } = require('../middlewares/auth.js');
-const { isAdmin } = require('../middlewares/isAdmin.js');
 
 const routes = Router() ;
 
-routes.get ('/admin/productos', auth, isAdmin, mostrarProductos); // routes.get('/', auth, mostrarProductos);
+routes.get ('/admin/productos', auth, mostrarProductos); // routes.get('/', auth, mostrarProductos);
 routes.get ('/:id', productoId); // RUTA ORIGINAL, LA CAMBIO PARA TESTEAR MIDDLEWARE
 routes.get ('/busqueda/query', productoBusqueda);
 
