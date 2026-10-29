@@ -8,18 +8,22 @@ import logo from '../../logo.png'
 function RestablecerCon() {
 
     const [searchParams] = useSearchParams();
-    const query = searchParams.get('token');
+    const token = searchParams.get('token');
     const [contraseña, setContraseña] = useState('');
     const [contraseñaV, setContraseñaV] = useState('');
 
 
     const recuperar = async () => {
       try {
-        if((contraseña != contraseñaV) && (contraseña == " " || contraseñaV == " ")){
-      }
-        const response = await axios.patch('http://localhost:3000/clientes/restablecer', {
-        query, contraseña
-      });
+        if((contraseña == contraseñaV) && (contraseña != "" || contraseñaV != "")){
+          const response = await axios.patch('http://localhost:3000/clientes/restablecer', {
+            token, contraseña
+          });
+          console.log(response);
+        }else{
+          alert("Las contraseñas no coinciden");
+        }
+        
 
       } catch (error) {
         console.log(error);
