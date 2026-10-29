@@ -211,41 +211,47 @@ const Perfil = async(req, res) => {
 
 const EditProfile = async(req, res) => {
     try {
-        const { nombre, apellido, telefono } = req.body;
-        const password = req.body.password;
-        const repeatPass = req.body.confirmar;
+        const { nombre, apellido, telefono, password } = req.body;
+        const confirmarNueva = req.body.confirmarNueva;
+        const viejaPassword = req.body.viejaPassword;
         const perfilCliente = await Cliente.findByPk(req.user.id, { include: Rol });
         
+        // no hay cliente, ta todo mal se re pudre
         if(!perfilCliente) {
             return res.status(404).json({ message: "Not Found" });
         }
-
-        if(!password || !repeatPass) {
-            return res.status(400).json({ message: "falta poner la contraseña" })
+        
+        if(!viejaPassword) {
+            return res.status(400).json({ message: "Debes ingresar tu contraseña actual para confirmar los cambios" });
         }
 
-        const esCorrecta = await bcrypt.compare(password, perfilCliente.password);
-
+        const esCorrecta = await bcrypt.compare(viejaPassword, perfilCliente.password); // guardo contraseña vieja
+        
         if(!esCorrecta) {
-            return res.status(400).json({ message: "La contraseña no es correcta"})
+            return res.status(400).json({ message: "No pudiste colocar la contraseña vieja bien, deshaciendo cambios.."})
         }
-
-        if(password !== repeatPass) {
-            return res.status(400).json({ message: "Las contraseñas no coinciden"})
-        }
-
+        
         if (nombre) {
             perfilCliente.nombre = nombre;
         }
-
+        
         if (apellido) {
             perfilCliente.apellido = apellido;
         }
-
+        
         if (telefono) {
             perfilCliente.telefono = telefono;
         }
 
+        if (password) {
+            // 67 67 67
+            if(password !== confirmarNueva) {
+                return res.status(400).json({ message: "Las contraseñas nuevas no coinciden"})
+            }
+
+            perfilCliente.password = await bcrypt.hash(password, 12);
+        }
+        
         await perfilCliente.save();
 
         res.status(200).json({ perfilCliente })
