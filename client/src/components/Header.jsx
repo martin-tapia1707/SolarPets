@@ -6,11 +6,13 @@ import btnRegistro from "../assets/BotonRegistrarse.png";
 import btnLogin from "../assets/BotonIniciarSesion.png";
 
 const LINKS = [
-  { href: "Servicios.php", texto: "Servicios" },
-  { href: "Turnos.php", texto: "Sacar turnos" },
-  { href: "Adopcion.php", texto: "Adopción" },
-  { href: "Delivery.php", texto: "Delivery" },
+  { texto: "Servicios" },
+  { texto: "Sacar turnos" },
+  { texto: "Adopción" },
+  { texto: "Delivery" },
 ];
+
+const sinAccion = (e) => e.preventDefault();
 
 const BOTONES_AUTH = [
   { to: "/register", img: btnRegistro, alt: "Registrarse" },
@@ -69,7 +71,7 @@ function Buscador({ buscador }) {
 function Perfil({ usuario }) {
   const { nombre, foto } = usuario;
   return (
-    <a className="ProfileLink" href="../Views/Profile.php" title={nombre || undefined}>
+    <Link className="ProfileLink" to="/profile" title={nombre || undefined}>
       {foto ? (
         <img src={foto} alt="Foto de perfil" className="ImgProfile" />
       ) : (
@@ -77,7 +79,7 @@ function Perfil({ usuario }) {
           {(nombre || "?").charAt(0).toUpperCase()}
         </span>
       )}
-    </a>
+    </Link>
   );
 }
 
@@ -105,13 +107,13 @@ function Drawer({ drawer, usuario, logout }) {
           &times;
         </button>
 
-        <a className="Link" href="../Views/PrincipalPage.php">Página principal</a>
-        {LINKS.map(({ href, texto }) => (
-          <a key={href} className="Link" href={href}>{texto}</a>
+          <Link className="Link" to="/" onClick={cerrar}>Página principal</Link>
+        {LINKS.map(({ texto }) => (
+          <a key={texto} className="Link" href="#" onClick={sinAccion}>{texto}</a>
         ))}
 
         {usuario?.esAdmin && (
-          <a className="Link admin-drawer" href="CRUD.php">Administración</a>
+          <a className="Link admin-drawer" href="#" onClick={sinAccion}>Administración</a>
         )}
         {usuario && (
           <button className="Link logout-btn" onClick={logout.pedir}>
@@ -166,9 +168,9 @@ export default function Header() {
         <Buscador buscador={buscador} />
 
         <nav className="right-links">
-          {usuario?.esAdmin && <a className="admin-btn" href="CRUD.php">ADMIN</a>}
-          {LINKS.map(({ href, texto }) => (
-            <a key={href} className="Link" href={href}>{texto}</a>
+          {usuario?.esAdmin && <a className="admin-btn" href="#" onClick={sinAccion}>ADMIN</a>}
+          {LINKS.map(({ texto }) => (
+            <a key={texto} className="Link" href="#" onClick={sinAccion}>{texto}</a>
           ))}
           {usuario ? <Perfil usuario={usuario} /> : <BotonesAuth cargando={cargando} />}
         </nav>
