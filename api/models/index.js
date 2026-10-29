@@ -1,6 +1,6 @@
 const { Categoria } = require("./categoriaModel.js");
 const { Cliente } = require("./clienteModel.js");
-const { Empleado } = require("./EmpleadoModel.js");
+const { Empleado } = require("./empleadoModel.js");
 const { Mascota } = require("./mascotaModel.js");
 const { Pedido } = require("./pedidoModel.js");
 const { Producto } = require("./productoModel.js");
@@ -8,7 +8,7 @@ const { Proveedor } = require("./proveedorModel.js");
 const { Reseña } = require("./reseñaModel.js");
 const { Rol } = require("./rolModel.js");
 const { SubCategoria } = require("./subCategoriaModel.js");
-
+const { Turno } = require("./turnoModel.js");
 
 //-------RELACION CLIENTE-MASCOTA-------
 Cliente.hasMany(Mascota, { foreignKey: 'idMascota' });
@@ -56,6 +56,14 @@ Pedido.belongsToMany(Producto, { through: 'productoPedido' });
 Cliente.hasOne(Reseña, { foreignKey: 'idCliente' });
 Reseña.belongsTo(Cliente, { foreignKey: 'idCliente' });
 
+//-------RELACION CLIENTE-TURNO--------
+Cliente.hasMany(Turno, {foreignKey: 'idCliente' });
+Turno.belongsTo(Cliente, { foreignKey: 'idCliente' });
+
+//-------RELACION EMPLEADO-TURNO--------
+Empleado.hasMany(Turno, { foreignKey: 'idEmpleado' });
+Turno.belongsTo(Empleado, { foreignKey: 'idEmpleado' });
+
 module.exports = {
     Cliente,
     Mascota,
@@ -66,5 +74,6 @@ module.exports = {
     Producto,
     Pedido,
     Proveedor,
-    Reseña
+    Reseña,
+    Turno
 };

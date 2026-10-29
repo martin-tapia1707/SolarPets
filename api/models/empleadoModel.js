@@ -4,8 +4,8 @@ const { DataTypes } = require('sequelize');
 const Empleado = sequelize.define('Empleado', {
 
 
-    dni: {
-        type: DataTypes.STRING(11),
+    id: {
+        type: DataTypes.INTEGER,
         primaryKey: true,
         allowNull: false 
     },

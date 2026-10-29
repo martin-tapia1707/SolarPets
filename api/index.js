@@ -28,6 +28,7 @@ const mascotaRoutes = require('./routes/mascotaRoutes.js');
 const pedidoRoutes = require('./routes/pedidoRoutes.js');
 const subcategoriaRoutes = require('./routes/subcategoriaRoutes.js');
 const empleadoRoutes = require('./routes/empleadoRoutes.js');
+const turnoRoutes = require('./routes/turnoRoutes.js');
 
 
 const server = express();
@@ -47,6 +48,7 @@ server.use("/mascota", mascotaRoutes);
 server.use("/pedido", pedidoRoutes);
 server.use("/subcategoria", subcategoriaRoutes);
 server.use("/empleado", empleadoRoutes);
+server.use("/turno", turnoRoutes);
 
 const PORT = 3000;
 server.listen(PORT, async () => {
