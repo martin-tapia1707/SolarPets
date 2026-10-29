@@ -9,7 +9,7 @@ import EditProfile from './components/EditProfile.jsx'
 import Buscador from './components/Buscador.jsx';
 import Header from './components/Header.jsx';
 import Recuperar from './components/Recuperar.jsx';
-import EstablecerCon from './components/EstablecerCon.jsx';
+import RestablecerCon from './components/RestablecerCon.jsx';
 import { useState } from 'react';
 
 function App() {
@@ -67,7 +67,7 @@ function App() {
     <Route path="/productos/:texto" element={<Buscador />}/>
     <Route path="/edit-profile" element={ <EditProfile/> }/>
     <Route path="/recuperarContraseña" element={<Recuperar/>}/>
-    <Route path="/restablecer" element={<EstablecerCon/>}/>
+    <Route path="/restablecer" element={<RestablecerCon/>}/>
 
 
     
