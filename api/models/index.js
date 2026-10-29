@@ -35,9 +35,9 @@ Mascota.belongsTo(Categoria, { foreignKey: 'idCategoria'});
 Categoria.hasMany(SubCategoria, { foreignKey: 'idCategoria' });
 SubCategoria.belongsTo(Categoria, { foreignKey: 'idCategoria' });
 
-//-------RELACION CATEGORIA-PRODUCTO--------
-Producto.belongsToMany(Categoria, { through: 'productoCategoria', timestamps: false  });
-Categoria.belongsToMany(Producto, { through: 'productoCategoria', timestamps: false, foreignKey: 'categoriaId' });
+//-------RELACION SUBCATEGORIA-PRODUCTO--------
+Producto.belongsToMany(SubCategoria, { through: 'productoSubCategoria', timestamps: false  });
+SubCategoria.belongsToMany(Producto, { through: 'productoSubCategoria', timestamps: false, foreignKey: 'SubCategoriaId'  });
 
 //-------RELACION PRODUCTO-PROVEEDORES--------
 Producto.belongsToMany(Proveedor, { through: 'productoProveedor' });

@@ -2,8 +2,17 @@ const { Cliente } = require('../models/clienteModel.js')
 const { Rol } = require('../models/rolModel.js')
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const nodemailer = require("nodemailer");
 
     const JWT_SECRET = "1234";
+
+const transporter = nodemailer.createTransport({
+        service: "gmail",
+        auth: {
+            user: "agustinescobar978@gmail.com",
+            pass: "pmby pvfh wxll xqaz", // no tu contraseña real
+        },
+});
 
 const mostrarCliente = async(req, res) =>{
     
@@ -264,4 +273,54 @@ const EditProfile = async(req, res) => {
     }
 }
 
-module.exports = { mostrarCliente, clientePorId, buscarRol, modificarCliente, eliminarCliente, Register, Login, Perfil, EditProfile };
+const recuperar = async(req, res) => {
+    try {
+        const { email } = req.body;
+        console.log(req.body);
+
+         const payload = {
+            correo: email
+        };
+
+        const token = jwt.sign( 
+            payload, 
+            JWT_SECRET,
+            { expiresIn: '1h' }
+        );
+
+        const mailOptions = {
+            from: '"SolarPets" <agustinescobar978@gmail.com>',
+            to: `${email}`,
+            subject: "Recuperar contraseña",
+            text: "Recuperar contraseña ",
+            html: `<h1>Hola ${email}</h1><p><b>Correo para recupera la contraseña (expira en una hora)</b></p><a href="http://localhost:5173/restablecer?token=${token}" target="_blank"
+                    style="display:inline-block; padding:16px 28px; background-color:#e6c364;
+                            color:#1a1405; font-weight:700; font-size:16px; text-decoration:none;
+                            border-radius:10px; font-family:Arial, sans-serif;">
+                    Establecer contraseña
+                    </a>`,
+        };
+
+        await transporter.sendMail(mailOptions);
+
+       
+
+        return res.status(200).json({respuesta: true});
+
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({mensaje: "un error papu"});
+    }
+}
+
+const restablecerCon = async(req,res) =>{
+    try {
+        console.log(req.query);
+        return res.status(200);
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({mensaje: "un error papu2"});
+    }
+}
+
+module.exports = { mostrarCliente, clientePorId, buscarRol, modificarCliente, eliminarCliente, Register, Login, Perfil, EditProfile, recuperar, restablecerCon };

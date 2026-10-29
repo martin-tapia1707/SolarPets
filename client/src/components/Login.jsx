@@ -45,7 +45,7 @@ function Login() {
       </div>
 
       <div className="login-links">
-        <p>¿No recuerdas tu contraseña? <a href="#">Recupera tu contraseña</a></p>
+        <p>¿No recuerdas tu contraseña?  <Link to="/recuperarContraseña">Recupera tu contraseña</Link></p>
         <p>¿No tenés una cuenta aún? <Link to="/register">Registrate</Link></p>
       </div>
 

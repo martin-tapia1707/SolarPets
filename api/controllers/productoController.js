@@ -18,7 +18,7 @@ const mostrarProductos = async(req, res)=>{
     try {
         const productos = await Producto.findAll();
         if(!productos){
-            res.status(404).json({message: "No se encontro nada"});
+            res.status(404).json({mensaje: "No se encontro nada"});
         }else{
             res.status(200).json(productos);
         } 
@@ -32,7 +32,7 @@ const productoId = async(req, res)=>{
         const { id } = req.params;
         const producto = await Producto.findByPk(Number(id));
         if(!producto){
-            res.status(404).json({message: "Producto no encontrado"});
+            res.status(404).json({mensaje: "Producto no encontrado"});
         }else{
             res.status(200).json(producto);
         }
@@ -45,10 +45,10 @@ const agregarProducto = async(req, res)=>{
     try {
         const { nombre, precio, stock } = req.body;
         if(!nombre || !precio || !stock){
-            res.status(500).json({message: "Complete todos los campos"});
+            res.status(500).json({mensaje: "Complete todos los campos"});
         }else{
             const nuevoProducto = await Producto.create({nombre: nombre, precio: precio, stock: stock});
-            res.status(201).json({message: "Producto creado con el id: " + nuevoProducto.id});
+            res.status(201).json({mensaje: "Producto creado con el id: " + nuevoProducto.id});
         }
     } catch (error) {
         res.status(500).json(error);
@@ -61,16 +61,16 @@ const actualizarProducto = async(req, res)=>{
         const { nombre, precio, stock } = req.body;
         const producto = await Producto.findByPk(Number(id));
         if(!nombre || !precio || !stock){
-            res.status(500).json({message: "Completar todos los datos"});
+            res.status(500).json({mensaje: "Completar todos los datos"});
         }
         if(!producto){
-            res.status(404).json({message: "Producto no encontrado"});
+            res.status(404).json({mensaje: "Producto no encontrado"});
         }else{
             producto.nombre = nombre;
             producto.precio = precio;
             producto.stock = stock;
             producto.save();
-            res.status(200).json({message: "producto actualizado: ", producto});
+            res.status(200).json({mensaje: "producto actualizado: ", producto});
         }
     } catch (error) {
         res.status(500).json(error);
@@ -82,10 +82,10 @@ const eliminarProducto = async(req, res)=>{
         const { id } = req.params;
         const producto = await Producto.findByPk(Number(id));
         if(!producto){
-            res.status(404).json({message: "producto no encontrado"});
+            res.status(404).json({mensaje: "producto no encontrado"});
         }else{
             await producto.destroy();
-            res.status(200).json({message: "El producto fue eliminada"});
+            res.status(200).json({mensaje: "El producto fue eliminada"});
         }
     } catch (error) {
         res.status(500).json(error);
@@ -95,9 +95,12 @@ const eliminarProducto = async(req, res)=>{
 const productoBusqueda = async(req,res)=>{
     try {
         const { _q } = req.query;
+        // Se "limpia" la busqueda
         const palabras = _q.split(" ");
         let palabrasFil = palabras.filter(palabras => !STOP_WORDS.includes(palabras));
         console.log(palabrasFil);
+
+        // Si la busqueda coincide con un sinonimo se expande la busqueda
         let palabrasConSinonimos = {};
         for(const palabra in sinonimos){
             for(let i = 0; i < sinonimos[palabra].length; i++){
@@ -108,10 +111,22 @@ const productoBusqueda = async(req,res)=>{
                         break;
                     }
                 }
-            }
+            } 
         }
 
+        console.log(palabrasConSinonimos);
+        if(Object.keys(palabrasConSinonimos).length > 0 && palabrasFil.length == 0){
+            const verificar = Object.keys(palabrasConSinonimos).some(palabra => 
+                palabra.includes("perro", "gato")
+            );
+            console.log(verificar);
+            if(verificar){
+                console.log("Gato o perro carajo");
+            }
+        }
+        //Se empieza a preparar la consulta con los sinonimos y sin ellos
         let consulta = [];
+
         if(Object.keys(palabrasConSinonimos).length > 0){
             for(const palabra in palabrasConSinonimos){
             const estructura = {[Op.or]:  palabrasConSinonimos[palabra].map(pal => ({
@@ -133,10 +148,7 @@ const productoBusqueda = async(req,res)=>{
             } 
         }
         
-        
-        
-        
-        console.log(consulta);
+        // console.log(consulta);
         
         const productosBus = await Producto.findAll({
             where: {
@@ -147,8 +159,8 @@ const productoBusqueda = async(req,res)=>{
         }
         return res.status(200).json(productosBus);
     } catch (error) {
-        return res.status(500).json(error.message);
+        return res.status(500).json(error.mensaje);
     }
 }
 
-module.exports = {mostrarProductos, productoId, agregarProducto, actualizarProducto, eliminarProducto, productoBusqueda}
+module.exports = {mostrarProductos, productoId, agregarProducto, actualizarProducto, eliminarProducto, productoBusqueda} 
