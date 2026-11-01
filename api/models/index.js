@@ -25,7 +25,7 @@ Cliente.belongsTo(Rol, { foreignKey: 'idRol'});
 
 //-------RELACION EMPLEADO-ROL--------
 Rol.hasMany(Empleado, { foreignKey: 'idRol'});
-Cliente.belongsTo(Rol, { foreignKey: 'idRol' })
+Empleado.belongsTo(Rol, { foreignKey: 'idRol' })
 
 //-------RELACION MASCOTA-CATEGORIA--------
 Categoria.hasMany(Mascota, { foreignKey: 'idCategoria' });

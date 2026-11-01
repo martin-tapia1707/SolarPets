@@ -18,7 +18,7 @@ const Mascota = sequelize.define(
       allowNull: false
     },
     animal: {
-      type: DataTypes.BOOLEAN,            
+      type: DataTypes.STRING(20),            
       allowNull: true
     },
     raza: {

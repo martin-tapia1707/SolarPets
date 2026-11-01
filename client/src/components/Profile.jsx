@@ -88,7 +88,6 @@ function Profile() {
 
             <div className="profile-actions">
                 <button onClick={editarPerfil}>Editar Perfil <i className="fi fi-br-edit"></i></button>  
-                <button>Solicitar turno</button>
                 <button>Ver mis Turnos Pendientes</button>
                 <button onClick={eliminarCliente}>Eliminar mi cuenta</button>
                 <button onClick={cerrarSesion}>Cerrar sesion</button>

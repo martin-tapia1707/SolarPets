@@ -8,7 +8,10 @@ const Turno = sequelize.define('Turno', {
         primaryKey: true,
         autoIncrement: true
     },
-
+    idCliente: {
+        type: DataTypes.INTEGER,
+        allowNull: false
+    },
     nombre: {
         type: DataTypes.STRING(50),
         allowNull: false
@@ -25,12 +28,12 @@ const Turno = sequelize.define('Turno', {
     },
     
     animal: {
-        type: DataTypes.BOOLEAN,            
+        type: DataTypes.STRING(20),            
         allowNull: true
     },
     raza: {
-      type: DataTypes.STRING(100),        
-      allowNull: false
+        type: DataTypes.STRING(100),        
+        allowNull: false
     },
 
     servicio: {

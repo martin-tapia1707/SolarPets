@@ -90,7 +90,7 @@ export default function useHeader() {
   // sepa la bola
   useEffect(() => {
     if (!drawerAbierto && !modalAbierto) return;
-    const previo = document.body.style.overflow;
+    const previo = document.body.style.overflow; 
     document.body.style.overflow = "hidden";
     return () => {
       document.body.style.overflow = previo;

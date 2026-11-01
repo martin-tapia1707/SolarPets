@@ -10,6 +10,7 @@ import Buscador from './components/Buscador.jsx';
 import Header from './components/Header.jsx';
 import Recuperar from './components/Recuperar.jsx';
 import RestablecerCon from './components/RestablecerCon.jsx';
+import SolicitarTurno from './components/SolicitarTurno.jsx';
 import { useState } from 'react';
 
 function App() {
@@ -39,6 +40,7 @@ function App() {
         {token ? 
         ( <div>
             <Link to="/profile">Ir a tu Perfil</Link>
+            <Link to="/sacarturno">Solicitar Turno</Link>
           </div> ) : ( 
               <>
                 <div>
@@ -68,7 +70,7 @@ function App() {
     <Route path="/edit-profile" element={ <EditProfile/> }/>
     <Route path="/recuperarContraseña" element={<Recuperar/>}/>
     <Route path="/restablecer" element={<RestablecerCon/>}/>
-
+    <Route path="/sacarturno" element={<SolicitarTurno/>}/>
 
     
 

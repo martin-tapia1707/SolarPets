@@ -36,7 +36,7 @@ function EditProfile() {
                 })
 
 
-                alert("todu bem")
+                alert("Perfil actualizado correctamente")
                 console.log(response.data);
 
                 navigate('/profile');

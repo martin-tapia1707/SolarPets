@@ -1,0 +1,193 @@
+    @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap");
+
+    .turno {
+    --azul: #3b5a94;
+    --verde: #5f8450;
+    --borde: #b9b9b9;
+    --placeholder: #a8a8a8;
+
+    display: flex;
+    min-height: 100vh;
+    background: #fff;
+    font-family: "Poppins", sans-serif;
+    }
+
+    /* ---------- Columna del formulario ---------- */
+    .turno__form {
+    flex: 0 0 48%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 14px;
+    padding: 32px 28px;
+    box-sizing: border-box;
+    }
+
+    .turno__titulo {
+    margin: 0 0 18px;
+    text-align: center;
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: var(--azul);
+    }
+
+    /* ---------- Inputs y textarea ---------- */
+    .turno__campo,
+    .turno__motivo,
+    .turno__lista summary {
+    width: 100%;
+    box-sizing: border-box;
+    border: 1px solid var(--borde);
+    border-radius: 10px;
+    background: #fff;
+    font-family: inherit;
+    font-size: 0.72rem;
+    color: #333;
+    }
+
+    .turno__campo {
+    padding: 9px 10px;
+    }
+
+    .turno__campo::placeholder,
+    .turno__motivo::placeholder {
+    color: var(--placeholder);
+    }
+
+    .turno__motivo {
+    height: 84px;
+    padding: 10px;
+    resize: none;
+    }
+
+    .turno__campo:focus,
+    .turno__motivo:focus,
+    .turno__lista summary:focus-visible {
+    outline: 2px solid var(--azul);
+    outline-offset: 1px;
+    }
+
+    /* ---------- Listas desplegables (con ^) ---------- */
+    .turno__lista {
+    position: relative;
+    }
+
+    .turno__lista summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 9px 10px;
+    color: var(--placeholder);
+    cursor: pointer;
+    list-style: none;
+    }
+
+    .turno__lista summary::-webkit-details-marker {
+    display: none;
+    }
+
+    .turno__lista summary::after {
+    content: "^";
+    color: #111;
+    font-size: 0.8rem;
+    transition: transform 0.2s;
+    }
+
+    .turno__lista[open] summary::after {
+    transform: rotate(180deg);
+    }
+
+    .turno__lista ul {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    right: 0;
+    z-index: 10;
+    margin: 0;
+    padding: 4px 0;
+    list-style: none;
+    background: #fff;
+    border: 1px solid var(--borde);
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    }
+
+    .turno__lista ul:empty {
+    display: none;
+    }
+
+    .turno__lista li {
+    padding: 8px 12px;
+    font-size: 0.72rem;
+    color: #333;
+    cursor: pointer;
+    }
+
+    .turno__lista li:hover {
+    background: #f1f4ee;
+    }
+
+    /* ---------- Botón ---------- */
+    .turno__boton {
+    margin-top: 10px;
+    padding: 10px;
+    border: none;
+    border-radius: 999px;
+    background: var(--verde);
+    color: #fff;
+    font-family: inherit;
+    font-size: 0.85rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: filter 0.2s;
+    }
+
+    .turno__boton:hover {
+    filter: brightness(0.92);
+    }
+
+    /* ---------- Imagen ---------- */
+    .turno__imagen {
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+    }
+
+    .turno__imagen img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 30% center;
+    }
+
+    /* sombra sutil en el borde izquierdo de la imagen */
+    .turno__imagen::before {
+    content: "";
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: 14px;
+    z-index: 1;
+    background: linear-gradient(to right, rgba(0, 0, 0, 0.3), transparent);
+    }
+
+    /* ---------- Mobile ---------- */
+    @media (max-width: 720px) {
+    .turno {
+        flex-direction: column-reverse;
+    }
+
+    .turno__form {
+        flex: none;
+    }
+
+    .turno__imagen {
+        height: 220px;
+        flex: none;
+    }
+
+    .turno__imagen::before {
+        display: none;
+    }
+}

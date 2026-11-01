@@ -17,6 +17,10 @@ function Register() {
 
     const userRegister = async () => {
 
+    if (!email || !password || !nombre || !apellido || !telefono) {
+        return alert("Complete todos los campos");
+    }
+
     try {
             const response = await axios.post('http://localhost:3000/clientes/register', {
                 email,
