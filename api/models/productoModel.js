@@ -30,7 +30,7 @@ const Producto = sequelize.define('Producto', {
         type: DataTypes.TEXT,
         allowNull: false
     },
-    tipoAnimal: {                   // 1: Gato, 0: Perro, Null: Mixto
+    tipoAnimal: {                   // 1: Perro, 0: gato, Null: Mixto
         type: DataTypes.BOOLEAN,
         allowNull: true        
     }

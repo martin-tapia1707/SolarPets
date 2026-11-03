@@ -9,13 +9,28 @@ function Buscador() {
     const [searchParams] = useSearchParams();
     const query = searchParams.get('_q');
     const [productos, setProductos] = useState([]);
+    const [productosV, setProductosV] = useState([]);
+    const [pages, setPages] = useState(0);
     const navigate = useNavigate();
 
     const mostrar = async () => {
         try {
             console.log(query);
             const response = await axios.get(`http://localhost:3000/producto/busqueda/query?_q=${query}`);
-            setProductos(response.data);
+            const datos = response.data;
+            setProductos(datos);
+            // for(let i = 0; i < productos.length; i++){
+
+            // }
+            console.log(datos);
+            console.log(datos.length);
+            const paginasTotales = Math.ceil(datos.length / 3);
+            setPages(paginasTotales);
+            console.log(paginasTotales);
+            const productosPagina = [];
+            for(let i = 0; i < paginasTotales; i++){
+
+            }
         } catch (error) {
             if (error.response?.status === 404) {
                 setProductos([]);
@@ -51,6 +66,7 @@ function Buscador() {
                             </div>
                         ))}
                     </div>
+
                 </div>
             ) : (
                 <div className="error-busqueda">

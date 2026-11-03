@@ -6,7 +6,7 @@ const STOP_WORDS = [
   "el", "la", "los", "las", "un", "una", "unos", "unas", "lo", "al", "del",
   "a", "ante", "bajo", "cabe", "contra", "de", "desde", "durante", "en",
   "entre", "hacia", "hasta", "mediante", "para", "por", "segun", "so",
-  "sobre", "tras", "via"];
+  "sobre", "tras", "via", "y"];
 
   const sinonimos = {
     "alimento": ["alimento", "comida"],
@@ -115,45 +115,51 @@ const productoBusqueda = async(req,res)=>{
         }
 
         console.log(palabrasConSinonimos);
-        if(Object.keys(palabrasConSinonimos).length > 0 && palabrasFil.length == 0){
-            const verificar = Object.keys(palabrasConSinonimos).some(palabra => 
-                palabra.includes("perro", "gato")
-            );
-            console.log(verificar);
-            if(verificar){
-                console.log("Gato o perro carajo");
-            }
-        }
+
+        
         //Se empieza a preparar la consulta con los sinonimos y sin ellos
         let consulta = [];
 
-        if(Object.keys(palabrasConSinonimos).length > 0){
-            for(const palabra in palabrasConSinonimos){
-            const estructura = {[Op.or]:  palabrasConSinonimos[palabra].map(pal => ({
-                nombre: {
-                    [Op.like]: `%${pal}%` 
-                },
-            }))};
-            consulta.push(estructura);
-            }  
+        const tiposAnimal = [];
+        if (palabrasConSinonimos["gato"]){
+            tiposAnimal.push(0);
+        } 
+        if (palabrasConSinonimos["perro"]){
+            tiposAnimal.push(1);
+        } 
+        if (tiposAnimal.length === 1) {
+            // Solo gato o solo perro: ese tipo + los que sirven para ambos (NULL)
+            consulta.push({
+                [Op.or]: [
+                    { tipoAnimal: tiposAnimal[0] },
+                    { tipoAnimal: null }
+                ]
+            });
+        }else if(tiposAnimal.length === 2){
+            consulta.push({ tipoAnimal: null });
         }
+
+        for (const palabra in palabrasConSinonimos) {
+            if (palabra === "gato" || palabra === "perro"){
+                continue;
+            }else{
+                consulta.push({
+                    [Op.or]: palabrasConSinonimos[palabra].map(pal => ({
+                        nombre: { [Op.like]: `%${pal}%` }
+                    }))
+                });
+            }
+        }
+
         if(palabrasFil.length > 0){
-            for(const palabra in palabrasFil){
-            const estructura = {[Op.or]: {  
-                nombre: {
-                    [Op.like]: `%${palabrasFil[palabra]}%` 
-                },
-            }};
-            consulta.push(estructura);
-            } 
+            for (const palabra of palabrasFil) {
+                consulta.push({ nombre: { [Op.like]: `%${palabra}%` } });
+            }
         }
         
-        // console.log(consulta);
-        
-        const productosBus = await Producto.findAll({
-            where: {
-                [Op.and]: consulta
-            }});
+        console.log(consulta);
+        const where = consulta.length > 0 ? { [Op.and]: consulta } : {};
+        const productosBus = await Producto.findAll({ where });
         if(productosBus.length == 0){
             return res.status(404).json({message: "Productos no existente"});
         }

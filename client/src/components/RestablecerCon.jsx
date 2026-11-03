@@ -15,16 +15,14 @@ function RestablecerCon() {
 
     const recuperar = async () => {
       try {
-        if((contraseña == contraseñaV) && (contraseña != "" || contraseñaV != "")){
+        if((contraseña === contraseñaV) && (contraseña != "" || contraseñaV != "")){
           const response = await axios.patch('http://localhost:3000/clientes/restablecer', {
             token, contraseña
           });
-          console.log(response);
+          alert(response.data.mensaje);
         }else{
-          alert("Las contraseñas no coinciden");
+          alert("Las contraseñas no coinciden o estan vacias");
         }
-        
-
       } catch (error) {
         console.log(error);
       }
@@ -56,7 +54,7 @@ function RestablecerCon() {
         <p>¿No tenés una cuenta aún? <Link to="/register">Registrate</Link></p>
       </div>
 
-      <button type="submit" onClick={recuperar}>Enviar verificacion</button>
+      <button type="submit" onClick={recuperar}>Restablecer contraseña</button>
 
     </div>
     </div>

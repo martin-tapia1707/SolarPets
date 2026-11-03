@@ -276,8 +276,14 @@ const EditProfile = async(req, res) => {
 const recuperar = async(req, res) => {
     try {
         const { email } = req.body;
+        const client = await Cliente.findOne({where: {
+            email: email
+        }});
+        if(!client){
+            return res.status(404).json({mensaje: "Correo no registrado"});
+        }
         
-         const payload = {
+        const payload = {
             correo: email
         };
 
@@ -292,23 +298,18 @@ const recuperar = async(req, res) => {
             to: `${email}`,
             subject: "Recuperar contraseña",
             text: "Recuperar contraseña ",
-            html: `<h1>Hola ${email}</h1><p><b>Correo para recupera la contraseña (expira en una hora)</b></p><a href="http://localhost:5173/restablecer?token=${token}" target="_blank"
+            html: `<h1>Hola ${client.nombre}</h1><p><b>Correo para recupera la contraseña (expira en una hora)</b></p><a href="http://localhost:5173/restablecer?token=${token}" target="_blank"
                     style="display:inline-block; padding:16px 28px; background-color:#e6c364;
                             color:#1a1405; font-weight:700; font-size:16px; text-decoration:none;
                             border-radius:10px; font-family:Arial, sans-serif;">
                     Establecer contraseña
                     </a>`,
         };
-
         await transporter.sendMail(mailOptions);
-
-       
-
-        return res.status(200).json({respuesta: true});
+        return res.status(200).json({mensaje: "Se ha enviado un correo para restablecer la contraseña con 1h de expiracion"});
 
     } catch (error) {
-        console.log(error);
-        return res.status(500).json({mensaje: "un error papu"});
+        return res.status(500).json({mensaje: "error en el servidor"});
     }
 }
 
@@ -320,10 +321,9 @@ const restablecerCon = async(req,res) =>{
         }});
         client.password = await bcrypt.hash(password, 12);
         await client.save();
-        return res.status(200).json({mensaje: "joya"});
+        return res.status(200).json({mensaje: "contraseña restablecida con exito"});
     } catch (error) {
-        console.log(error);
-        return res.status(500).json({mensaje: "un error papu2"});
+        return res.status(500).json({mensaje: "error en el servidor"});
     }
 }
 

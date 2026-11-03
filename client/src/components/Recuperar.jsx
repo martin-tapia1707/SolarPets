@@ -1,21 +1,27 @@
 import { useState } from 'react';
 import axios from "axios";
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import './Login.css'
 import logo from '../../logo.png'
 
 function Recuperar() {
 
-    const navigate = useNavigate();
     const [email, setEmail] = useState('');
 
     const recuperar = async () => {
-      const response = await axios.post('http://localhost:3000/clientes/recuperar', {
-        email
-      });
-      if(response.data.respuesta == true){
-        alert("se le a enviado un correo para restablecer la contraseña con un maximo de una hora");
+      try{
+        const response = await axios.post('http://localhost:3000/clientes/recuperar', {
+          email
+        });
+        if(response.status === 200){
+          alert(response.data.mensaje);
+        }
+        
+      }catch(error){
+        if(error.response.status === 404){
+          alert(error.response.data.mensaje);
+        }
       }
     }
 
