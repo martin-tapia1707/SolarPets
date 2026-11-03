@@ -37,9 +37,9 @@ const agregarTurno = async (req, res) => {
             return res.status(400).json({ message: "Complete todos los campos" });
         }
             const nuevoTurno = await Turno.create({idCliente: req.user.id, nombre: nombre, cita: cita, motivo: motivo, animal: animal, raza: raza, servicio: servicio});
+
             res.status(201).json({message: "Turno creado, asignó el id: " + nuevoTurno.id})
         
-
     } catch (error) {
         return res.status(500).json({ error: error.message })
     }
@@ -87,7 +87,26 @@ const descartarTurno = async (req, res) => {
     }
 }
 
+// ENDPOINT PARA LISTATURNOS JSX
+
+const clienteTurnos = async (req, res) => {
+    try {
+
+        const turnosCliente = await Turno.findAll
+        ({
+            where: 
+                {
+                    idCliente: req.user.id
+                }
+        });
+
+        res.status(200).json({ message: "Turnos encontrados: ", turnosCliente })
+
+    } catch (error) {
+        return res.status(500).json({ error: error.message })
+    }
+}
 
 
 
-module.exports = {buscarTurno, turnosPorId, agregarTurno, modificarTurno, descartarTurno};
+module.exports = {buscarTurno, turnosPorId, agregarTurno, modificarTurno, descartarTurno, clienteTurnos};

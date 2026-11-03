@@ -1,0 +1,65 @@
+    @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&display=swap");
+
+    .turnos {
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 1300px;
+    min-height: 385px;
+    margin: 50px auto 50px;
+    padding: 21px 39px 39px;
+    background: #efe8dc;
+    border-radius: 12px;
+    }
+
+    .turnos__titulo {
+    margin: 0 0 23px;
+    text-align: center;
+    font-family: "Poppins", sans-serif;
+    font-size: 21px;
+    font-weight: 600;
+    color: #1f2e78;
+    }
+
+    .turnos__tabla {
+    width: 100%;
+    border-collapse: collapse;
+    /* "fixed" = todas las columnas del mismo ancho. Si querés que se adapten al contenido, cambialo a "auto" */
+    table-layout: fixed;
+    box-shadow: 0 5px 5px rgba(0, 0, 0, 0.35);
+    }
+
+    .turnos__tabla th {
+    padding: 5px 9px;
+    background: #5f8350;
+    color: #ffffff;
+    font-family: "Poppins", sans-serif;
+    font-size: 17px;
+    font-weight: 700;
+    text-align: center;
+    }
+
+    .turnos__tabla td {
+    padding: 6px 9px;
+    background: #ffffff;
+    color: #000000;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 18px;
+    text-align: center;
+    }
+
+    /* Separador entre filas cuando haya más de una */
+    .turnos__tabla tbody tr + tr td {
+    border-top: 1px solid #e3ddd0;
+    }
+
+    @media (max-width: 600px) {
+    .turnos {
+        padding: 16px 12px 24px;
+    }
+
+    .turnos__tabla th,
+    .turnos__tabla td {
+        font-size: 12px;
+        padding: 4px;
+    }
+    }

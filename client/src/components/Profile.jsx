@@ -65,8 +65,12 @@ function Profile() {
     }, []);
 
     const editarPerfil = () => {
-    navigate('/edit-profile');
+        navigate('/edit-profile');
     };
+
+    const listaTurnos = () => {
+        navigate('/lista-turnos');
+    }
 
     return (
         <div className="profile-page">
@@ -88,7 +92,7 @@ function Profile() {
 
             <div className="profile-actions">
                 <button onClick={editarPerfil}>Editar Perfil <i className="fi fi-br-edit"></i></button>  
-                <button>Ver mis Turnos Pendientes</button>
+                <button onClick={listaTurnos}>Ver mis Turnos Pendientes</button>
                 <button onClick={eliminarCliente}>Eliminar mi cuenta</button>
                 <button onClick={cerrarSesion}>Cerrar sesion</button>
             </div>

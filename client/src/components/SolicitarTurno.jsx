@@ -22,7 +22,9 @@ function SolicitarTurno() {
         return alert("Complete todos los campos");
     }
 
-    const citaCompleta = cita + ' ' + hora; // combino fecha y hora en una variable, por lo que vi no hay input date/hour asi que solo queda esto po
+
+
+    const citaCompleta = `${cita}T${hora}:00`; // combino fecha y hora en una variable, por lo que vi no hay input date/hour asi que solo queda esto po
 
     if (new Date(citaCompleta) <= new Date()) {
     return alert("La fecha u hora deben ser posteriores a la actual");
@@ -30,6 +32,7 @@ function SolicitarTurno() {
 
         try{
             const token = localStorage.getItem('token');
+
             const response = await axios.post('http://localhost:3000/turno', {
                 nombre,
                 cita: citaCompleta,
