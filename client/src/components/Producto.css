@@ -140,6 +140,104 @@ body {
   max-width: 900px;
 }
 
+/* --- Selector de cantidad --- */
+.producto-cantidad {
+  display: inline-flex;
+  align-items: center;
+  margin: 8px 0 4px;
+  border: 1px solid #c9d3e3;
+  border-radius: 999px;
+  background-color: #ffffff;
+  overflow: hidden;
+}
+
+.btn-cantidad {
+  width: 42px;
+  height: 42px;
+  border: none;
+  background-color: transparent;
+  color: #0d47a1;
+  font-size: 1.4rem;
+  font-weight: 600;
+  line-height: 1;
+  cursor: pointer;
+  transition: background-color 0.15s ease, transform 0.1s ease;
+}
+
+.btn-cantidad:hover {
+  background-color: #e3edff;
+}
+
+.btn-cantidad:active {
+  transform: scale(0.9);
+}
+
+.btn-cantidad:disabled {
+  color: #b0b8c5;
+  background-color: transparent;
+  cursor: not-allowed;
+}
+
+.cantidad-valor {
+  min-width: 48px;
+  text-align: center;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #1c1c1c;
+  user-select: none;
+}
+
+/* --- Selector de cantidad --- */
+.cantidad-selector {
+  display: inline-flex;
+  align-items: center;
+  margin-top: 8px;
+  padding: 4px;
+  border: 1px solid #d0d7e2;
+  border-radius: 999px;
+  background-color: #f7f9fc;
+}
+
+.cantidad-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border: none;
+  border-radius: 50%;
+  background-color: #0d47a1;
+  color: #ffffff;
+  font-size: 1.6rem;
+  font-weight: 600;
+  line-height: 1;
+  cursor: pointer;
+  transition: background-color 0.15s ease, transform 0.1s ease;
+}
+
+.cantidad-btn:hover {
+  background-color: #1565c0;
+}
+
+.cantidad-btn:active {
+  transform: scale(0.92);
+}
+
+.cantidad-btn:focus-visible {
+  outline: 3px solid #90caf9;
+  outline-offset: 2px;
+}
+
+/* Selector más largo para ganarle a ".producto-info h3:nth-of-type(1)" */
+.producto-info .cantidad-selector .cantidad-valor {
+  min-width: 56px;
+  margin: 0;
+  text-align: center;
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #1c1c1c;
+  user-select: none;
+}
 /* --- Responsive --- */
 @media (max-width: 900px) {
   .producto-card {

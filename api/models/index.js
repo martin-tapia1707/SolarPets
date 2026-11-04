@@ -9,6 +9,8 @@ const { Reseña } = require("./reseñaModel.js");
 const { Rol } = require("./rolModel.js");
 const { SubCategoria } = require("./subCategoriaModel.js");
 const { Turno } = require("./turnoModel.js");
+const { Carrito } = require("./carritoModel.js");
+const { ItemCarrito } = require("./itemCarritoModel.js");
 
 //-------RELACION CLIENTE-MASCOTA-------
 Cliente.hasMany(Mascota, { foreignKey: 'idMascota' });
@@ -40,13 +42,20 @@ Producto.belongsToMany(SubCategoria, { through: 'productoSubCategoria', timestam
 SubCategoria.belongsToMany(Producto, { through: 'productoSubCategoria', timestamps: false, foreignKey: 'SubCategoriaId'  });
 
 //-------RELACION PRODUCTO-PROVEEDORES--------
-Producto.belongsToMany(Proveedor, { through: 'productoProveedor' });
+Producto.belongsToMany(Proveedor, { through: 'productoProveedor'});
 Proveedor.belongsToMany(Producto, { through: 'productoProveedor' });
 
+//-------RELACION Cliente-Carrito--------
+Cliente.hasMany(Carrito, { foreignKey: 'clienteId' });
+Carrito.belongsTo(Cliente, { foreignKey: 'clienteId' });
 
-//-------RELACION CLIENTE-PRODUCTO--------
-Producto.belongsToMany(Cliente, { through: 'productoCliente' });
-Cliente.belongsToMany(Producto, { through: 'productoCliente' });
+//-------RELACION Carrito-ItemCarrito--------
+Carrito.hasMany(ItemCarrito, { foreignKey: 'carritoId', onDelete: 'CASCADE' });
+ItemCarrito.belongsTo(Carrito, { foreignKey: 'carritoId' });
+
+//-------RELACION Producto-ItemCarrito--------
+Producto.hasMany(ItemCarrito, { foreignKey: 'productoId' });
+ItemCarrito.belongsTo(Producto, { foreignKey: 'productoId' });
 
 //-------RELACION PRODUCTO-PEDIDOS--------
 Producto.belongsToMany(Pedido, { through: 'productoPedido' });
@@ -75,5 +84,7 @@ module.exports = {
     Pedido,
     Proveedor,
     Reseña,
-    Turno
+    Turno,
+    Carrito,
+    ItemCarrito
 };

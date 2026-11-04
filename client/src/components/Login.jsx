@@ -22,6 +22,8 @@ function Login() {
       console.log(response.data.token); // referencia para saber si devuelve el token bien
       localStorage.setItem("token", response.data.token);
       alert("Inicio de sesión correctamente")
+      const token = localStorage.getItem('token');
+      await axios.post('http://localhost:3000/carrito/asignar', {}, { headers: { token: token } });
     }
 
   return (

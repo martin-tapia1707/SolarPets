@@ -6,11 +6,15 @@ import './Buscador.css';
 function Buscador() {
     // solucionar o mejor dicho hacer que no se muestre la parte de producto no encontrado cuando si hay resultados
     
-    const [searchParams] = useSearchParams();
-    const query = searchParams.get('_q');
     const [productos, setProductos] = useState([]);
     const [productosV, setProductosV] = useState([]);
-    const [pages, setPages] = useState(0);
+
+    const [searchParams] = useSearchParams();
+    const query = searchParams.get('_q');
+    const page = parseInt(searchParams.get('page')) || 1;
+    const productosPag = 3;
+    
+
     const navigate = useNavigate();
 
     const mostrar = async () => {
@@ -19,18 +23,28 @@ function Buscador() {
             const response = await axios.get(`http://localhost:3000/producto/busqueda/query?_q=${query}`);
             const datos = response.data;
             setProductos(datos);
-            // for(let i = 0; i < productos.length; i++){
 
-            // }
-            console.log(datos);
-            console.log(datos.length);
-            const paginasTotales = Math.ceil(datos.length / 3);
-            setPages(paginasTotales);
-            console.log(paginasTotales);
-            const productosPagina = [];
-            for(let i = 0; i < paginasTotales; i++){
-
+            //Verifico que el page no sea "ilogico"
+            const paginasT = Math.ceil(datos.length / productosPag);
+            if(page > paginasT){
+                navigate(`/productos/${query}?_q=${query}&page=${paginasT}`);
+                return;
+            }else if(page < 1){
+                navigate(`/productos/${query}?_q=${query}&page=1`);
+                return;
             }
+
+            //Productos que vera el usuario en la pagina actual
+            const productosPagina = [];
+            for(let i = (productosPag * page) - productosPag; i < (productosPag * page); i++){
+                if(datos[i]){
+                    productosPagina.push(datos[i]);
+                }
+            }
+            setProductosV(productosPagina);
+
+            
+            
         } catch (error) {
             if (error.response?.status === 404) {
                 setProductos([]);
@@ -41,7 +55,23 @@ function Buscador() {
 
     useEffect(() => {
         mostrar();
-    }, [query]);
+    }, [query, page]);
+
+    const totalPaginas = Math.ceil(productos.length / productosPag);
+    const urlPagina = (n) => `/productos/${query}?_q=${query}&page=${n}`;
+
+    // Muestra: 1 ... (actual-1) actual (actual+1) ... última
+    const numerosPaginas = () => {
+        const items = [];
+        for (let i = 1; i <= totalPaginas; i++) {
+            if (i === 1 || i === totalPaginas || Math.abs(i - page) <= 1) {
+                items.push(i);
+            } else if (items[items.length - 1] !== "…") {
+                items.push("…");
+            }
+        }
+        return items;
+    };
 
     return (
         <>
@@ -50,7 +80,7 @@ function Buscador() {
                     <h2 className="buscador__titulo">{productos.length} productos</h2>
 
                     <div className="grilla">
-                        {productos.map((producto) => (
+                        {productosV.map((producto) => (
                             <div className="tarjeta" key={producto.id}>
                                 <Link to={`/producto/${producto.id}`} className="tarjeta__link">
                                     <img
@@ -66,7 +96,36 @@ function Buscador() {
                             </div>
                         ))}
                     </div>
+                        {totalPaginas > 1 && (
+                        <nav className="paginador" aria-label="Paginación de resultados">
+                            {page > 1 ? (
+                                <Link className="paginador__flecha" to={urlPagina(page - 1)} aria-label="Página anterior">‹</Link>
+                            ) : (
+                                <span className="paginador__flecha paginador__flecha--off" aria-hidden="true">‹</span>
+                            )}
 
+                            {numerosPaginas().map((n, i) =>
+                                n === "…" ? (
+                                    <span key={`gap-${i}`} className="paginador__puntos">…</span>
+                                ) : (
+                                    <Link
+                                        key={n}
+                                        to={urlPagina(n)}
+                                        className={`paginador__item ${n === page ? "paginador__item--activo" : ""}`}
+                                        aria-current={n === page ? "page" : undefined}
+                                    >
+                                        {n}
+                                    </Link>
+                                )
+                            )}
+
+                            {page < totalPaginas ? (
+                                <Link className="paginador__flecha" to={urlPagina(page + 1)} aria-label="Página siguiente">›</Link>
+                            ) : (
+                                <span className="paginador__flecha paginador__flecha--off" aria-hidden="true">›</span>
+                            )}
+                        </nav>
+                    )}
                 </div>
             ) : (
                 <div className="error-busqueda">
@@ -106,8 +165,3 @@ function Buscador() {
 
 export default Buscador;
 
-// Incersiones de productos:
-
-// INSERT INTO `productos` (`id`, `nombre`, `precio`, `stock`, `imagen`, `descripcion`) VALUES
-// (3, 'Alimento Para Perros Adultos Sabor Carne Y Pollo Maintenance Criadores 15kg', 34203.00, 10, 'https://static.cotodigital3.com.ar/sitios/fotos/large/00616400/00616462.jpg', 'Alimento Para Perros Adultos Sabor Carne Y Pollo Maintenance Criadores 15kg'),
-// (4, 'Alimento En Sobres WHISKAS 85 Gr Pollo', 1399.00, 25, 'https://static.cotodigital3.com.ar/sitios/fotos/large/00231100/00231118.jpg', 'Whiskas Sobrecitos Pouch Sabor Carne 85 Grs.\r\n\r\nWhiskas en sobrecitos adulto sabor Carne en SALSA, es un alimento húmedo nutricionalmente completo y balanceado. Son trocitos de carne cocidos al vapor en una deliciosa salsa. Su fórmula contiene proteínas de alta calidad proporcionando los nutrientes que ellos necesitan todos los días, manteniéndolos siempre saludables. Desarrollados con un 80% de agua en su composición aportan 1/3 de las necesidades hídricas de un gato al día. Esto ayuda a prevenir las enfermedades de tracto urinario que se originan con el stress y falta de ingesta diaria de agua (algo normal en los gatos debido a su origen desértico)\r\nPara gatos adultos ofrecer hasta tres sobresitos por día. (1 Sobresito = 85 grs.)');

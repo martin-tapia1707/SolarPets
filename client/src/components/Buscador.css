@@ -190,3 +190,76 @@
 @media (max-width: 480px) {
   .grilla { grid-template-columns: 1fr; }
 }
+
+/* Paginador */
+.paginador {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 36px;
+  padding-bottom: 12px;
+}
+
+.paginador__item,
+.paginador__flecha {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 40px;
+  height: 40px;
+  padding: 0 12px;
+  box-sizing: border-box;
+  border-radius: 20px;
+  background-color: #f5ece0;
+  color: #3a3028;
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  transition: background-color 0.2s ease, color 0.2s ease,
+              transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.paginador__flecha {
+  font-size: 20px;
+  line-height: 1;
+}
+
+.paginador__item:hover,
+.paginador__flecha:not(.paginador__flecha--off):hover {
+  background-color: #1c5b8f;
+  color: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.15);
+}
+
+.paginador__item--activo,
+.paginador__item--activo:hover {
+  background-color: #1c5b8f;
+  color: #fff;
+  cursor: default;
+  transform: none;
+  box-shadow: 0 4px 10px rgba(28, 91, 143, 0.35);
+}
+
+.paginador__flecha--off {
+  opacity: 0.4;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.paginador__puntos {
+  min-width: 24px;
+  text-align: center;
+  color: #3a3028;
+  font-weight: 700;
+  letter-spacing: 2px;
+}
+
+@media (max-width: 480px) {
+  .paginador { gap: 6px; }
+  .paginador__item,
+  .paginador__flecha { min-width: 36px; height: 36px; }
+}

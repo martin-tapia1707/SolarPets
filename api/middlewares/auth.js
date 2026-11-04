@@ -66,4 +66,30 @@ const verificarExpiracion = (req, res, next) => {
     }
 }
 
-module.exports = { auth, verificarExpiracion }
+const verificarLogin = (req, res, next) => {
+
+    try{
+        const token = req.headers["token"];
+
+        if(!token) {
+            return res.status(401).json({
+                message: "Acceso denegado"
+            })
+        }
+
+        // Verifica que el token no haya expirado o sea valido(haya sido firmado correctamente).
+        const decoded = jwt.verify( token, JWT_SECRET );
+
+        req.user = decoded; 
+        // decoded es todo lo que estaba en el payload, req user es una variable nueva que le estoy 
+        // asignando el valor de decoded, para poder usarlo en los endpoints que requieran autenticación.
+
+        // Si todo esta bien, siga a la petición deseada
+        return next();
+
+    } catch(error) {
+        return res.status(401).json({ message: "Token invalido o expirado" })
+    }
+}
+
+module.exports = { auth, verificarExpiracion, verificarLogin }

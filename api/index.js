@@ -29,6 +29,7 @@ const pedidoRoutes = require('./routes/pedidoRoutes.js');
 const subcategoriaRoutes = require('./routes/subcategoriaRoutes.js');
 const empleadoRoutes = require('./routes/empleadoRoutes.js');
 const turnoRoutes = require('./routes/turnoRoutes.js');
+const carritoRoutes = require('./routes/carritoRoutes.js');
 
 
 const server = express();
@@ -49,13 +50,13 @@ server.use("/pedido", pedidoRoutes);
 server.use("/subcategoria", subcategoriaRoutes);
 server.use("/empleado", empleadoRoutes);
 server.use("/turno", turnoRoutes);
-
+server.use("/carrito", carritoRoutes);
 const PORT = 3000;
 server.listen(PORT, async () => {
   try {
     await sequelize.authenticate();
     await sequelize.sync({force: false}); // force: true para actualizar la BD, aunque se borran datos 
-    console.log("Conexión exitosa a la Base de Datos");
+    console.log("Conexión exitosa a la Base de Datos"); 
     console.log(`El servidor está ON en el puerto ${PORT}`);
   } catch (error) {
     console.error(
@@ -64,3 +65,6 @@ server.listen(PORT, async () => {
     );
   }
 });
+
+
+// INSERT INTO `roles`( `nombre`, `descripcion`) VALUES ('admin','pues admin'), ('empleado','pues empleado'), ('user','pues user');
