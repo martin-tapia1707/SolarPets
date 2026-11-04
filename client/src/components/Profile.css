@@ -9,7 +9,9 @@
   --sp-blue-dark: #2a4877;
   --sp-red: #e44a4a;
   --sp-red-dark: #c93a3a;
-  --sp-green: #4a8a2c;
+  --sp-green: #862323;
+  --sp-admin: #862323;        /* nuevo */
+  --sp-admin-dark: #6d2828;   /* nuevo: hover */
   --sp-yellow: #ffeaa5;
   --sp-text: #1a1a1a;
   --sp-text-soft: #4a4a4a;
@@ -135,6 +137,8 @@
   background: var(--sp-blue-dark);
 }
 
+
+
 /* 3er y 4to botón (Eliminar cuenta / Cerrar sesión): rojos */
 .profile-actions button:nth-child(n+3) {
   background: var(--sp-red);
@@ -142,6 +146,15 @@
 
 .profile-actions button:nth-child(n+3):hover {
   background: var(--sp-red-dark);
+}
+
+/* Botones de administración: verdes (pisan al rojo del n+3) */
+.profile-actions button.btn-admin {
+  background: var(--sp-admin);
+}
+
+.profile-actions button.btn-admin:hover {
+  background: var(--sp-admin-dark);
 }
 
 .profile-actions button:active {

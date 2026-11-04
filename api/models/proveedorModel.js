@@ -18,6 +18,10 @@ const Proveedor = sequelize.define('Proveedor', {
     direccion: {
         type: DataTypes.STRING(50),
         allowNull: false
+    },
+    enlace: {
+        type: DataTypes.STRING(255),
+        allowNull: true
     }
 },
     {

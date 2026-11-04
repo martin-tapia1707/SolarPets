@@ -33,14 +33,15 @@ const proveedorId = async(req, res)=>{
 
 const agregarProveedor = async(req, res)=>{
     try {
-        const { nombre, telefono, direccion } = req.body;
-        if(!nombre || !telefono || !direccion){
+        const { nombre, telefono, direccion, enlace } = req.body;
+        if(!nombre || !telefono || !direccion || !enlace){
             return res.status(400).json({message: "Complete todos los campos"});
         }else{
             const proveedor = await Proveedor.create({
                 nombre: nombre,
                 telefono: telefono,
-                direccion: direccion
+                direccion: direccion,
+                enlace: enlace
             });
             res.status(201).json({message: "Proveedor creado con el id: " + proveedor.id});
         }
@@ -53,8 +54,8 @@ const agregarProveedor = async(req, res)=>{
 const actualizarProveedor = async(req, res)=>{
     try {
         const { id } = req.params;
-        const { nombre, telefono, direccion } = req.body;
-        if(!nombre || !telefono || !direccion){
+        const { nombre, telefono, direccion, enlace } = req.body;
+        if(!nombre || !telefono || !direccion || !enlace){
             return res.status(400).json({message: "Complete todos los campos"});
         }else{
             const proveedor = await Proveedor.findByPk(Number(id));
@@ -64,6 +65,7 @@ const actualizarProveedor = async(req, res)=>{
                 proveedor.nombre = nombre;
                 proveedor.telefono = telefono;
                 proveedor.direccion = direccion;
+                proveedor.enlace = enlace;
                 proveedor.save();
                 res.status(200).json({message: "Proveedor actualizado", proveedor});
             }

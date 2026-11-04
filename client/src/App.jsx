@@ -12,6 +12,7 @@ import Recuperar from './components/Recuperar.jsx';
 import RestablecerCon from './components/RestablecerCon.jsx';
 import SolicitarTurno from './components/solicitarTurno.jsx';
 import ListaTurnos from './components/ListaTurnos.jsx';
+import ListaProveedores from './components/ListaProveedores.jsx';
 import { useState } from 'react';
 
 function App() {
@@ -73,6 +74,7 @@ function App() {
     <Route path="/restablecer" element={<RestablecerCon/>}/>
     <Route path="/sacarturno" element={<SolicitarTurno/>}/>
     <Route path="/lista-turnos" element={<ListaTurnos/>}/>
+    <Route path="/lista-proveedores" element={<ListaProveedores/>}/>
 
     
 

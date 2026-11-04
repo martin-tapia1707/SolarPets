@@ -72,6 +72,10 @@ function Profile() {
         navigate('/lista-turnos');
     }
 
+    const listaProovedores = () => {
+        navigate('/lista-proveedores');
+    }
+
     return (
         <div className="profile-page">
         <div className="profile-card">
@@ -93,6 +97,14 @@ function Profile() {
             <div className="profile-actions">
                 <button onClick={editarPerfil}>Editar Perfil <i className="fi fi-br-edit"></i></button>  
                 <button onClick={listaTurnos}>Ver mis Turnos Pendientes</button>
+
+                {user && user.Rol.nombre === "Administrador" ? (
+                    <>
+                    <button className="btn-admin" onClick={listaProovedores}>Administrar Proveedores</button>
+                    <button className="btn-admin">Panel Administración</button>
+                    </>
+                ) : null}
+
                 <button onClick={eliminarCliente}>Eliminar mi cuenta</button>
                 <button onClick={cerrarSesion}>Cerrar sesion</button>
             </div>
