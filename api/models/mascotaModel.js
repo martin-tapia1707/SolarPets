@@ -41,6 +41,10 @@ const Mascota = sequelize.define(
       type: DataTypes.DATE,   
       allowNull: true
     },
+    dueño: {
+      type: DataTypes.BOOLEAN,
+      allowNull: true
+    },
   },
   {
     tableName: "mascotas",

@@ -14,7 +14,11 @@ const Pedido = sequelize.define('Pedido', {
     fecha: {
         type: DataTypes.DATE,
         allowNull: false
-    }
+    },
+    contenido: {
+        type: DataTypes.TEXT,
+        allowNull: true,
+    },
 },
     {
         tableName: 'pedidos',
