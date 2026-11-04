@@ -1,183 +1,113 @@
-import "./Header.css";
-import { Link } from "react-router-dom";
-import useHeader from "./useHeader";
-import logo from "../assets/SolarPetsIcono.png";
-import btnRegistro from "../assets/BotonRegistrarse.png";
-import btnLogin from "../assets/BotonIniciarSesion.png";
-
-const LINKS = [
-  { texto: "Servicios" },
-  { texto: "Sacar turnos" },
-  { texto: "Adopción" },
-  { texto: "Delivery" },
-];
-
-const sinAccion = (e) => e.preventDefault();
-
-const BOTONES_AUTH = [
-  { to: "/register", img: btnRegistro, alt: "Registrarse" },
-  { to: "/login", img: btnLogin, alt: "Iniciar sesión" },
-];
-
-function Logo() {
-  return (
-    <Link to="/" className="center-logo" aria-label="Solar Pets, perros y gatos">
-      <img src={logo} alt="Icono de la empresa" className="logo" />
-      <span className="brand">
-        <span className="brand-name">Solar Pets</span>
-        <span className="brand-sub">PERROS Y GATOS</span>
-      </span>
-    </Link>
-  );
+import { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+ 
+import './Header.css';
+import logo from '../../logo.png';
+ 
+function Header() {
+ 
+    const navigate = useNavigate();
+    const [menuAbierto, setMenuAbierto] = useState(false);
+    const [busqueda, setBusqueda] = useState('');
+    useEffect(() => {
+        if (!menuAbierto) return;
+ 
+        const cerrarConEscape = (event) => {
+            if (event.key === 'Escape') setMenuAbierto(false);
+        };
+ 
+        window.addEventListener('keydown', cerrarConEscape);
+        return () => window.removeEventListener('keydown', cerrarConEscape);
+    }, [menuAbierto]);
+ 
+    const buscarProducto = (event) => {
+        event.preventDefault();
+        const q = encodeURIComponent(busqueda.trim().toLowerCase());
+        if (!q) return;
+        navigate(`/productos/${q}?_q=${q}`);
+    };
+ 
+    const cerrarMenu = () => setMenuAbierto(false);
+ 
+    return (
+        <>
+            <header className="header">
+ 
+                <button
+                    type="button"
+                    className="header-hamburguesa"
+                    aria-label="Abrir menú"
+                    aria-expanded={menuAbierto}
+                    onClick={() => setMenuAbierto(true)}
+                >
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+ 
+                <Link to="/" className="header-logo">
+                    <img src={logo} alt="Solar Pets" />
+                    <div className="header-wordmark">
+                        <strong>Solar Pets</strong>
+                        <span>PERROS Y GATOS</span>
+                    </div>
+                </Link>
+ 
+                <form className="header-buscador" onSubmit={buscarProducto}>
+                    <button type="submit" className="header-buscador-btn" aria-label="Buscar">
+                        <svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+                            <circle cx="10" cy="10" r="7" />
+                            <line x1="15.5" y1="15.5" x2="22" y2="22" />
+                        </svg>
+                    </button>
+                    <input
+                        type="text"
+                        placeholder="Buscar un producto.."
+                        value={busqueda}
+                        onChange={(event) => setBusqueda(event.target.value)}
+                    />
+                </form>
+ 
+                <nav className="header-nav">
+                    <Link to="">Servicios</Link>
+                    <Link to="">Adopción</Link>
+                    <Link to="">Delivery</Link>
+                </nav>
+ 
+                <div className="header-sesion">
+                    <Link to="/register" className="header-btn">Registrarse</Link>
+                    <Link to="/login" className="header-btn">Iniciar sesión</Link>
+                </div>
+ 
+            </header>
+ 
+            <div
+                className={`sidebar-overlay ${menuAbierto ? 'sidebar-overlay--abierto' : ''}`}
+                onClick={cerrarMenu}
+            ></div>
+ 
+            <aside className={`sidebar ${menuAbierto ? 'sidebar--abierta' : ''}`} aria-hidden={!menuAbierto}>
+ 
+                <div className="sidebar-top">
+                    <div className="header-wordmark">
+                        <strong>SolarPets</strong>
+                        <span>PERROS Y GATOS</span>
+                    </div>
+                    <button type="button" className="sidebar-cerrar" aria-label="Cerrar menú" onClick={cerrarMenu}>
+                        ✕
+                    </button>
+                </div>
+ 
+                <nav className="sidebar-links">
+                    <Link to="" onClick={cerrarMenu}>Servicios</Link>
+                    <Link to="" onClick={cerrarMenu}>Adopción</Link>
+                    <Link to="" onClick={cerrarMenu}>Delivery</Link>
+                    <Link to="/sacarturno" className="sidebar-turno" onClick={cerrarMenu}>Solicitar turno</Link>
+                </nav>
+ 
+            </aside>
+        </>
+    );
 }
-
-function Buscador({ buscador }) {
-  return (
-    <form
-      className={`search${buscador.abierto ? " open" : ""}`}
-      role="search"
-      onSubmit={buscador.buscar}
-    >
-      <button
-        type="button"
-        className="search-toggle"
-        aria-label="Buscar"
-        onClick={buscador.alternar}
-      >
-        <svg
-          className="search-icon"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-        >
-          <circle cx="10.5" cy="10.5" r="6.5" />
-          <line x1="15.5" y1="15.5" x2="21" y2="21" />
-        </svg>
-      </button>
-      <input
-        type="search"
-        className="search-input"
-        placeholder="Buscar un producto.."
-        ref={buscador.inputRef}
-        value={buscador.texto}
-        onChange={(e) => buscador.setTexto(e.target.value)}
-      />
-    </form>
-  );
-}
-
-function Perfil({ usuario }) {
-  const { nombre, foto } = usuario;
-  return (
-    <Link className="ProfileLink" to="/profile" title={nombre || undefined}>
-      {foto ? (
-        <img src={foto} alt="Foto de perfil" className="ImgProfile" />
-      ) : (
-        <span className="ImgProfile avatar-fallback" aria-label="Perfil">
-          {(nombre || "?").charAt(0).toUpperCase()}
-        </span>
-      )}
-    </Link>
-  );
-}
-
-function BotonesAuth({ cargando }) {
-  return (
-    <div className={`auth-buttons${cargando ? " auth-loading" : ""}`} aria-hidden={cargando}>
-      {BOTONES_AUTH.map(({ to, img, alt }) => (
-        <Link key={to} to={to} className="auth-link" tabIndex={cargando ? -1 : undefined}>
-          <img src={img} alt={alt} />
-        </Link>
-      ))}
-    </div>
-  );
-}
-
-function Drawer({ drawer, usuario, logout }) {
-  const cerrar = () => drawer.setAbierto(false);
-  const clase = drawer.abierto ? " active" : "";
-
-  return (
-    <>
-      <div className={`drawer-backdrop${clase}`} onClick={cerrar} />
-      <aside className={`drawer${clase}`} id="drawer" inert={!drawer.abierto} aria-hidden={!drawer.abierto}>
-        <button className="drawer-close" aria-label="Cerrar menú" onClick={cerrar}>
-          &times;
-        </button>
-
-          <Link className="Link" to="/" onClick={cerrar}>Página principal</Link>
-        {LINKS.map(({ texto }) => (
-          <a key={texto} className="Link" href="#" onClick={sinAccion}>{texto}</a>
-        ))}
-
-        {usuario?.esAdmin && (
-          <a className="Link admin-drawer" href="#" onClick={sinAccion}>Administración</a>
-        )}
-        {usuario && (
-          <button className="Link logout-btn" onClick={logout.pedir}>
-            Cerrar sesión
-          </button>
-        )}
-      </aside>
-    </>
-  );
-}
-
-function ModalLogout({ logout }) {
-  return (
-    <div
-      className={`logout-modal${logout.abierto ? " open" : ""}`}
-      role="dialog"
-      aria-modal="true"
-      aria-labelledby="logoutTitle"
-      aria-hidden={!logout.abierto}
-      onClick={logout.clicFondo}
-    >
-      <div className="logout-content">
-        <h3 id="logoutTitle">¿Seguro que quieres cerrar tu sesión actual?</h3>
-        <div className="logout-buttons">
-          <button className="confirm" onClick={logout.confirmar}>Sí, cerrar sesión</button>
-          <button className="cancel" onClick={logout.cancelar}>Cancelar</button>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-export default function Header() {
-  const { usuario, cargando, drawer, buscador, logout } = useHeader();
-
-  return (
-    <>
-      <header>
-        <button
-          className="hamburger"
-          aria-label="Abrir menú"
-          aria-controls="drawer"
-          aria-expanded={drawer.abierto}
-          onClick={() => drawer.setAbierto(true)}
-        >
-          <span></span>
-          <span></span>
-          <span></span>
-        </button>
-
-        <Logo />
-        <Buscador buscador={buscador} />
-
-        <nav className="right-links">
-          {usuario?.esAdmin && <a className="admin-btn" href="#" onClick={sinAccion}>ADMIN</a>}
-          {LINKS.map(({ texto }) => (
-            <a key={texto} className="Link" href="#" onClick={sinAccion}>{texto}</a>
-          ))}
-          {usuario ? <Perfil usuario={usuario} /> : <BotonesAuth cargando={cargando} />}
-        </nav>
-      </header>
-
-      <Drawer drawer={drawer} usuario={usuario} logout={logout} />
-      <ModalLogout logout={logout} />
-    </>
-  );
-}
+ 
+export default Header;
