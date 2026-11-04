@@ -12,7 +12,7 @@ function Buscador() {
     const [searchParams] = useSearchParams();
     const query = searchParams.get('_q');
     const page = parseInt(searchParams.get('page')) || 1;
-    const productosPag = 3;
+    const productosPag = 6;
     
 
     const navigate = useNavigate();

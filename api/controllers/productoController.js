@@ -1,6 +1,8 @@
 const { where, Op, or } = require('sequelize');
 const { sequelize } = require('../config/database.js');
-const { Producto} = require('../models/index.js');
+const { Producto } = require('../models/index.js');
+const { SubCategoria } = require('../models/index.js');
+const { Categoria } = require('../models/index.js');
 
 const STOP_WORDS = [
   "el", "la", "los", "las", "un", "una", "unos", "unas", "lo", "al", "del",
@@ -92,6 +94,33 @@ const eliminarProducto = async(req, res)=>{
     }
 }
 
+const singular = (p) => (p.length > 3 && p.endsWith("s") ? p.slice(0, -1) : p);
+
+const buscarSubcategoriasIds = async (palabra) => {
+    if (palabra.length < 3) return null; // evita coincidencias falsas con LIKE
+    const base = singular(palabra);
+
+    const subs = await SubCategoria.findAll({
+        where: { nombre: { [Op.like]: `%${base}%` } },
+        attributes: ["id"]
+    });
+    if (subs.length > 0) return subs.map(s => s.id);
+
+    const cats = await Categoria.findAll({
+        where: { nombre: { [Op.like]: `%${base}%` } },
+        attributes: ["id"]
+    });
+    if (cats.length > 0) {
+        const subsDeCats = await SubCategoria.findAll({
+            where: { idCategoria: { [Op.in]: cats.map(c => c.id) } },
+            attributes: ["id"]
+        });
+        return subsDeCats.map(s => s.id);
+    }
+
+    return null;
+};
+
 const productoBusqueda = async(req,res)=>{
     try {
         const { _q } = req.query;
@@ -120,6 +149,14 @@ const productoBusqueda = async(req,res)=>{
         //Se empieza a preparar la consulta con los sinonimos y sin ellos
         let consulta = [];
 
+        let idsSubcategorias = null;
+        const aplicarFiltroCategoria = (ids) => {
+            // Intersección: cada palabra de categoría restringe más el resultado
+            idsSubcategorias = idsSubcategorias === null
+                ? ids
+                : idsSubcategorias.filter(id => ids.includes(id));
+        };
+
         const tiposAnimal = [];
         if (palabrasConSinonimos["gato"]){
             tiposAnimal.push(0);
@@ -143,6 +180,11 @@ const productoBusqueda = async(req,res)=>{
             if (palabra === "gato" || palabra === "perro"){
                 continue;
             }else{
+                const ids = await buscarSubcategoriasIds(palabra);
+                if (ids !== null) {
+                    aplicarFiltroCategoria(ids);
+                    continue;
+                }
                 consulta.push({
                     [Op.or]: palabrasConSinonimos[palabra].map(pal => ({
                         nombre: { [Op.like]: `%${pal}%` }
@@ -151,21 +193,38 @@ const productoBusqueda = async(req,res)=>{
             }
         }
 
-        if(palabrasFil.length > 0){
-            for (const palabra of palabrasFil) {
-                consulta.push({ nombre: { [Op.like]: `%${palabra}%` } });
+        for (const palabra of palabrasFil) {
+            const ids = await buscarSubcategoriasIds(palabra);
+            if (ids !== null) {
+                aplicarFiltroCategoria(ids);
+                continue;
             }
+            consulta.push({ nombre: { [Op.like]: `%${palabra}%` } });
         }
         
-        console.log(consulta);
+        console.log(consulta, idsSubcategorias);
+
+        if (idsSubcategorias !== null && idsSubcategorias.length === 0) {
+            return res.status(404).json({ message: "Productos no existente" });
+        }
+
+        const include = [];
+        if (idsSubcategorias !== null) {
+            include.push({
+                model: SubCategoria,
+                through: { attributes: [] }, // oculta la tabla intermedia
+                required: true,              // solo productos con esas subcategorías
+                where: { id: { [Op.in]: idsSubcategorias } }
+            });
+        }
         const where = consulta.length > 0 ? { [Op.and]: consulta } : {};
-        const productosBus = await Producto.findAll({ where });
+        const productosBus = await Producto.findAll({ where, include  });
         if(productosBus.length == 0){
             return res.status(404).json({message: "Productos no existente"});
         }
         return res.status(200).json(productosBus);
     } catch (error) {
-        return res.status(500).json(error.mensaje);
+        return res.status(500).json(error.message);
     }
 }
 
