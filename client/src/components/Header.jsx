@@ -5,6 +5,8 @@ import './Header.css';
 import logo from '../../logo.png';
  
 function Header() {
+
+    const token = localStorage.getItem('token');
  
     const navigate = useNavigate();
     const [menuAbierto, setMenuAbierto] = useState(false);
@@ -69,14 +71,25 @@ function Header() {
                 </form>
  
                 <nav className="header-nav">
-                    <Link to="">Servicios</Link>
-                    <Link to="">Adopción</Link>
-                    <Link to="">Delivery</Link>
+                    <Link to="sacarturno">Sacar Turno</Link>
                 </nav>
  
                 <div className="header-sesion">
-                    <Link to="/register" className="header-btn">Registrarse</Link>
-                    <Link to="/login" className="header-btn">Iniciar sesión</Link>
+                    {token ? (
+                        <Link to="/profile" className="header-btn">
+                            Ir a tu Perfil
+                        </Link>
+                    ) : (
+                        <>
+                            <Link to="/register" className="header-btn">
+                                Registrarse
+                            </Link>
+
+                            <Link to="/login" className="header-btn">
+                                Iniciar sesión
+                            </Link>
+                        </>
+                    )}
                 </div>
  
             </header>

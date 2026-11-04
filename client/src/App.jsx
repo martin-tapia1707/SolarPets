@@ -5,7 +5,7 @@ import Profile from './components/Profile';
 import Register from './components/Register';
 import Mainsite from './components/Mainsite';
 import ObtenerProducto from './components/Producto.jsx';
-import EditProfile from './components/EditProfile.jsx'
+import EditProfile from './components/EditProfile.jsx';
 import Buscador from './components/Buscador.jsx';
 import Header from './components/Header.jsx';
 import Recuperar from './components/Recuperar.jsx';
@@ -14,75 +14,59 @@ import SolicitarTurno from './components/solicitarTurno.jsx';
 import ListaTurnos from './components/ListaTurnos.jsx';
 import ListaProveedores from './components/ListaProveedores.jsx';
 import Carrito from './components/Carrito.jsx';
+
 import { useState } from 'react';
 
 function App() {
   const navigate = useNavigate();
   const [texto, setTexto] = useState("");
 
-  const buscar = (e)=>{
-    e.preventDefault(); // Sino utilizo esto no muestra el query
+  const buscar = (e) => {
+    e.preventDefault();
     setTexto(encodeURIComponent(texto.toLowerCase()));
     navigate(`/productos/${texto}?_q=${texto}`);
-  }
-
-  const token = localStorage.getItem('token');
+  };
 
   return (
+    <>
+      <Header />
 
-  <>
+      <Routes>
 
+        <Route path="/" element={
+          <div>
+            <Mainsite />
 
-  
-  <Header />
-  <Routes>
+            <br/><br/>
 
+            <div>
+              <input
+                type="text"
+                placeholder="Buscar producto"
+                onChange={(event) => setTexto(event.target.value)}
+              />
+              <button onClick={buscar}>Buscar</button>
+            </div>
+          </div>
+        } />
 
-    <Route path="/" element={
-      <div>
-        {token ? 
-        ( <div>
-            <Link to="/profile">Ir a tu Perfil</Link>
-            <Link to="/sacarturno">Solicitar Turno</Link>
-          </div> ) : ( 
-              <>
-                <div>
-                <Link to="/login">Iniciar Sesión</Link>
-                </div>
-        
-                <div>
-                <Link to="/register">Registrarse</Link>
-                </div> 
-              </>
-        )}
-        
-        <Mainsite />
+        <Route path="/header" element={<Header />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/profile" element={<Profile />} />
+        <Route path="/producto/:id" element={<ObtenerProducto />} />
+        <Route path="/productos/:texto" element={<Buscador />} />
+        <Route path="/edit-profile" element={<EditProfile />} />
+        <Route path="/recuperarContraseña" element={<Recuperar />} />
+        <Route path="/restablecer" element={<RestablecerCon />} />
+        <Route path="/sacarturno" element={<SolicitarTurno />} />
+        <Route path="/lista-turnos" element={<ListaTurnos />} />
+        <Route path="/lista-proveedores" element={<ListaProveedores />} />
+        <Route path="/carrito" element={<Carrito />} />
 
-        <br/><br/>
-        <div>
-          <input type="text" placeholder='Buscar producto' onChange={(event) => setTexto(event.target.value)}/><button onClick={buscar}>Buscar</button>
-        </div>
-      </div>} />
-
-    <Route path="/header" element={<Header/>}/>  
-    <Route path="/login" element={<Login />} />
-    <Route path="/register" element={<Register />} />
-    <Route path="/profile" element={<Profile />} />    
-    <Route path='/producto/:id' element={<ObtenerProducto />}/>
-    <Route path="/productos/:texto" element={<Buscador />}/>
-    <Route path="/edit-profile" element={ <EditProfile/> }/>
-    <Route path="/recuperarContraseña" element={<Recuperar/>}/>
-    <Route path="/restablecer" element={<RestablecerCon/>}/>
-    <Route path="/sacarturno" element={<SolicitarTurno/>}/>
-    <Route path="/lista-turnos" element={<ListaTurnos/>}/>
-    <Route path="/lista-proveedores" element={<ListaProveedores/>}/>
-    <Route path="/carrito" element={<Carrito/>}/>
-    
-
-  </Routes>
-  </>
-
-  )
+      </Routes>
+    </>
+  );
 }
 
-export default App
+export default App;

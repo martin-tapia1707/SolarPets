@@ -76,6 +76,10 @@ function Profile() {
         navigate('/lista-proveedores');
     }
 
+    const carrito = () =>{
+        navigate('/carrito');
+    }
+
     return (
         <div className="profile-page">
         <div className="profile-card">
@@ -97,6 +101,7 @@ function Profile() {
             <div className="profile-actions">
                 <button onClick={editarPerfil}>Editar Perfil <i className="fi fi-br-edit"></i></button>  
                 <button onClick={listaTurnos}>Ver mis Turnos Pendientes</button>
+                <button onClick={carrito}>Ingresar al carro</button>
 
                 {user && user.Rol.nombre === "Administrador" ? (
                     <>
