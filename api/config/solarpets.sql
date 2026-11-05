@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 05-11-2026 a las 13:51:56
+-- Tiempo de generación: 05-11-2026 a las 14:06:00
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -32,16 +32,6 @@ CREATE TABLE `carrito` (
   `estado` tinyint(1) NOT NULL DEFAULT 0,
   `clienteId` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `carrito`
---
-
-INSERT INTO `carrito` (`id`, `estado`, `clienteId`) VALUES
-(1, 1, NULL),
-(2, 1, 2),
-(3, 0, 3),
-(4, 1, 3);
 
 -- --------------------------------------------------------
 
@@ -99,14 +89,6 @@ CREATE TABLE `clientes` (
   `idRol` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Volcado de datos para la tabla `clientes`
---
-
-INSERT INTO `clientes` (`id`, `email`, `nombre`, `apellido`, `telefono`, `password`, `idRol`) VALUES
-(2, 'tapiamartin590@gmail.com', 'Leonel', 'Tapia', '123123123', '$2b$12$4cqJmb0CN1ES4rJBJD.v2eM7KYuU/4b3hCwqVMTSeHP16LIU/QzDK', 3),
-(3, 'asd@gmail.com', 'asd', 'asd', '123123123', '$2b$12$MvMmYusAo4wCOAZU5jKfSuDokDOdC5XsAmjB6zpB4qpW9VNrc94bW', 3);
-
 -- --------------------------------------------------------
 
 --
@@ -141,14 +123,6 @@ CREATE TABLE `itemcarrito` (
   `carritoId` int(11) DEFAULT NULL,
   `productoId` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `itemcarrito`
---
-
-INSERT INTO `itemcarrito` (`id`, `cantidad`, `precioUnitario`, `carritoId`, `productoId`) VALUES
-(1, 3, 4000.00, 3, NULL),
-(2, 3, 8000.00, 3, NULL);
 
 -- --------------------------------------------------------
 
@@ -310,9 +284,8 @@ CREATE TABLE `proveedor` (
 --
 
 INSERT INTO `proveedor` (`id`, `nombre`, `telefono`, `direccion`, `enlace`) VALUES
-(1, 'Happy Pet', '1133845416', 'Se maneja de manera virtual', 'https://www.happypets.ar/?gad_source=1&gad_campaignid=23630555939&gbraid=0AAAAABq10XMtadC3C0LnJ8WoybovUz-Vp&gclid=CjwKCAiAzKvXBhBAEiwABLl9Art6FELgSggyDyhCZd5yVd5Nb-0pcZ_sutgBRIAL0kYDu8gaTRR31xoCELoQAvD_BwE'),
-(2, 'Peyga', '1126772328', 'Helguera 348, Flores, Ciudad Autónoma de Buenos Ai', 'https://www.pega.com.ar/'),
-(3, 'Tit Can Gross', '03534415221', 'La Laguna, Córdoba, Argentina', 'https://www.distribuidora-victoria.com.ar/distribuidor/tit-can-gross-tcg/');
+(1, 'HappyPet', '1133845416', 'Se maneja de forma virtual', 'https://www.happypets.ar/camas-moises/?gad_source=1&gad_campaignid=23630555939&gbraid=0AAAAABq10XP2lcgPUUsIt66mDBzN-hY-r&gclid=Cj0KCQiA77DXBhCHARIsAHf2MNo6x7SVkschQnzQRAjkzWJqbkHMxmZzaSJlG0dSVVNbwm4seH9JgrEaAoToEALw_wcB'),
+(2, 'Peyga', '1126772328', 'Helguera 348, Flores, CABA, Argentina', 'https://www.pega.com.ar/');
 
 -- --------------------------------------------------------
 
@@ -325,7 +298,7 @@ CREATE TABLE `reseñas` (
   `valoracion` int(11) NOT NULL,
   `descripcion` text NOT NULL,
   `idCliente` int(11) DEFAULT NULL,
-  `idProducto` int(11) NOT NULL
+  `idProducto` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -347,7 +320,7 @@ CREATE TABLE `roles` (
 INSERT INTO `roles` (`id`, `nombre`, `descripcion`) VALUES
 (1, 'Administrador', 'asd'),
 (2, 'Empleado', 'asd'),
-(3, 'Cliente', 'asd');
+(5, 'Cliente', 'asd');
 
 -- --------------------------------------------------------
 
@@ -398,13 +371,6 @@ CREATE TABLE `turnos` (
   `fechaCreacion` datetime NOT NULL,
   `idEmpleado` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `turnos`
---
-
-INSERT INTO `turnos` (`id`, `idCliente`, `nombre`, `cita`, `motivo`, `animal`, `raza`, `servicio`, `fechaCreacion`, `idEmpleado`) VALUES
-(2, 2, 'Perro', '2026-12-12 12:00:00', 'Vomito', 'perro', 'Doberman', 'veterinaria', '2026-11-04 13:48:06', NULL);
 
 --
 -- Índices para tablas volcadas
@@ -506,7 +472,7 @@ ALTER TABLE `proveedor`
 ALTER TABLE `reseñas`
   ADD PRIMARY KEY (`id`),
   ADD KEY `idCliente` (`idCliente`),
-  ADD KEY `fk_reseña_producto` (`idProducto`);
+  ADD KEY `idProducto` (`idProducto`);
 
 --
 -- Indices de la tabla `roles`
@@ -538,7 +504,7 @@ ALTER TABLE `turnos`
 -- AUTO_INCREMENT de la tabla `carrito`
 --
 ALTER TABLE `carrito`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `categorias`
@@ -550,13 +516,13 @@ ALTER TABLE `categorias`
 -- AUTO_INCREMENT de la tabla `clientes`
 --
 ALTER TABLE `clientes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de la tabla `itemcarrito`
 --
 ALTER TABLE `itemcarrito`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `mascotas`
@@ -586,13 +552,13 @@ ALTER TABLE `proveedor`
 -- AUTO_INCREMENT de la tabla `reseñas`
 --
 ALTER TABLE `reseñas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `roles`
 --
 ALTER TABLE `roles`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de la tabla `subcategorias`
@@ -604,7 +570,7 @@ ALTER TABLE `subcategorias`
 -- AUTO_INCREMENT de la tabla `turnos`
 --
 ALTER TABLE `turnos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- Restricciones para tablas volcadas
@@ -674,8 +640,8 @@ ALTER TABLE `productosubcategoria`
 -- Filtros para la tabla `reseñas`
 --
 ALTER TABLE `reseñas`
-  ADD CONSTRAINT `fk_reseña_producto` FOREIGN KEY (`idProducto`) REFERENCES `productos` (`id`),
-  ADD CONSTRAINT `reseñas_ibfk_1` FOREIGN KEY (`idCliente`) REFERENCES `clientes` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+  ADD CONSTRAINT `reseñas_ibfk_1` FOREIGN KEY (`idCliente`) REFERENCES `clientes` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+  ADD CONSTRAINT `reseñas_ibfk_2` FOREIGN KEY (`idProducto`) REFERENCES `productos` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `subcategorias`
