@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 04-11-2026 a las 18:04:29
+-- Tiempo de generación: 05-11-2026 a las 13:51:56
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -39,7 +39,9 @@ CREATE TABLE `carrito` (
 
 INSERT INTO `carrito` (`id`, `estado`, `clienteId`) VALUES
 (1, 1, NULL),
-(2, 1, 2);
+(2, 1, 2),
+(3, 0, 3),
+(4, 1, 3);
 
 -- --------------------------------------------------------
 
@@ -102,7 +104,8 @@ CREATE TABLE `clientes` (
 --
 
 INSERT INTO `clientes` (`id`, `email`, `nombre`, `apellido`, `telefono`, `password`, `idRol`) VALUES
-(2, 'tapiamartin590@gmail.com', 'Leonel', 'Tapia', '123123123', '$2b$12$4cqJmb0CN1ES4rJBJD.v2eM7KYuU/4b3hCwqVMTSeHP16LIU/QzDK', 3);
+(2, 'tapiamartin590@gmail.com', 'Leonel', 'Tapia', '123123123', '$2b$12$4cqJmb0CN1ES4rJBJD.v2eM7KYuU/4b3hCwqVMTSeHP16LIU/QzDK', 3),
+(3, 'asd@gmail.com', 'asd', 'asd', '123123123', '$2b$12$MvMmYusAo4wCOAZU5jKfSuDokDOdC5XsAmjB6zpB4qpW9VNrc94bW', 3);
 
 -- --------------------------------------------------------
 
@@ -138,6 +141,14 @@ CREATE TABLE `itemcarrito` (
   `carritoId` int(11) DEFAULT NULL,
   `productoId` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `itemcarrito`
+--
+
+INSERT INTO `itemcarrito` (`id`, `cantidad`, `precioUnitario`, `carritoId`, `productoId`) VALUES
+(1, 3, 4000.00, 3, NULL),
+(2, 3, 8000.00, 3, NULL);
 
 -- --------------------------------------------------------
 
@@ -313,7 +324,8 @@ CREATE TABLE `reseñas` (
   `id` int(11) NOT NULL,
   `valoracion` int(11) NOT NULL,
   `descripcion` text NOT NULL,
-  `idCliente` int(11) DEFAULT NULL
+  `idCliente` int(11) DEFAULT NULL,
+  `idProducto` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -493,7 +505,8 @@ ALTER TABLE `proveedor`
 --
 ALTER TABLE `reseñas`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `idCliente` (`idCliente`);
+  ADD KEY `idCliente` (`idCliente`),
+  ADD KEY `fk_reseña_producto` (`idProducto`);
 
 --
 -- Indices de la tabla `roles`
@@ -525,7 +538,7 @@ ALTER TABLE `turnos`
 -- AUTO_INCREMENT de la tabla `carrito`
 --
 ALTER TABLE `carrito`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `categorias`
@@ -537,13 +550,13 @@ ALTER TABLE `categorias`
 -- AUTO_INCREMENT de la tabla `clientes`
 --
 ALTER TABLE `clientes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `itemcarrito`
 --
 ALTER TABLE `itemcarrito`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `mascotas`
@@ -573,7 +586,7 @@ ALTER TABLE `proveedor`
 -- AUTO_INCREMENT de la tabla `reseñas`
 --
 ALTER TABLE `reseñas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de la tabla `roles`
@@ -661,6 +674,7 @@ ALTER TABLE `productosubcategoria`
 -- Filtros para la tabla `reseñas`
 --
 ALTER TABLE `reseñas`
+  ADD CONSTRAINT `fk_reseña_producto` FOREIGN KEY (`idProducto`) REFERENCES `productos` (`id`),
   ADD CONSTRAINT `reseñas_ibfk_1` FOREIGN KEY (`idCliente`) REFERENCES `clientes` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 --
