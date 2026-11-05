@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 05-11-2026 a las 14:06:00
+-- Tiempo de generación: 05-11-2026 a las 14:07:24
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -320,7 +320,7 @@ CREATE TABLE `roles` (
 INSERT INTO `roles` (`id`, `nombre`, `descripcion`) VALUES
 (1, 'Administrador', 'asd'),
 (2, 'Empleado', 'asd'),
-(5, 'Cliente', 'asd');
+(3, 'Cliente', 'asd');
 
 -- --------------------------------------------------------
 
@@ -516,7 +516,7 @@ ALTER TABLE `categorias`
 -- AUTO_INCREMENT de la tabla `clientes`
 --
 ALTER TABLE `clientes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `itemcarrito`
