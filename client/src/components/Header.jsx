@@ -12,21 +12,31 @@ function Header() {
     const [menuAbierto, setMenuAbierto] = useState(false);
     const [busqueda, setBusqueda] = useState('');
     useEffect(() => {
-        if (!menuAbierto) return;
+        if (!menuAbierto) {
+            return
+        }
  
         const cerrarConEscape = (event) => {
-            if (event.key === 'Escape') setMenuAbierto(false);
+            if (event.key === 'Escape'){
+                setMenuAbierto(false);
+            } 
         };
  
         window.addEventListener('keydown', cerrarConEscape);
-        return () => window.removeEventListener('keydown', cerrarConEscape);
-    }, [menuAbierto]);
+        //return () => window.removeEventListener('keydown', cerrarConEscape);
+    }/*, [menuAbierto]*/);
  
     const buscarProducto = (event) => {
-        event.preventDefault();
+        //event.preventDefault();
         const q = encodeURIComponent(busqueda.trim().toLowerCase());
-        if (!q) return;
-        navigate(`/productos/${q}?_q=${q}`);
+        if (!q){
+            return;
+        } 
+        navigate('/productos/' + q + '?_q=' + q);
+        //if(!busqueda){
+        //    return;
+        //}
+        //navigate('/productos/' + busqueda)
     };
  
     const cerrarMenu = () => setMenuAbierto(false);
