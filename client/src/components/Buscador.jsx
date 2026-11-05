@@ -1,64 +1,27 @@
+
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { useSearchParams, useParams, Link, useNavigate } from "react-router-dom";
 import './Buscador.css';
 
+
 function Buscador() {
     // solucionar o mejor dicho hacer que no se muestre la parte de producto no encontrado cuando si hay resultados
-    
+   
     const [productos, setProductos] = useState([]);
     const [productosV, setProductosV] = useState([]);
+    const [totalPaginas, setTotalPaginas] = useState(0);
+
 
     const [searchParams] = useSearchParams();
     const query = searchParams.get('_q');
     const page = parseInt(searchParams.get('page')) || 1;
     const productosPag = 6;
-    
+
 
     const navigate = useNavigate();
+   
 
-    const mostrar = async () => {
-        try {
-            console.log(query);
-            const response = await axios.get(`http://localhost:3000/producto/busqueda/query?_q=${query}`);
-            const datos = response.data;
-            setProductos(datos);
-
-            //Verifico que el page no sea "ilogico"
-            const paginasT = Math.ceil(datos.length / productosPag);
-            if(page > paginasT){
-                navigate(`/productos/${query}?_q=${query}&page=${paginasT}`);
-                return;
-            }else if(page < 1){
-                navigate(`/productos/${query}?_q=${query}&page=1`);
-                return;
-            }
-
-            //Productos que vera el usuario en la pagina actual
-            const productosPagina = [];
-            for(let i = (productosPag * page) - productosPag; i < (productosPag * page); i++){
-                if(datos[i]){
-                    productosPagina.push(datos[i]);
-                }
-            }
-            setProductosV(productosPagina);
-
-            
-            
-        } catch (error) {
-            if (error.response?.status === 404) {
-                setProductos([]);
-            }
-        }
-
-    }
-
-    useEffect(() => {
-        mostrar();
-    }, [query, page]);
-
-    const totalPaginas = Math.ceil(productos.length / productosPag);
-    const urlPagina = (n) => `/productos/${query}?_q=${query}&page=${n}`;
 
     // Muestra: 1 ... (actual-1) actual (actual+1) ... última
     const numerosPaginas = () => {
@@ -73,11 +36,63 @@ function Buscador() {
         return items;
     };
 
+
+    const mostrar = async () => {
+        try {
+            console.log(query);
+            const response = await axios.get(`http://localhost:3000/producto/busqueda/query?_q=${query}`);
+            const datos = response.data;
+            setProductos(datos);
+
+
+            //Verifico que el page no sea "ilogico"
+            const paginasT = Math.ceil(datos.length / productosPag);
+            setTotalPaginas(paginasT);
+            if(page > paginasT){
+                navigate(`/productos/${query}?_q=${query}&page=${paginasT}`);
+                return;
+            }else if(page < 1){
+                navigate(`/productos/${query}?_q=${query}&page=1`);
+                return;
+            }
+
+
+            //Productos que vera el usuario en la pagina actual
+            const productosPagina = [];
+            for(let i = (productosPag * page) - productosPag; i < (productosPag * page); i++){
+                if(datos[i]){
+                    productosPagina.push(datos[i]);
+                }
+            }
+            setProductosV(productosPagina);
+
+
+           
+           
+        } catch (error) {
+            if (error.response?.status === 404) {
+                setProductos([]);
+            }
+        }
+
+
+    }
+
+
+    useEffect(() => {
+        mostrar();
+    }, [query, page]);
+
+
+   
+
+
     return (
         <>
             {productos.length !== 0 ? (
                 <div className="buscador">
                     <h2 className="buscador__titulo">{productos.length} productos</h2>
+
 
                     <div className="grilla">
                         {productosV.map((producto) => (
@@ -99,10 +114,11 @@ function Buscador() {
                         {totalPaginas > 1 && (
                         <nav className="paginador" aria-label="Paginación de resultados">
                             {page > 1 ? (
-                                <Link className="paginador__flecha" to={urlPagina(page - 1)} aria-label="Página anterior">‹</Link>
+                                <Link className="paginador__flecha" to={`/productos/${query}?_q=${query}&page=${(page - 1)}`} aria-label="Página anterior">‹</Link>
                             ) : (
                                 <span className="paginador__flecha paginador__flecha--off" aria-hidden="true">‹</span>
                             )}
+
 
                             {numerosPaginas().map((n, i) =>
                                 n === "…" ? (
@@ -110,7 +126,7 @@ function Buscador() {
                                 ) : (
                                     <Link
                                         key={n}
-                                        to={urlPagina(n)}
+                                        to={`/productos/${query}?_q=${query}&page=${n}`}
                                         className={`paginador__item ${n === page ? "paginador__item--activo" : ""}`}
                                         aria-current={n === page ? "page" : undefined}
                                     >
@@ -119,8 +135,9 @@ function Buscador() {
                                 )
                             )}
 
+
                             {page < totalPaginas ? (
-                                <Link className="paginador__flecha" to={urlPagina(page + 1)} aria-label="Página siguiente">›</Link>
+                                <Link className="paginador__flecha" to={`/productos/${query}?_q=${query}&page=${(page + 1)}`} aria-label="Página siguiente">›</Link>
                             ) : (
                                 <span className="paginador__flecha paginador__flecha--off" aria-hidden="true">›</span>
                             )}
@@ -133,6 +150,7 @@ function Buscador() {
                         <h1 className="error-busqueda__titulo">¡Upps!</h1>
                         <p className="error-busqueda__resultados">HEMOS ENCONTRADO 0 RESULTADOS</p>
 
+
                         <h3 className="error-busqueda__subtitulo">Sugerencias de búsqueda</h3>
                         <ul className="error-busqueda__lista">
                             <li>Comprueba que hayas escrito todo correctamente. O bien, intenta cambiar la ortografía de alguna de las palabras.</li>
@@ -140,7 +158,9 @@ function Buscador() {
                             <li>No seas tan específico. Usa más términos generales de búsqueda para poder encontrar productos similares.</li>
                         </ul>
 
+
                         <p className="error-busqueda__texto">Intenta cambiar las opciones de búsqueda.</p>
+
 
                         <button
                             className="error-busqueda__boton"
@@ -149,6 +169,7 @@ function Buscador() {
                             VOLVER AL INICIO
                         </button>
                     </div>
+
 
                     <div className="error-busqueda__imagen-wrapper">
                         <img
@@ -163,5 +184,5 @@ function Buscador() {
     );
 }
 
-export default Buscador;
 
+export default Buscador;

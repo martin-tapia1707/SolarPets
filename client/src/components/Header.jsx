@@ -19,14 +19,13 @@ function Header() {
         };
  
         window.addEventListener('keydown', cerrarConEscape);
-        return () => window.removeEventListener('keydown', cerrarConEscape);
-    }, [menuAbierto]);
+    });
  
     const buscarProducto = (event) => {
         event.preventDefault();
         const q = encodeURIComponent(busqueda.trim().toLowerCase());
         if (!q) return;
-        navigate(`/productos/${q}?_q=${q}`);
+        navigate('/productos/' + q + '?_q=' + q);
     };
  
     const cerrarMenu = () => setMenuAbierto(false);

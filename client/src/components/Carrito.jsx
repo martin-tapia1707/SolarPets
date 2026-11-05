@@ -4,16 +4,6 @@ import './Carrito.css';
 
 const PRECIO_ENVIO = 7000;
 
-// Axios apuntando a tu backend (ajustá la URL a tus rutas)
-//const api = axios.create({ baseURL: 'http://localhost:3000/api/carrito' });
-
-// Envía el token en cada petición para que el backend conozca a req.user
-// api.interceptors.request.use((config) => {
-//   const token = localStorage.getItem('token');
-//   if (token) config.headers.Authorization = `Bearer ${token}`;
-//   return config;
-// });
-
 const formatear = (numero) => '$ ' + Number(numero).toLocaleString('es-AR', { maximumFractionDigits: 0 });
 
 function Carrito() {
@@ -25,19 +15,17 @@ function Carrito() {
   // ----- Conexión con el backend -----
   const cargarCarrito = async () => {
     try {
-        const token = localStorage.getItem('token');
-      //await api.post('/asignar'); // crea el carrito si el cliente no tiene uno activo
+      const token = localStorage.getItem('token');
       const response = await axios.get('http://localhost:3000/carrito/obtenerProductos',{
         headers: 
             {
                 token:  token
             }
       });
-      // Si hay productos, el backend los devuelve dentro de "message"
       setItems(response.data.itemsCarrito || []);
-      console.log(response.data.itemsCarrito );
+      console.log(response.data.itemsCarrito);
     } catch (error) {
-      setMensaje('No se pudo cargar el carrito');
+      alert('No se pudo cargar el carrito');
     } finally {
       setCargando(false);
     }
@@ -50,7 +38,9 @@ function Carrito() {
   const cambiarCantidad = async (item, cambio) => {
     const stock = item.Producto.stock;
     const nueva = Math.min(stock, Math.max(1, item.cantidad + cambio));
-    if (nueva === item.cantidad) return;
+    if (nueva === item.cantidad){
+      return;
+    } 
 
     try {
         const token = localStorage.getItem('token');
@@ -66,15 +56,16 @@ function Carrito() {
         });
       setItems(items.map((i) => (i.id === item.id ? { ...i, cantidad: nueva } : i)));
     } catch (error) {
-      setMensaje('No se pudo actualizar la cantidad');
+      alert('No se pudo actualizar la cantidad');
     }
   };
 
   const eliminarProducto = async (item) => {
     try {
-      // En DELETE, axios envía el body dentro de "data"
       const token = localStorage.getItem('token');
-      const response = await axios.delete('http://localhost:3000/carrito/eliminarProducto', { data: { productoId: item.productoId }, headers: {token:  token} });
+      const response = await axios.delete('http://localhost:3000/carrito/eliminarProducto', { 
+        data: { productoId: item.productoId },
+        headers: {token:  token} });
       setItems(items.filter((i) => i.id !== item.id));
     } catch (error) {
       setMensaje('No se pudo eliminar el producto');
@@ -84,7 +75,7 @@ function Carrito() {
   const comprar = async () => {
     try {
         const token = localStorage.getItem('token');
-        const response = await axios.patch('http://localhost:3000/carrito/comprar', { entrega }, {
+        const response = await axios.patch('http://localhost:3000/carrito/comprar', { }, {
             headers: 
             {
                 token:  token
@@ -93,7 +84,6 @@ function Carrito() {
         setMensaje(response.data.message);
         alert(response.data.message);
         setItems([]);
-        setMensaje('');
         await axios.post('http://localhost:3000/carrito/asignar', {}, { headers: { token: token } });
         await cargarCarrito();
     } catch (error) {
@@ -102,22 +92,17 @@ function Carrito() {
       return;
     }
 
-//     try {
-//     const token = localStorage.getItem('token');
-//     await axios.post('http://localhost:3000/carrito/asignar', {}, { headers: { token: token } });
-//     await cargarCarrito();
-//   } catch (error) {
-//     console.log(error.message);
-//   }
-  };
 
-  // ----- Cálculos -----
+  };
+  
   const cantidadTotal = items.reduce((suma, i) => suma + i.cantidad, 0);
   const subtotal = items.reduce((suma, i) => suma + i.precioUnitario * i.cantidad, 0);
   const costoEnvio = entrega === 'envio' && items.length > 0 ? PRECIO_ENVIO : 0;
   const total = subtotal + costoEnvio;
 
-  if (cargando) return <div className="carrito"><p className="carrito-vacio">Cargando...</p></div>;
+  if (cargando){
+    return <div className="carrito"><p className="carrito-vacio">Cargando...</p></div>;
+  } 
 
   return (
     <div className="carrito">
