@@ -62,8 +62,12 @@ Producto.belongsToMany(Pedido, { through: 'productoPedido' });
 Pedido.belongsToMany(Producto, { through: 'productoPedido' });
 
 //-------RELACION CLIENTE-RESEÑA--------
-Cliente.hasOne(Reseña, { foreignKey: 'idCliente' });
+Cliente.hasMany(Reseña, { foreignKey: 'idCliente' }); // Cambio a HasMany debido a que permite hacer reseñas a otros productos, el hasOne limitaba a uno solo por todo el sistema
 Reseña.belongsTo(Cliente, { foreignKey: 'idCliente' });
+
+//-------RELACION RESEÑA-PRODUCTO--------
+Producto.hasMany(Reseña, {foreignKey: 'idProducto'});
+Reseña.belongsTo(Producto, {foreignKey: 'idProducto'});
 
 //-------RELACION CLIENTE-TURNO--------
 Cliente.hasMany(Turno, {foreignKey: 'idCliente' });

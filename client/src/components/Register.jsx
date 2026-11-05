@@ -44,7 +44,7 @@ function Register() {
              // dps capaz hago que register asigne un token cosa que no tenga que registrarte y loguearte, simplemente registrarte
         } catch(error) {
             console.error(error); 
-            alert("Hubo un error al registrar el usuario");
+            alert("Hubo un error al registrar el usuario"); //Si te sale sin sentido, trata de insertar de vuelta la base de datos, borrando todo y volviendo a insertar.
         }
 }
 

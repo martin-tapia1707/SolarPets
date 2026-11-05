@@ -120,7 +120,8 @@ body {
 
 /* --- Definición / descripción --- */
 .producto-definicion {
-  grid-column: 1 / span 2;
+  grid-column: 1;
+  grid-row: 3;
   border-top: 1px solid #eaeaea;
   margin-top: 20px;
   padding-top: 24px;
@@ -138,6 +139,144 @@ body {
   line-height: 1.6;
   color: #444;
   max-width: 900px;
+}
+
+/* --- Apartado de comentario  --- */
+
+.producto-resenas {
+  grid-column: 2;
+  grid-row: 3;
+  border-top: 1px solid #eaeaea;
+  margin-top: 20px;
+  padding-top: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.crear-resena {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 20px;
+  background-color: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+}
+
+.crear-resena__titulo {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #33558f;
+}
+
+.crear-resena__campo {
+  width: 100%;
+  padding: 10px 16px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  background-color: #ffffff;
+  font-family: inherit;
+  font-size: 0.9rem;
+  color: #333;
+  outline: none;
+}
+
+.crear-resena__campo::placeholder {
+  color: #aaa;
+}
+
+.crear-resena__campo:focus {
+  border-color: #33558f;
+}
+
+.crear-resena__texto {
+  min-height: 90px;
+  resize: vertical;
+  border-radius: 14px;
+}
+
+.crear-resena__boton {
+  padding: 12px 0;
+  border: none;
+  border-radius: 10px;
+  background-color: #5f8350;
+  color: #ffffff;
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: filter 0.15s ease, transform 0.1s ease;
+}
+
+.crear-resena__boton:hover {
+  filter: brightness(1.1);
+}
+
+.crear-resena__boton:active {
+  transform: scale(0.98);
+}
+
+.lista-resenas {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.lista-resenas__titulo {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #33558f;
+}
+
+.lista-resenas__vacio {
+  font-size: 0.9rem;
+  color: #888;
+}
+
+/* 2 columnas con tarjetas de distinta altura, como en tu ejemplo */
+.lista-resenas__items {
+  column-count: 2;
+  column-gap: 12px;
+}
+
+.resena-item {
+  break-inside: avoid;      /* evita que una tarjeta se corte entre columnas */
+  margin-bottom: 12px;
+  padding: 14px;
+  background-color: #eaeaea;
+  border: 1px solid #c9c9c9;
+  border-radius: 3px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+}
+
+.resena-item__autor {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #1c1c1c;
+  margin-bottom: 4px;
+}
+
+.resena-item__valoracion {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #5f8350;
+  margin-bottom: 8px;
+}
+
+.resena-item__texto {
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: #333;
+  overflow-wrap: anywhere;   /* palabras largas no se salen de la tarjeta */
+}
+
+/* en celulares muy angostos, una sola columna */
+@media (max-width: 480px) {
+  .lista-resenas__items {
+    column-count: 1;
+  }
 }
 
 /* --- Selector de cantidad --- */
@@ -248,7 +387,8 @@ body {
   .producto-imagen,
   .producto-info,
   .producto-acciones,
-  .producto-definicion {
+  .producto-definicion,
+    .producto-resenas {
     grid-column: 1;
   }
 

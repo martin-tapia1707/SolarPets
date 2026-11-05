@@ -14,6 +14,7 @@ import SolicitarTurno from './components/solicitarTurno.jsx';
 import ListaTurnos from './components/ListaTurnos.jsx';
 import ListaProveedores from './components/ListaProveedores.jsx';
 import Carrito from './components/Carrito.jsx';
+import CrearReseña from './components/CrearReseña.jsx';
 
 import { useState } from 'react';
 
@@ -40,12 +41,7 @@ function App() {
             <br/><br/>
 
             <div>
-              <input
-                type="text"
-                placeholder="Buscar producto"
-                onChange={(event) => setTexto(event.target.value)}
-              />
-              <button onClick={buscar}>Buscar</button>
+
             </div>
           </div>
         } />

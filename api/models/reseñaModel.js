@@ -14,7 +14,7 @@ const Reseña = sequelize.define(
       allowNull: false,
       validate: {
         max: 5,
-        min: 0
+        min: 1
       },
     },
     descripcion: {

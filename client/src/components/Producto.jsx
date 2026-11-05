@@ -1,6 +1,10 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { useParams, Link, useNavigate } from "react-router-dom";
+
+import ListaReseña from './ListaReseña';
+import CrearReseña from './CrearReseña';
+
 import './Producto.css';
 
 function ObtenerProducto() {
@@ -20,47 +24,47 @@ function ObtenerProducto() {
     }
   };
 
-  const comprar = async()=>{
+  const comprar = async () => {
     try {
       const token = localStorage.getItem('token');
-    if(!token){
-      alert("necesitas loguearte");
-    }else{
-      await axios.post("http://localhost:3000/carrito/agregarProducto", {
-        productoId: producto.id,
-        cantidad: cantidadC,
-        precioUnitario: producto.precio
-      }, {
-        headers: 
-            {
-                token:  token
-            }
-      });
-      navigate(`/carrito`);
-    }  
+      if (!token) {
+        alert("necesitas loguearte");
+      } else {
+        await axios.post("http://localhost:3000/carrito/agregarProducto", {
+          productoId: producto.id,
+          cantidad: cantidadC,
+          precioUnitario: producto.precio
+        }, {
+          headers:
+          {
+            token: token
+          }
+        });
+        navigate(`/carrito`);
+      }
     } catch (error) {
       console.log(error.message);
     }
   }
 
-  const agregar = async()=>{
+  const agregar = async () => {
     try {
       const token = localStorage.getItem('token');
-    if(!token){
-      alert("necesitas loguearte");
-    }else{
-      await axios.post("http://localhost:3000/carrito/agregarProducto", {
-        productoId: producto.id,
-        cantidad: cantidadC,
-        precioUnitario: producto.precio
-      }, {
-        headers: 
-            {
-                token:  token
-            }
-      });
-      alert("producto agregado");
-    }  
+      if (!token) {
+        alert("necesitas loguearte");
+      } else {
+        await axios.post("http://localhost:3000/carrito/agregarProducto", {
+          productoId: producto.id,
+          cantidad: cantidadC,
+          precioUnitario: producto.precio
+        }, {
+          headers:
+          {
+            token: token
+          }
+        });
+        alert("producto agregado");
+      }
     } catch (error) {
       console.log(error.message);
     }
@@ -68,7 +72,7 @@ function ObtenerProducto() {
 
   useEffect(() => {
     productoId();
-  }, []);
+  }, [id]);
 
   return (
     <>
@@ -98,6 +102,11 @@ function ObtenerProducto() {
           <button className="btn-comprar" onClick={comprar}>Comprar ahora</button>
           <button className="btn-carrito" onClick={agregar}>Agregar al carro</button>
         </div>
+        <div className="producto-resenas">
+          <CrearReseña />
+          <ListaReseña />
+        </div>
+
       </div>
     </>
   );
