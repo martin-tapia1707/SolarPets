@@ -101,15 +101,14 @@ function SolicitarTurno() {
             
             <select className="turno__campo" value={hora} onChange={(event) => setHora(event.target.value)} required>
                 <option value="" disabled hidden>Hora del Turno...</option>
-                <option value="09:00">08:00</option> 
-                <option value="10:00">09:00</option>
-                <option value="11:00">10:00</option>
-                <option value="14:00">12:00</option>
-
-                <option value="09:00">15:00</option> 
-                <option value="10:00">16:00</option>
-                <option value="11:00">17:00</option>
-                <option value="14:00">18:00</option>
+                <option value="08:00">08:00</option> 
+                <option value="09:00">09:00</option>
+                <option value="10:00">10:00</option>
+                <option value="12:00">12:00</option>
+                <option value="15:00">15:00</option> 
+                <option value="16:00">16:00</option>
+                <option value="17:00">17:00</option>
+                <option value="18:00">18:00</option>
             </select>
 
             <textarea className="turno__motivo" placeholder="Motivo de la consulta..." value={motivo} onChange={(event) => setMotivo(event.target.value)}/>

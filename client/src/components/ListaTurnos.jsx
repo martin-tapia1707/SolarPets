@@ -56,7 +56,8 @@ return (
                             <td>{turno.nombre}</td>
                             <td>
                                 {new Date(turno.cita).toLocaleString('es-AR', {   // crea una fecha q contiene la fecha del turno  
-                                    timeZone: 'America/Argentina/Buenos_Aires' // con toLocaleString la convierte a texto legible
+                                    timeZone: 'America/Argentina/Buenos_Aires', // con toLocaleString la convierte a texto legible
+                                    hour12: false
                                 })} 
                             </td>
                             <td>{turno.animal}</td>
