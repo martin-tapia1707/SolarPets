@@ -22,10 +22,21 @@ function SolicitarTurno() {
         return alert("Complete todos los campos");
     }
 
-    const citaCompleta = `${cita}T${hora}:00`; // combino fecha y hora en una variable, por lo que vi no hay input date/hour asi que solo queda esto po
+    const citaCompleta = `${cita}T${hora}:00`; // combino fecha y hora en una variable, por lo que vi no hay input date/hour asi que solo queda esto
 
-    if (new Date(citaCompleta) <= new Date()) {
-    return alert("La fecha u hora deben ser posteriores a la actual");
+    const fechaActual = new Date(); // fecha actual
+
+    const fechaMaxima = new Date(); 
+    fechaMaxima.setDate(fechaMaxima.getDate() + 14); // fecha actual guardada en fechaMaxima + 14 dias, el limite será 14 días despues de la fecha actual
+
+    const fechaSeleccionada = new Date(citaCompleta); // fecha seleccionada es igual a citaCompleta que es el armado de fecha del usuario
+
+    if (fechaSeleccionada <= fechaActual) { 
+        return alert("La fecha u hora deben ser posteriores a la actual");
+    }
+
+    if (fechaSeleccionada > fechaMaxima) {
+        return alert("Solo se pueden solicitar turnos dentro de los próximos 14 días");
     }
 
         try{
@@ -78,9 +89,28 @@ function SolicitarTurno() {
                 <option value="peluqueria">Peluquería</option>
             </select>
 
-            <input className="turno__campo turno__select" type="date" placeholder="Fecha del Turno.." value={cita} onChange={(event) => setCita(event.target.value)} required />
+            <input
+                className="turno__campo turno__select"
+                type="date"
+                value={cita}
+                min={new Date().toLocaleDateString('en-CA')}
+                max={new Date(new Date().setDate(new Date().getDate() + 14)).toLocaleDateString('en-CA')}
+                onChange={(event) => setCita(event.target.value)}
+                required
+            />
             
-            <input className="turno__campo" type="time" value={hora} onChange={(event) => setHora(event.target.value)} required />
+            <select className="turno__campo" value={hora} onChange={(event) => setHora(event.target.value)} required>
+                <option value="" disabled hidden>Hora del Turno...</option>
+                <option value="09:00">08:00</option> 
+                <option value="10:00">09:00</option>
+                <option value="11:00">10:00</option>
+                <option value="14:00">12:00</option>
+
+                <option value="09:00">15:00</option> 
+                <option value="10:00">16:00</option>
+                <option value="11:00">17:00</option>
+                <option value="14:00">18:00</option>
+            </select>
 
             <textarea className="turno__motivo" placeholder="Motivo de la consulta..." value={motivo} onChange={(event) => setMotivo(event.target.value)}/>
 

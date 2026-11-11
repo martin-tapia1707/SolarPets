@@ -63,14 +63,13 @@ return (
                             <td>{turno.raza}</td>
                             <td>{turno.servicio}</td>
                             <td>{turno.motivo}</td>
-                            
                         </tr>
                     ))
 
                 ) : (
 
                     <tr>
-                        <td colSpan="5">No hay turnos pendientes</td>
+                        <td colSpan="6">No hay turnos pendientes</td>
                     </tr>
 
                 )}

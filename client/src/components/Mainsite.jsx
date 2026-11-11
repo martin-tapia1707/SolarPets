@@ -28,7 +28,7 @@ const SERVICIOS = [
   },
   {
     titulo: "Adopción",
-    texto: "Animales rescatados en busca de una familia.",
+    texto: "Animales rescatados en busca de una familia. Listos para ser adoptados por vos o cualquier interesado en brindarles un hogar.",
   },
 ];
 
