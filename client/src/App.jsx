@@ -15,6 +15,7 @@ import ListaTurnos from './components/ListaTurnos.jsx';
 import ListaProveedores from './components/ListaProveedores.jsx';
 import Carrito from './components/Carrito.jsx';
 import CrearReseña from './components/CrearReseña.jsx';
+import CRUD from './components/CRUD.jsx';
 
 import { useState } from 'react';
 
@@ -59,6 +60,7 @@ function App() {
         <Route path="/lista-turnos" element={<ListaTurnos />} />
         <Route path="/lista-proveedores" element={<ListaProveedores />} />
         <Route path="/carrito" element={<Carrito />} />
+        <Route path="/crud" element={<CRUD />} />
 
       </Routes>
     </>

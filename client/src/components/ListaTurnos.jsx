@@ -45,6 +45,7 @@ return (
                 <th>Raza</th>
                 <th>Servicio</th>
                 <th>Motivo</th>
+                
             </tr>
             </thead>
             <tbody>
@@ -62,6 +63,7 @@ return (
                             <td>{turno.raza}</td>
                             <td>{turno.servicio}</td>
                             <td>{turno.motivo}</td>
+                            
                         </tr>
                     ))
 

@@ -80,6 +80,10 @@ function Profile() {
         navigate('/carrito');
     }
 
+    const crud = () => {
+        navigate('/CRUD');
+    }
+
     return (
         <div className="profile-page">
         <div className="profile-card">
@@ -106,7 +110,7 @@ function Profile() {
                 {user && user.Rol.nombre === "Administrador" ? (
                     <>
                     <button className="btn-admin" onClick={listaProovedores}>Administrar Proveedores</button>
-                    <button className="btn-admin">Panel Administración</button>
+                    <button className="btn-admin" onClick={crud}>Panel Administración</button>
                     </>
                 ) : null}
 

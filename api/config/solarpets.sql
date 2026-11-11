@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 05-11-2026 a las 14:07:24
+-- Tiempo de generación: 11-11-2026 a las 05:43:33
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -32,6 +32,13 @@ CREATE TABLE `carrito` (
   `estado` tinyint(1) NOT NULL DEFAULT 0,
   `clienteId` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `carrito`
+--
+
+INSERT INTO `carrito` (`id`, `estado`, `clienteId`) VALUES
+(1, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -89,6 +96,13 @@ CREATE TABLE `clientes` (
   `idRol` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Volcado de datos para la tabla `clientes`
+--
+
+INSERT INTO `clientes` (`id`, `email`, `nombre`, `apellido`, `telefono`, `password`, `idRol`) VALUES
+(1, 'tapiamartin590@gmail.com', 'Martin', 'Tapia', '1126062011', '$2b$12$NNvk5yJsQpC971eZ.Fy.Yu4Ds4m8Xsl98rvohrIvjD/WhnFhAIQBS', 1);
+
 -- --------------------------------------------------------
 
 --
@@ -104,11 +118,19 @@ CREATE TABLE `empleados` (
   `telefono` varchar(15) NOT NULL,
   `turno` varchar(25) NOT NULL,
   `localidad` varchar(50) NOT NULL,
-  `fechaAlta` datetime NOT NULL,
-  `fechaBaja` datetime DEFAULT NULL,
+  `fechaAlta` date NOT NULL,
+  `fechaBaja` date DEFAULT NULL,
   `especialidad` varchar(50) NOT NULL,
-  `idRol` int(11) DEFAULT NULL
+  `idRol` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `empleados`
+--
+
+INSERT INTO `empleados` (`id`, `nombre`, `apellido`, `establecimiento`, `salario`, `telefono`, `turno`, `localidad`, `fechaAlta`, `fechaBaja`, `especialidad`, `idRol`) VALUES
+(10, 'Felipe', 'Melo', 'Lavalle 3571', 850000, '1120172018', 'tarde', 'Billinghurst 350', '2020-06-12', NULL, 'peluquero', 2),
+(12, 'Cristiano', 'Ronaldo', 'Lavalle 3571', 935850, '1120162017', 'mañana', 'Humahuaca 230', '2017-06-12', NULL, 'veterinario', 2);
 
 -- --------------------------------------------------------
 
@@ -504,7 +526,7 @@ ALTER TABLE `turnos`
 -- AUTO_INCREMENT de la tabla `carrito`
 --
 ALTER TABLE `carrito`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de la tabla `categorias`
@@ -516,7 +538,13 @@ ALTER TABLE `categorias`
 -- AUTO_INCREMENT de la tabla `clientes`
 --
 ALTER TABLE `clientes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT de la tabla `empleados`
+--
+ALTER TABLE `empleados`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT de la tabla `itemcarrito`
@@ -546,7 +574,7 @@ ALTER TABLE `productos`
 -- AUTO_INCREMENT de la tabla `proveedor`
 --
 ALTER TABLE `proveedor`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `reseñas`
@@ -558,7 +586,7 @@ ALTER TABLE `reseñas`
 -- AUTO_INCREMENT de la tabla `roles`
 --
 ALTER TABLE `roles`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `subcategorias`
@@ -599,7 +627,7 @@ ALTER TABLE `clientes`
 -- Filtros para la tabla `empleados`
 --
 ALTER TABLE `empleados`
-  ADD CONSTRAINT `empleados_ibfk_1` FOREIGN KEY (`idRol`) REFERENCES `roles` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+  ADD CONSTRAINT `empleados_ibfk_1` FOREIGN KEY (`idRol`) REFERENCES `roles` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `itemcarrito`

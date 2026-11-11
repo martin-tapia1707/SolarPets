@@ -253,7 +253,6 @@ const EditProfile = async(req, res) => {
         }
 
         if (password) {
-            // 67 67 67
             if(password !== confirmarNueva) {
                 return res.status(400).json({ message: "Las contraseñas nuevas no coinciden"})
             }

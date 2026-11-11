@@ -22,8 +22,6 @@ function SolicitarTurno() {
         return alert("Complete todos los campos");
     }
 
-
-
     const citaCompleta = `${cita}T${hora}:00`; // combino fecha y hora en una variable, por lo que vi no hay input date/hour asi que solo queda esto po
 
     if (new Date(citaCompleta) <= new Date()) {
@@ -51,7 +49,7 @@ function SolicitarTurno() {
 
             alert("Turno solicitado correctamente")
             console.log(response.data); // entra?
-            navigate('/profile'); // por ahora un navigate al perfil, despues lo cambio a lista de turnos (cuando tenga el apartado)
+            navigate('/lista-turnos'); 
 
         } catch(error) {
             console.error(error);

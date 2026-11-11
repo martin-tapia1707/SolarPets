@@ -7,6 +7,7 @@ const Empleado = sequelize.define('Empleado', {
     id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
+        autoIncrement: true,
         allowNull: false 
     },
     nombre: {
@@ -38,15 +39,19 @@ const Empleado = sequelize.define('Empleado', {
         allowNull: false
     },
     fechaAlta: {
-        type: DataTypes.DATE,
+        type: DataTypes.DATEONLY,
         allowNull: false
     },
     fechaBaja: {
-        type: DataTypes.DATE,
+        type: DataTypes.DATEONLY,
         allowNull: true
     },
     especialidad: {
         type: DataTypes.STRING(50),
+        allowNull: false
+    },
+    idRol: {
+        type: DataTypes.INTEGER,
         allowNull: false
     }
 

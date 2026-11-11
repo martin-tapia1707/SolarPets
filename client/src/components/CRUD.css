@@ -1,0 +1,342 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Montserrat+Alternates:wght@700&display=swap");
+
+* {
+    box-sizing: border-box;
+}
+
+/* ---------- Fondo ---------- */
+.crud-page {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column; /* apila: formulario arriba, lista abajo */
+    justify-content: center;
+    align-items: center;
+    gap: 32px; /* espacio entre el formulario y la lista */
+    padding: 24px;
+    font-family: "Poppins", sans-serif;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+/* Filtro blanco sobre la imagen de fondo */
+.crud-page::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-color: rgba(255, 255, 255, 0.65);
+}
+
+/* ---------- Tarjeta ---------- */
+/*
+   CÓMO AGRANDAR EL CONTENEDOR (.crud-card):
+
+   1) ANCHO: subí "max-width" (ej: 545px -> 700px).
+      Los inputs se estiran solos porque la grilla usa 1fr 1fr.
+
+   2) ALTO: no hay un "height" fijo; la tarjeta crece según su contenido.
+      Para hacerla más alta podés:
+        - subir el "padding" de arriba y abajo (el primer y tercer valor
+          de "padding: arriba lados abajo"),
+        - subir "row-gap" en .crud-form (espacio entre filas),
+        - subir "height" en .crud-field (inputs más altos).
+
+   3) MÁRGENES INTERNOS: el segundo valor del padding (72px) es el espacio
+      a los costados. Si agrandás el ancho y querés los inputs más anchos,
+      bajá ese valor; si querés más aire, subilo.
+
+   Si querés agrandarla TODO proporcionalmente (texto incluido),
+   podés usar "zoom: 1.2;" o "transform: scale(1.2);" en .crud-card.
+*/
+.crud-card {
+    position: relative; /* queda por encima del filtro blanco */
+    width: 100%;
+    max-width: 545px; /* <-- ancho máximo de la tarjeta */
+    padding: 18px 72px 18px; /* <-- arriba | costados | abajo */
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 10px 10px 0 rgba(0, 0, 0, 0.35);
+}
+
+.crud-title {
+    margin: 0;
+    text-align: center;
+    font-size: 24px;
+    font-weight: 700;
+    color: #2f5490;
+}
+
+.crud-subtitle {
+    margin: 14px 0 12px 10px;
+    font-size: 20px;
+    font-weight: 700;
+    color: #2f5490;
+}
+
+/* ---------- Formulario (grilla de 2 columnas) ---------- */
+.crud-form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 18px;
+    row-gap: 10px;
+}
+
+.crud-field {
+    width: 100%;
+    height: 31px;
+    padding: 0 10px;
+    font-family: inherit;
+    font-size: 12px;
+    color: #333;
+    background-color: #ffffff;
+    border: 1px solid #d6d6d6;
+    border-radius: 12px;
+    outline: none;
+}
+
+.crud-field::placeholder {
+    color: #b3b3b3;
+}
+
+.crud-field:focus {
+    border-color: #2f5490;
+}
+
+/* ---------- Fechas con minisubtítulo ---------- */
+.crud-date-group {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.crud-label {
+    margin-left: 10px;
+    font-size: 11px;
+    font-weight: 500;
+    color: #2f5490;
+}
+
+/* Campo que ocupa las dos columnas (Especialidad, botón) */
+.crud-field--full {
+    grid-column: 1 / -1;
+}
+
+/* ---------- Selects con flecha "^" ---------- */
+.crud-select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    cursor: pointer;
+    color: #b3b3b3; /* color del placeholder */
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6' fill='none' stroke='black' stroke-width='1.4' stroke-linecap='round' stroke-linejoin='round'><polyline points='1,5 5,1 9,5'/></svg>");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    padding-right: 28px;
+}
+
+.crud-select:valid {
+    color: #333; /* cuando ya se eligió una opción */
+}
+
+/* ---------- Botón ---------- */
+.crud-button {
+    grid-column: 1 / -1;
+    height: 34px;
+    margin-top: 3px;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 600;
+    color: #ffffff;
+    background-color: #2f5490;
+    border: none;
+    border-radius: 17px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.crud-button:hover {
+    background-color: #264577;
+}
+
+/* ---------- Tarjeta Actualizar Empleado (variante de .crud-card) ---------- */
+/*
+   Reutiliza .crud-card y .crud-form; esta variante solo cambia:
+   - La tarjeta no tiene padding propio (para que la franja azul llegue
+     de borde a borde); el espacio lateral lo pone el formulario.
+   - Tiene una franja azul arriba con el título en blanco.
+
+   CÓMO AGRANDARLA: igual que la de Añadir, subí "max-width" de .crud-card
+   (afecta a las dos) o, si querés cambiar solo esta, agregá
+   "max-width: 700px;" dentro de .crud-card--update.
+   El espacio lateral de los inputs se cambia en ".crud-card--update .crud-form"
+   (el segundo valor del padding).
+*/
+.crud-card--update {
+    padding: 0 0 18px;
+    overflow: hidden; /* recorta la franja azul con las esquinas redondeadas */
+}
+
+.crud-card-header {
+    margin-bottom: 14px;
+    padding: 10px 0 12px; /* <-- alto de la franja azul */
+    background-color: #2f5490;
+}
+
+.crud-header-title {
+    margin: 0;
+    text-align: center;
+    font-size: 26px;
+    font-weight: 700;
+    color: #ffffff;
+}
+
+.crud-card--update .crud-form {
+    padding: 0 72px; /* <-- espacio a los costados de los inputs */
+}
+
+/* ---------- Lista de Empleados ---------- */
+
+/*
+   CÓMO AMPLIAR EL CONTENEDOR DE LA LISTA (.lista-card):
+
+   1) ANCHO: subí "max-width" (ej: 930px -> 1100px).
+      Como ahora hay una columna más (el botón Eliminar), si ves que la
+      tabla queda apretada o aparece scroll horizontal, este es el valor
+      que hay que subir.
+
+   2) ALTO: "min-height" es el alto mínimo de la tarjeta (el espacio blanco
+      vacío de abajo). Si tenés muchas filas, la tarjeta crece sola.
+
+   3) ESPACIO ENTRE COLUMNAS: en ".lista-table th" y ".lista-table td"
+      el "padding" horizontal (12px) es la separación entre columnas.
+      Subilo si querés más aire entre los datos.
+
+   4) ESPACIO ENTRE EL FORMULARIO Y LA LISTA: "gap" en .crud-page.
+*/
+.lista-card {
+    position: relative; /* por encima del filtro blanco */
+    width: 100%;
+    max-width: 1100px; /* <-- ancho de la tarjeta de la lista */
+    min-height: 355px; /* <-- alto mínimo (queda el espacio blanco vacío) */
+    overflow-x: auto; /* si la tabla no entra, scrollea de costado */
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 10px 10px 0 rgba(0, 0, 0, 0.35);
+}
+
+/* Franja azul de arriba (título + encabezados de columnas) */
+.lista-header {
+    padding: 14px 0 0;
+    background-color: #2f5490;
+}
+
+.lista-title {
+    margin: 0;
+    text-align: center;
+    font-size: 22px;
+    font-weight: 700;
+    color: #ffffff;
+}
+
+.lista-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.lista-table thead {
+    background-color: #2f5490;
+}
+
+.lista-table th {
+    padding: 22px 12px 14px;
+    text-align: left;
+    font-family: "Montserrat Alternates", sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: #ffffff;
+    white-space: nowrap;
+}
+
+.lista-table td {
+    padding: 10px 12px;
+    text-align: left;
+    font-family: Arial, Helvetica, sans-serif; /* como en la imagen */
+    font-size: 15px;
+    color: #000000;
+    white-space: nowrap;
+}
+
+/* Margen izquierdo de la primera columna y derecho de la última */
+.lista-table th:first-child,
+.lista-table td:first-child {
+    padding-left: 22px;
+}
+
+/*
+   COLUMNA DEL BOTÓN ELIMINAR (la última):
+   - "width: 100%" hace que esta columna se quede con TODO el espacio
+     sobrante, por eso las demás columnas quedan compactas (pegadas al
+     contenido) y el botón queda al extremo derecho de la tarjeta.
+   - "text-align: right" alinea el botón a la derecha.
+   - Para acercar el botón a "Rol": sacá "width: 100%" (las columnas
+     se reparten el espacio) o bajá el ancho de la tarjeta (max-width
+     en .lista-card).
+   - Para separarlo del borde derecho: cambiá "padding-right".
+*/
+.lista-table th:last-child,
+.lista-table td:last-child {
+    width: 100%;
+    text-align: right;
+    padding-right: 22px;
+}
+
+/* ---------- Botón Eliminar (última columna de la tabla) ---------- */
+/*
+   CÓMO CAMBIAR EL BOTÓN:
+   - TAMAÑO: "padding" (primer valor = alto, segundo = ancho) y "font-size".
+   - COLOR: "background-color" (rojo normal) y el de :hover (rojo más oscuro).
+   - REDONDEO: "border-radius" (999px = forma de píldora).
+   - Si querés más espacio entre "Rol" y el botón, subí el padding
+     izquierdo de la última columna (td:last-child / th:last-child).
+*/
+.lista-table td:last-child {
+    vertical-align: middle;
+}
+
+.btn-eliminar {
+    padding: 6px 22px; /* <-- alto | ancho del botón */
+    font-family: "Poppins", sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: #ffffff;
+    background-color: #e0474c; /* <-- rojo del botón */
+    border: none;
+    border-radius: 999px; /* <-- forma de píldora */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.btn-eliminar:hover {
+    background-color: #c63a3f; /* <-- rojo al pasar el mouse */
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 600px) {
+    .crud-card {
+        padding: 18px 24px;
+    }
+
+    .crud-card--update {
+        padding: 0 0 18px;
+    }
+
+    .crud-card--update .crud-form {
+        padding: 0 24px;
+    }
+
+    .crud-form {
+        grid-template-columns: 1fr;
+    }
+}

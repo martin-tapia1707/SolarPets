@@ -4,9 +4,7 @@ const { Empleado } = require("../models/empleadoModel.js");
 const buscarTodosEmpleados = async (req, res) => {
     try {
         const empleadosEncontrados = await Empleado.findAll();
-        if (empleadosEncontrados.length === 0) {
-            return res.status(404).json({ message: 'No se encontró ningún empleado registrado.' });
-        }
+
         res.status(200).json({ message: 'Lista de Empleados: ', empleados: empleadosEncontrados });
 
     } catch (error) {
@@ -56,13 +54,13 @@ const buscarEspecialidad = async (req, res) => {
 
 const registrarEmpleado = async (req, res) => {
     try {
-        const { id, nombre, apellido, establecimiento, salario, telefono, turno, localidad, fechaAlta, fechaBaja, especialidad } = req.body;
+        const { nombre, apellido, establecimiento, salario, telefono, turno, localidad, fechaAlta, fechaBaja, especialidad, idRol } = req.body;
 
-        if (!id || !nombre || !apellido || !establecimiento || !salario || !telefono || !turno || !localidad || !fechaAlta || !especialidad) {
+        if (!nombre || !apellido || !establecimiento || !salario || !telefono || !turno || !localidad || !fechaAlta || !especialidad || !idRol) {
             return res.status(400).json({ message: 'Le falta algunos campos por completar, reviselos y llenelos.' });
         }
 
-        const registrar = await Empleado.create({ id, nombre, apellido, establecimiento, salario, telefono, turno, localidad, fechaAlta, fechaBaja, especialidad });
+        const registrar = await Empleado.create({ nombre, apellido, establecimiento, salario, telefono, turno, localidad, fechaAlta, fechaBaja, especialidad, idRol });
         res.status(201).json({ message: 'Empleado registrado exitosamente', empleado: registrar });
     } catch (error) {
         return res.status(500).json({ error: error.message });
@@ -74,25 +72,42 @@ const modificarEmpleado = async (req, res) => {
         const { id } = req.params;
         const { nombre, apellido, establecimiento, salario, telefono, turno, localidad, fechaAlta, fechaBaja, especialidad } = req.body;
         
-        if (!nombre || !apellido || !establecimiento || !salario || !telefono || !turno || !localidad || !fechaAlta || !especialidad) {
-            return res.status(400).json({ message: 'Faltan datos a completar. Rellene los campos que sigan vacios.' });
-        }
-        
         const empleado = await Empleado.findByPk(Number(id));
 
         if (!empleado) {
             return res.status(404).json({ message: 'No se encontró el Id de empleado a modificar.' });
         }
-        empleado.nombre = nombre;
-        empleado.apellido = apellido;
-        empleado.establecimiento = establecimiento;
-        empleado.salario = salario;
-        empleado.telefono = telefono;
-        empleado.turno = turno;
-        empleado.localidad = localidad;
-        empleado.fechaAlta = fechaAlta;
-        empleado.fechaBaja = fechaBaja;
-        empleado.especialidad = especialidad;
+
+        if(nombre) {
+            empleado.nombre = nombre;
+        }
+        if(apellido) {
+            empleado.apellido = apellido;
+        }
+        if(establecimiento) {
+            empleado.establecimiento = establecimiento;
+        }
+        if(salario) {
+            empleado.salario = salario;
+        }
+        if(telefono) {
+            empleado.telefono = telefono;
+        }
+        if(turno) {
+            empleado.turno = turno;
+        }
+        if(localidad) {
+            empleado.localidad = localidad;
+        }
+        if(fechaAlta) {
+            empleado.fechaAlta = fechaAlta;
+        }
+        if(fechaBaja !== undefined) {
+            empleado.fechaBaja = fechaBaja;
+        }
+        if(especialidad) {
+            empleado.especialidad = especialidad;
+        }
         await empleado.save();
         res.status(200).json({ message: `El empleado con Id: ${id} fue modificado existosamente`, empleadoActualizado: empleado });
 
