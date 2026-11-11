@@ -1,5 +1,6 @@
 const { sequelize } = require('../config/database.js');
 const { Categoria } = require('../models/index.js');
+const { SubCategoria } = require('../models/index.js');
 
 const mostrarCategorias = async(req, res)=>{
     try {
@@ -74,10 +75,27 @@ const eliminarCategoria = async(req,res)=>{
     }
 }
 
+const filtro = async(req, res)=>{
+    try { 
+        const productos = req.body;
+        // for(const producto of productos){
+        //     console.log(`${producto.nombre}: ${producto.id}`);
+        // }
+        for(const producto in productos){
+            console.log(producto);
+        }
+         console.log("hola");
+        return res.status(200).json({message: "hola"});
+    } catch (error) {
+        return res.status(500).json(error);
+    }
+}
+
 module.exports = {
     mostrarCategorias,
     categoriaId,
     agregarCategoria,
     actualizarCategoria,
-    eliminarCategoria
+    eliminarCategoria,
+    filtro
 }

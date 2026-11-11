@@ -2,32 +2,26 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import './Carrito.css';
 
-const PRECIO_ENVIO = 7000;
-
-const formatear = (numero) => '$ ' + Number(numero).toLocaleString('es-AR', { maximumFractionDigits: 0 });
+const PRECIO_ENVIO = 7000;  // se suma esta cantidad si se activa la opcion de envio. 
 
 function Carrito() {
   const [items, setItems] = useState([]);
   const [entrega, setEntrega] = useState('envio'); // 'envio' o 'retiro'
-  const [cargando, setCargando] = useState(true);
-  const [mensaje, setMensaje] = useState('');
 
-  // ----- Conexión con el backend -----
+  const token = localStorage.getItem('token');
+
   const cargarCarrito = async () => {
-    try {
-      const token = localStorage.getItem('token');
+    try {     
       const response = await axios.get('http://localhost:3000/carrito/obtenerProductos',{
         headers: 
             {
                 token:  token
             }
       });
-      setItems(response.data.itemsCarrito || []);
+      setItems(response.data.itemsCarrito);
       console.log(response.data.itemsCarrito);
     } catch (error) {
       alert('No se pudo cargar el carrito');
-    } finally {
-      setCargando(false);
     }
   };
 
@@ -35,7 +29,7 @@ function Carrito() {
     cargarCarrito();
   }, []);
 
-  const cambiarCantidad = async (item, cambio) => {
+  const cambiarCantidad = async (item, cambio) => {     // cambio = 1 || -1
     const stock = item.Producto.stock;
     const nueva = Math.min(stock, Math.max(1, item.cantidad + cambio));
     if (nueva === item.cantidad){
@@ -43,7 +37,6 @@ function Carrito() {
     } 
 
     try {
-        const token = localStorage.getItem('token');
         const response = await axios.post('http://localhost:3000/carrito/agregarProducto', {
             productoId: item.productoId,
             cantidad: nueva,
@@ -62,47 +55,42 @@ function Carrito() {
 
   const eliminarProducto = async (item) => {
     try {
-      const token = localStorage.getItem('token');
-      const response = await axios.delete('http://localhost:3000/carrito/eliminarProducto', { 
+      await axios.delete('http://localhost:3000/carrito/eliminarProducto', { 
         data: { productoId: item.productoId },
         headers: {token:  token} });
       setItems(items.filter((i) => i.id !== item.id));
+      alert("Producto eliminado");
     } catch (error) {
-      setMensaje('No se pudo eliminar el producto');
+      alert("No se pudo eliminar el producto");
     }
   };
 
   const comprar = async () => {
     try {
-        const token = localStorage.getItem('token');
         const response = await axios.patch('http://localhost:3000/carrito/comprar', { }, {
             headers: 
             {
                 token:  token
             }
         });
-        setMensaje(response.data.message);
         alert(response.data.message);
         setItems([]);
         await axios.post('http://localhost:3000/carrito/asignar', {}, { headers: { token: token } });
         await cargarCarrito();
     } catch (error) {
       setMensaje('No se pudo realizar la compra');
-      console.log(error.message);
+      alert(error.message);
       return;
     }
 
 
   };
   
+  
   const cantidadTotal = items.reduce((suma, i) => suma + i.cantidad, 0);
   const subtotal = items.reduce((suma, i) => suma + i.precioUnitario * i.cantidad, 0);
   const costoEnvio = entrega === 'envio' && items.length > 0 ? PRECIO_ENVIO : 0;
   const total = subtotal + costoEnvio;
-
-  if (cargando){
-    return <div className="carrito"><p className="carrito-vacio">Cargando...</p></div>;
-  } 
 
   return (
     <div className="carrito">
@@ -114,7 +102,6 @@ function Carrito() {
           <div className="carrito-caja">
             <h2 className="carrito-titulo">Productos</h2>
 
-            {mensaje && <p className="carrito-vacio">{mensaje}</p>}
             {items.length === 0 && <p className="carrito-vacio">Tu carrito está vacío</p>}
 
             {items.map((item) => (
@@ -135,7 +122,7 @@ function Carrito() {
                   <button className="carrito-eliminar" onClick={() => eliminarProducto(item)} aria-label="Eliminar">
                     🗑
                   </button>
-                  <strong>{formatear(item.precioUnitario * item.cantidad)}</strong>
+                  <strong>$ {(item.precioUnitario * item.cantidad).toLocaleString('es-AR', { maximumFractionDigits: 0 })}</strong>
                 </div>
               </article>
             ))}
@@ -149,16 +136,16 @@ function Carrito() {
           <div className="carrito-resumen-cuerpo">
             <div className="carrito-fila">
               <span>Productos</span>
-              <span>{formatear(subtotal)}</span>
+              <span>$ {(subtotal).toLocaleString('es-AR', { maximumFractionDigits: 0 })}</span>
             </div>
             <div className="carrito-fila">
               <span>Envío</span>
-              <span>{entrega === 'envio' ? formatear(costoEnvio) : 'Retiro sin costo'}</span>
+              <span>{entrega === 'envio' ? ("$ " + (costoEnvio).toLocaleString('es-AR', { maximumFractionDigits: 0 })) : 'Retiro sin costo'}</span>
             </div>
 
             <div className="carrito-fila carrito-total">
               <span>Total</span>
-              <span>{formatear(total)}</span>
+              <span>$ {(total).toLocaleString('es-AR', { maximumFractionDigits: 0 })}</span>
             </div>
 
             <div className="carrito-entrega">
@@ -170,7 +157,7 @@ function Carrito() {
                   checked={entrega === 'envio'}
                   onChange={() => setEntrega('envio')}
                 />
-                Envío a domicilio (+ {formatear(PRECIO_ENVIO)})
+                Envío a domicilio (+ {(PRECIO_ENVIO).toLocaleString('es-AR', { maximumFractionDigits: 0 })})
               </label>
               <label>
                 <input

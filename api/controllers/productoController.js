@@ -1,4 +1,4 @@
-const { where, Op, or } = require('sequelize');
+const { where, Op, Or } = require('sequelize');
 const { sequelize } = require('../config/database.js');
 const { Producto } = require('../models/index.js');
 const { SubCategoria } = require('../models/index.js');
@@ -94,20 +94,20 @@ const eliminarProducto = async(req, res)=>{
     }
 }
 
-const singular = (p) => (p.length > 3 && p.endsWith("s") ? p.slice(0, -1) : p);
 
 const buscarSubcategoriasIds = async (palabra) => {
-    if (palabra.length < 3) return null; // evita coincidencias falsas con LIKE
-    const base = singular(palabra);
 
-    const subs = await SubCategoria.findAll({
-        where: { nombre: { [Op.like]: `%${base}%` } },
+    const subs = await SubCategoria.findAll({   // llama a la base de datos y pregunta si hay una subcategoria que coincidda con palabra
+        where: { nombre: { [Op.like]: `%${palabra}%` } },
         attributes: ["id"]
     });
-    if (subs.length > 0) return subs.map(s => s.id);
+    if (subs.length > 0){
+        const ids = subs.map(s => s.id); 
+        return ids; 
+    } 
 
-    const cats = await Categoria.findAll({
-        where: { nombre: { [Op.like]: `%${base}%` } },
+    const cats = await Categoria.findAll({      // si no encontro coincidencia en la tabla de subsCategorias lo intenta en categorias
+        where: { nombre: { [Op.like]: `%${palabra}%` } },
         attributes: ["id"]
     });
     if (cats.length > 0) {
@@ -115,7 +115,8 @@ const buscarSubcategoriasIds = async (palabra) => {
             where: { idCategoria: { [Op.in]: cats.map(c => c.id) } },
             attributes: ["id"]
         });
-        return subsDeCats.map(s => s.id);
+        const ids = subsDeCats.map(s => s.id); 
+        return ids;
     }
 
     return null;
@@ -126,7 +127,7 @@ const productoBusqueda = async(req,res)=>{
         const { _q } = req.query;
         // Se "limpia" la busqueda
         const palabras = _q.split(" ");
-        let palabrasFil = palabras.filter(palabras => !STOP_WORDS.includes(palabras));
+        let palabrasFil = palabras.filter(p => !STOP_WORDS.includes(p));
         console.log(palabrasFil);
 
         // Si la busqueda coincide con un sinonimo se expande la busqueda
@@ -165,7 +166,6 @@ const productoBusqueda = async(req,res)=>{
             tiposAnimal.push(1);
         } 
         if (tiposAnimal.length === 1) {
-            // Solo gato o solo perro: ese tipo + los que sirven para ambos (NULL)
             consulta.push({
                 [Op.or]: [
                     { tipoAnimal: tiposAnimal[0] },
@@ -173,9 +173,14 @@ const productoBusqueda = async(req,res)=>{
                 ]
             });
         }else if(tiposAnimal.length === 2){
-            consulta.push({ tipoAnimal: null });
+            consulta.push({[Op.or]: [
+                    { tipoAnimal: tiposAnimal[0] },
+                    { tipoAnimal: tiposAnimal[1] },
+                    { tipoAnimal: null }
+                ]});
         }
 
+        // palabras que no sean gato y perro
         for (const palabra in palabrasConSinonimos) {
             if (palabra === "gato" || palabra === "perro"){
                 continue;

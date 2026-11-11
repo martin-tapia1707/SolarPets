@@ -43,6 +43,7 @@ function Buscador() {
             const response = await axios.get(`http://localhost:3000/producto/busqueda/query?_q=${query}`);
             const datos = response.data;
             setProductos(datos);
+            console.log(datos);
 
 
             //Verifico que el page no sea "ilogico"
@@ -66,13 +67,14 @@ function Buscador() {
             }
             setProductosV(productosPagina);
 
-
+            const response2 = await axios.post(`http://localhost:3000/categoria/filtro`, { datos });
            
            
         } catch (error) {
             if (error.response?.status === 404) {
                 setProductos([]);
             }
+            console.log(error);
         }
 
 
@@ -105,7 +107,7 @@ function Buscador() {
                                     />
                                     <div className="tarjeta__info">
                                         <p className="tarjeta__nombre">{producto.nombre}</p>
-                                        <p className="tarjeta__precio">{producto.precio}$</p>
+                                        <p className="tarjeta__precio">$ {Number(producto.precio).toLocaleString('es-AR', { maximumFractionDigits: 0 })}</p>
                                     </div>
                                 </Link>
                             </div>

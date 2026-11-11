@@ -83,7 +83,7 @@ function ObtenerProducto() {
 
         <div className="producto-info">
           <h2>{producto?.nombre}</h2>
-          <h3>${producto?.precio}</h3>
+          <h3>$ {Number(producto?.precio).toLocaleString('es-AR', { maximumFractionDigits: 0 })}</h3>
           <h3>Cantidad: {producto?.stock} unidades</h3>
           <h3>Cantidad a comprar:</h3>
           <div className="cantidad-selector">

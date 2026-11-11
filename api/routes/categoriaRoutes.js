@@ -1,10 +1,11 @@
 const { Router } = require('express');
-const { mostrarCategorias, categoriaId, agregarCategoria, actualizarCategoria, eliminarCategoria } = require('../controllers/categoriaController.js');
+const { mostrarCategorias, categoriaId, agregarCategoria, actualizarCategoria, eliminarCategoria, filtro } = require('../controllers/categoriaController.js');
 const routes = Router();
 
 routes.get('/', mostrarCategorias);
 routes.get('/:id', categoriaId);
 routes.post('/', agregarCategoria);
+routes.post('/filtro', filtro);
 routes.put('/:id', actualizarCategoria);
 routes.delete("/:id", eliminarCategoria);
 
