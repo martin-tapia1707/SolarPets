@@ -45,6 +45,10 @@ const Mascota = sequelize.define(
       type: DataTypes.BOOLEAN,
       allowNull: true
     },
+    imagen: {
+      type: DataTypes.STRING(500),
+      allowNull: true
+    },
   },
   {
     tableName: "mascotas",

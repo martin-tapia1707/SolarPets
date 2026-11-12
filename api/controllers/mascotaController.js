@@ -64,13 +64,15 @@ const agregarMascota = async (req, res) =>{
     try{
 
 
-        const { nombre, edad, animal, raza, antecedentes, historialMedico, dueño } = req.body;                  //faltan datos
-        const nuevaMascota = await Mascota.create({ nombre, edad, animal, raza, antecedentes, historialMedico, dueño });
+        const { nombre, edad, animal, raza, antecedentes, historialMedico, dueño, imagen } = req.body;
 
 
-        if(!nombre || !raza || !edad || !animal || !antecedentes || !historialMedico || !dueño) {
+        if(!nombre || !raza || !edad || !animal || !antecedentes || !historialMedico || dueño === undefined) {
             return res.status(400).json({ message: "Faltan parametros" })
         }
+
+
+        const nuevaMascota = await Mascota.create({ nombre, edad, animal, raza, antecedentes, historialMedico, dueño, imagen });
 
 
         res.status(201).json({ message: "Mascota publicada exitosamente", mascota: nuevaMascota })
@@ -87,7 +89,7 @@ const actualizarMascota = async (req, res) =>{
 
 
         const id = Number(req.params.id);
-        const { nombre, edad, animal, raza, antecedentes, historialMedico } = req.body;
+        const { nombre, edad, animal, raza, antecedentes, historialMedico, imagen } = req.body;
 
 
         if(!nombre || !edad || !animal || !raza || !antecedentes || !historialMedico) {
@@ -109,6 +111,9 @@ const actualizarMascota = async (req, res) =>{
         mascota.animal = animal;
         mascota.antecedentes = antecedentes;
         mascota.historialMedico = historialMedico;
+        if(imagen !== undefined){
+            mascota.imagen = imagen;
+        }
         await mascota.save();
 
 
