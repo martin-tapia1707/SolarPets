@@ -71,6 +71,7 @@ function Header() {
  
                 <nav className="header-nav">
                     <Link to="sacarturno">Sacar Turno</Link>
+                    <Link to="/productos/catalogo?_q=catalogo">Catalogo</Link>
                 </nav>
  
                 <div className="header-sesion">

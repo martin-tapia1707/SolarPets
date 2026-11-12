@@ -10,10 +10,83 @@
   color: #3a3028;
 }
 
-/* Grilla de 4 columnas */
+/* Layout de dos columnas */
+.buscador__layout {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  gap: 24px;
+  align-items: start;
+}
+
+.buscador__resultados {
+  min-width: 0; /* evita que la grilla desborde la columna */
+}
+
+/* Panel de filtros */
+.filtros {
+  background-color: #f5ece0;
+  border-radius: 8px;
+  padding: 18px 16px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  position: sticky;
+  top: 24px;
+}
+
+.filtros__titulo {
+  margin: 0 0 16px;
+  padding-bottom: 10px;
+  font-size: 16px;
+  color: #3a3028;
+  border-bottom: 1px solid rgba(58, 48, 40, 0.2);
+}
+
+.filtros__grupo {
+  margin-bottom: 18px;
+}
+
+.filtros__grupo:last-child {
+  margin-bottom: 0;
+}
+
+.filtros__categoria {
+  margin: 0 0 8px;
+  font-size: 13px;
+  font-weight: 800;
+  text-transform: capitalize;
+  color: #1c5b8f;
+}
+
+.filtros__cantidad {
+  font-weight: 600;
+  color: #3a3028;
+}
+
+.filtros__opcion {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 0;
+  font-size: 13px;
+  color: #2b2b2b;
+  text-transform: capitalize;
+  cursor: pointer;
+}
+
+.filtros__opcion:hover {
+  color: #1c5b8f;
+}
+
+.filtros__opcion input {
+  accent-color: #1c5b8f;
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+
+/* Grilla de productos (3 columnas) */
 .grilla {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 24px 20px;
 }
 
@@ -23,13 +96,7 @@
   border-radius: 8px;
   overflow: hidden;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
-}
-
-.tarjeta__link {
-  display: flex;
-  flex-direction: column;
-  text-decoration: none;
-  color: inherit;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .tarjeta:hover {
@@ -37,9 +104,19 @@
   box-shadow: 0 6px 14px rgba(0, 0, 0, 0.15);
 }
 
+.tarjeta__link,
+.tarjeta__link:link,
+.tarjeta__link:visited,
+.tarjeta__link:hover,
+.tarjeta__link:active {
+  display: block; /* toda la tarjeta es clickeable */
+  color: inherit;
+  text-decoration: none;
+}
+
 .tarjeta__imagen {
   width: 100%;
-  aspect-ratio: 3 / 4;           /* imagen vertical como en el ejemplo */
+  aspect-ratio: 3 / 4;
   object-fit: cover;
   display: block;
 }
@@ -66,21 +143,74 @@
   color: #1a1a1a;
 }
 
-.tarjeta__link {
-  text-decoration: none;
-  color: inherit;        /* hereda el color del texto normal, no el del link */
-  display: block;        /* para que ocupe toda la tarjeta y sea clickeable */
+/* Paginador */
+.paginador {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 36px;
+  padding-bottom: 12px;
 }
 
-/* opcional: evitar que cambie de color al pasar el mouse o al hacer click */
-.tarjeta__link:link,
-.tarjeta__link:visited,
-.tarjeta__link:hover,
-.tarjeta__link:active {
-  color: inherit;
+.paginador__item,
+.paginador__flecha {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 40px;
+  height: 40px;
+  padding: 0 12px;
+  box-sizing: border-box;
+  border-radius: 20px;
+  background-color: #f5ece0;
+  color: #3a3028;
+  font-size: 14px;
+  font-weight: 700;
   text-decoration: none;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  transition: background-color 0.2s ease, color 0.2s ease,
+              transform 0.2s ease, box-shadow 0.2s ease;
 }
 
+.paginador__flecha {
+  font-size: 20px;
+  line-height: 1;
+}
+
+.paginador__item:hover,
+.paginador__flecha:not(.paginador__flecha--off):hover {
+  background-color: #1c5b8f;
+  color: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.15);
+}
+
+.paginador__item--activo,
+.paginador__item--activo:hover {
+  background-color: #1c5b8f;
+  color: #fff;
+  cursor: default;
+  transform: none;
+  box-shadow: 0 4px 10px rgba(28, 91, 143, 0.35);
+}
+
+.paginador__flecha--off {
+  opacity: 0.4;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.paginador__puntos {
+  min-width: 24px;
+  text-align: center;
+  color: #3a3028;
+  font-weight: 700;
+  letter-spacing: 2px;
+}
+
+/* Pantalla de "sin resultados" */
 .error-busqueda {
   display: flex;
   align-items: center;
@@ -165,8 +295,17 @@
   height: auto;
 }
 
-/* Responsive: apila en columna en mobile */
+/* Responsive (siempre al final) */
+@media (max-width: 1024px) {
+  .buscador__layout { grid-template-columns: 220px 1fr; }
+  .grilla { grid-template-columns: repeat(2, 1fr); }
+}
+
 @media (max-width: 768px) {
+  .buscador__layout { grid-template-columns: 1fr; } /* filtros arriba, productos abajo */
+  .filtros { position: static; }
+  .grilla { grid-template-columns: repeat(2, 1fr); }
+
   .error-busqueda {
     flex-direction: column-reverse;
     text-align: center;
@@ -178,87 +317,9 @@
   }
 }
 
-/* Responsive */
-@media (max-width: 1024px) {
-  .grilla { grid-template-columns: repeat(3, 1fr); }
-}
-
-@media (max-width: 768px) {
-  .grilla { grid-template-columns: repeat(2, 1fr); }
-}
-
 @media (max-width: 480px) {
   .grilla { grid-template-columns: 1fr; }
-}
 
-/* Paginador */
-.paginador {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-top: 36px;
-  padding-bottom: 12px;
-}
-
-.paginador__item,
-.paginador__flecha {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 40px;
-  height: 40px;
-  padding: 0 12px;
-  box-sizing: border-box;
-  border-radius: 20px;
-  background-color: #f5ece0;
-  color: #3a3028;
-  font-size: 14px;
-  font-weight: 700;
-  text-decoration: none;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
-  transition: background-color 0.2s ease, color 0.2s ease,
-              transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.paginador__flecha {
-  font-size: 20px;
-  line-height: 1;
-}
-
-.paginador__item:hover,
-.paginador__flecha:not(.paginador__flecha--off):hover {
-  background-color: #1c5b8f;
-  color: #fff;
-  transform: translateY(-2px);
-  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.15);
-}
-
-.paginador__item--activo,
-.paginador__item--activo:hover {
-  background-color: #1c5b8f;
-  color: #fff;
-  cursor: default;
-  transform: none;
-  box-shadow: 0 4px 10px rgba(28, 91, 143, 0.35);
-}
-
-.paginador__flecha--off {
-  opacity: 0.4;
-  cursor: not-allowed;
-  box-shadow: none;
-}
-
-.paginador__puntos {
-  min-width: 24px;
-  text-align: center;
-  color: #3a3028;
-  font-weight: 700;
-  letter-spacing: 2px;
-}
-
-@media (max-width: 480px) {
   .paginador { gap: 6px; }
   .paginador__item,
   .paginador__flecha { min-width: 36px; height: 36px; }

@@ -77,15 +77,45 @@ const eliminarCategoria = async(req,res)=>{
 
 const filtro = async(req, res)=>{
     try { 
-        const productos = req.body;
-        // for(const producto of productos){
-        //     console.log(`${producto.nombre}: ${producto.id}`);
-        // }
-        for(const producto in productos){
-            console.log(producto);
+        const categorias = await Categoria.findAll();
+        const filtroM = {};
+        const { productos } = req.body;
+        for (const producto of productos) {
+            for (const sub of producto.SubCategoria) {
+                const categoria = categorias.find(c => c.id == sub.idCategoria);
+                if (!categoria) continue;
+
+                if (!filtroM[categoria.nombre]) {
+                    filtroM[categoria.nombre] = { cantidad: 0, subs: [] };
+                }
+
+                filtroM[categoria.nombre].cantidad++;
+                if (!filtroM[categoria.nombre].subs.includes(sub.nombre)) {
+                    filtroM[categoria.nombre].subs.push(sub.nombre);
+                } 
+            }
         }
-         console.log("hola");
-        return res.status(200).json({message: "hola"});
+        console.log(filtroM);
+        return res.status(200).json(filtroM);
+    } catch (error) {
+        return res.status(500).json(error);
+    }
+}
+
+const filtroPulsado = async(req, res)=>{
+    try {
+        const { categoria, sub, productos } = req.body;
+        console.log(categoria);
+        console.log(sub);
+        const productoF = [];
+        for(let i = 0; i < productos.length; i++){
+            for(let j = 0; j < productos[i].SubCategoria.length; j++){
+                if(productos[i].SubCategoria[j].nombre == sub){
+                    productoF.push(productos[i]);
+                }
+            }
+        }
+        return res.status(200).json(productoF);
     } catch (error) {
         return res.status(500).json(error);
     }
@@ -97,5 +127,6 @@ module.exports = {
     agregarCategoria,
     actualizarCategoria,
     eliminarCategoria,
-    filtro
+    filtro,
+    filtroPulsado
 }
