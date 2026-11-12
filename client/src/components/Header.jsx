@@ -19,7 +19,7 @@ function Header() {
         };
  
         window.addEventListener('keydown', cerrarConEscape);
-    });
+    }, [menuAbierto]);
  
     const buscarProducto = (event) => {
         event.preventDefault();
@@ -111,9 +111,7 @@ function Header() {
                 </div>
  
                 <nav className="sidebar-links">
-                    <Link to="" onClick={cerrarMenu}>Servicios</Link>
-                    <Link to="" onClick={cerrarMenu}>Adopción</Link>
-                    <Link to="" onClick={cerrarMenu}>Delivery</Link>
+                    <Link to="/adopcion" onClick={cerrarMenu}>Adopción</Link>
                     <Link to="/sacarturno" className="sidebar-turno" onClick={cerrarMenu}>Solicitar turno</Link>
                 </nav>
  

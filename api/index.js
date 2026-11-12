@@ -51,6 +51,7 @@ server.use("/subcategoria", subcategoriaRoutes);
 server.use("/empleado", empleadoRoutes);
 server.use("/turno", turnoRoutes);
 server.use("/carrito", carritoRoutes);
+server.use("/mascota", mascotaRoutes);
 const PORT = 3000;
 server.listen(PORT, async () => {
   try {

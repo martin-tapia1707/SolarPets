@@ -16,6 +16,7 @@ import ListaProveedores from './components/ListaProveedores.jsx';
 import Carrito from './components/Carrito.jsx';
 import CrearReseña from './components/CrearReseña.jsx';
 import CRUD from './components/CRUD.jsx';
+import Adoptar from "./components/MascotasAdoptar.jsx";
 
 import { useState } from 'react';
 
@@ -61,6 +62,7 @@ function App() {
         <Route path="/lista-proveedores" element={<ListaProveedores />} />
         <Route path="/carrito" element={<Carrito />} />
         <Route path="/crud" element={<CRUD />} />
+        <Route path="/adopcion" element={<Adoptar />} />
 
       </Routes>
     </>

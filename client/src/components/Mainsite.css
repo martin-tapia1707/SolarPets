@@ -103,7 +103,8 @@ body:has(.home) {
 .home-fotos img {
   display: block;
   width: 94%;
-  height: auto;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
   border: 2px solid #fff;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.18);
 }

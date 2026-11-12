@@ -1,10 +1,10 @@
 import "./Mainsite.css";
 import hero from "../assets/hero-mascotas.jpg";
 import patita from "../assets/patita.png";
-import mascota1 from "../assets/mascota-1.jpg";
+import mascota1 from "../assets/mascota-1.avif";
 import mascota2 from "../assets/mascota-2.jpg";
-import mascota3 from "../assets/mascota-3.jpg";
-import mascota4 from "../assets/mascota-4.jpg";
+import mascota3 from "../assets/mascota-3.avif";
+import mascota4 from "../assets/mascota-4.avif";
 
 const FOTOS = [
   { src: mascota1, alt: "Perra blanca con una ropita rosa" },
